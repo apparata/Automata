@@ -1,0 +1,553 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5B4C361625E2BD2B00D0B86A /* AutomataApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C361525E2BD2B00D0B86A /* AutomataApp.swift */; };
+		5B4C361825E2BD2B00D0B86A /* AutomatDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C361725E2BD2B00D0B86A /* AutomatDocument.swift */; };
+		5B4C361A25E2BD2B00D0B86A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C361925E2BD2B00D0B86A /* ContentView.swift */; };
+		5B4C361C25E2BD2E00D0B86A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B4C361B25E2BD2E00D0B86A /* Assets.xcassets */; };
+		5B4C361F25E2BD2E00D0B86A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B4C361E25E2BD2E00D0B86A /* Preview Assets.xcassets */; };
+		5B4C363025E2C2EB00D0B86A /* CollectionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5B4C362F25E2C2EB00D0B86A /* CollectionKit */; };
+		5B4C363425E2C30300D0B86A /* ConcurrencyToolbox in Frameworks */ = {isa = PBXBuildFile; productRef = 5B4C363325E2C30300D0B86A /* ConcurrencyToolbox */; };
+		5B4C363825E2C33200D0B86A /* Constructs in Frameworks */ = {isa = PBXBuildFile; productRef = 5B4C363725E2C33200D0B86A /* Constructs */; };
+		5B4C363C25E2C36B00D0B86A /* SwiftUIToolbox in Frameworks */ = {isa = PBXBuildFile; productRef = 5B4C363B25E2C36B00D0B86A /* SwiftUIToolbox */; };
+		5B4C364025E2C38D00D0B86A /* TextToolbox in Frameworks */ = {isa = PBXBuildFile; productRef = 5B4C363F25E2C38D00D0B86A /* TextToolbox */; };
+		5B4C364425E2C3A600D0B86A /* SystemKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5B4C364325E2C3A600D0B86A /* SystemKit */; };
+		5B4C364D25E2C3E400D0B86A /* TransitionCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C364925E2C3E400D0B86A /* TransitionCreation.swift */; };
+		5B4C364E25E2C3E400D0B86A /* StateTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C364A25E2C3E400D0B86A /* StateTransition.swift */; };
+		5B4C364F25E2C3E400D0B86A /* StateNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C364B25E2C3E400D0B86A /* StateNode.swift */; };
+		5B4C365425E2C45100D0B86A /* MathKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5B4C365325E2C45100D0B86A /* MathKit */; };
+		5B4C365825E2C70300D0B86A /* CGMath in Frameworks */ = {isa = PBXBuildFile; productRef = 5B4C365725E2C70300D0B86A /* CGMath */; };
+		5B4C366725E2D95600D0B86A /* Canvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C366625E2D95600D0B86A /* Canvas.swift */; };
+		5B4C366B25E2D97300D0B86A /* CanvasBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C366A25E2D97300D0B86A /* CanvasBackground.swift */; };
+		5B4C366F25E2D99D00D0B86A /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C366E25E2D99D00D0B86A /* StateView.swift */; };
+		5BD1688625E3014900FE67DC /* Automat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1688525E3014900FE67DC /* Automat.swift */; };
+		5BD168B025E32C4100FE67DC /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD168AF25E32C4100FE67DC /* Log.swift */; };
+		5BD1694F25E4294C00FE67DC /* TransitionCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1694E25E4294C00FE67DC /* TransitionCreationView.swift */; };
+		5BD1695325E42ABF00FE67DC /* TransitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1695225E42ABF00FE67DC /* TransitionView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5B4C361225E2BD2B00D0B86A /* Automata.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Automata.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B4C361525E2BD2B00D0B86A /* AutomataApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomataApp.swift; sourceTree = "<group>"; };
+		5B4C361725E2BD2B00D0B86A /* AutomatDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatDocument.swift; sourceTree = "<group>"; };
+		5B4C361925E2BD2B00D0B86A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		5B4C361B25E2BD2E00D0B86A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5B4C361E25E2BD2E00D0B86A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		5B4C362025E2BD2E00D0B86A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B4C362125E2BD2F00D0B86A /* Automata.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Automata.entitlements; sourceTree = "<group>"; };
+		5B4C364925E2C3E400D0B86A /* TransitionCreation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionCreation.swift; sourceTree = "<group>"; };
+		5B4C364A25E2C3E400D0B86A /* StateTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateTransition.swift; sourceTree = "<group>"; };
+		5B4C364B25E2C3E400D0B86A /* StateNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateNode.swift; sourceTree = "<group>"; };
+		5B4C366625E2D95600D0B86A /* Canvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Canvas.swift; sourceTree = "<group>"; };
+		5B4C366A25E2D97300D0B86A /* CanvasBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasBackground.swift; sourceTree = "<group>"; };
+		5B4C366E25E2D99D00D0B86A /* StateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
+		5BD1688525E3014900FE67DC /* Automat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Automat.swift; sourceTree = "<group>"; };
+		5BD168AF25E32C4100FE67DC /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		5BD1694E25E4294C00FE67DC /* TransitionCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionCreationView.swift; sourceTree = "<group>"; };
+		5BD1695225E42ABF00FE67DC /* TransitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5B4C360F25E2BD2B00D0B86A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B4C363C25E2C36B00D0B86A /* SwiftUIToolbox in Frameworks */,
+				5B4C364025E2C38D00D0B86A /* TextToolbox in Frameworks */,
+				5B4C365825E2C70300D0B86A /* CGMath in Frameworks */,
+				5B4C364425E2C3A600D0B86A /* SystemKit in Frameworks */,
+				5B4C363825E2C33200D0B86A /* Constructs in Frameworks */,
+				5B4C363425E2C30300D0B86A /* ConcurrencyToolbox in Frameworks */,
+				5B4C363025E2C2EB00D0B86A /* CollectionKit in Frameworks */,
+				5B4C365425E2C45100D0B86A /* MathKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5B4C360925E2BD2B00D0B86A = {
+			isa = PBXGroup;
+			children = (
+				5B4C361425E2BD2B00D0B86A /* Automata */,
+				5B4C361325E2BD2B00D0B86A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5B4C361325E2BD2B00D0B86A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5B4C361225E2BD2B00D0B86A /* Automata.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5B4C361425E2BD2B00D0B86A /* Automata */ = {
+			isa = PBXGroup;
+			children = (
+				5BD168AE25E32C3800FE67DC /* Utilities */,
+				5B4C364625E2C3C000D0B86A /* Model */,
+				5B4C365A25E2C8FA00D0B86A /* UI */,
+				5B4C361525E2BD2B00D0B86A /* AutomataApp.swift */,
+				5B4C361B25E2BD2E00D0B86A /* Assets.xcassets */,
+				5B4C362025E2BD2E00D0B86A /* Info.plist */,
+				5B4C362125E2BD2F00D0B86A /* Automata.entitlements */,
+				5B4C361D25E2BD2E00D0B86A /* Preview Content */,
+			);
+			path = Automata;
+			sourceTree = "<group>";
+		};
+		5B4C361D25E2BD2E00D0B86A /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				5B4C361E25E2BD2E00D0B86A /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		5B4C364625E2C3C000D0B86A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5B4C364B25E2C3E400D0B86A /* StateNode.swift */,
+				5B4C364A25E2C3E400D0B86A /* StateTransition.swift */,
+				5B4C364925E2C3E400D0B86A /* TransitionCreation.swift */,
+				5BD1688525E3014900FE67DC /* Automat.swift */,
+				5B4C361725E2BD2B00D0B86A /* AutomatDocument.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		5B4C365A25E2C8FA00D0B86A /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				5B4C361925E2BD2B00D0B86A /* ContentView.swift */,
+				5B4C366625E2D95600D0B86A /* Canvas.swift */,
+				5B4C366A25E2D97300D0B86A /* CanvasBackground.swift */,
+				5B4C366E25E2D99D00D0B86A /* StateView.swift */,
+				5BD1695225E42ABF00FE67DC /* TransitionView.swift */,
+				5BD1694E25E4294C00FE67DC /* TransitionCreationView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		5BD168AE25E32C3800FE67DC /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5BD168AF25E32C4100FE67DC /* Log.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5B4C361125E2BD2B00D0B86A /* Automata */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5B4C362425E2BD2F00D0B86A /* Build configuration list for PBXNativeTarget "Automata" */;
+			buildPhases = (
+				5B4C360E25E2BD2B00D0B86A /* Sources */,
+				5B4C360F25E2BD2B00D0B86A /* Frameworks */,
+				5B4C361025E2BD2B00D0B86A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Automata;
+			packageProductDependencies = (
+				5B4C362F25E2C2EB00D0B86A /* CollectionKit */,
+				5B4C363325E2C30300D0B86A /* ConcurrencyToolbox */,
+				5B4C363725E2C33200D0B86A /* Constructs */,
+				5B4C363B25E2C36B00D0B86A /* SwiftUIToolbox */,
+				5B4C363F25E2C38D00D0B86A /* TextToolbox */,
+				5B4C364325E2C3A600D0B86A /* SystemKit */,
+				5B4C365325E2C45100D0B86A /* MathKit */,
+				5B4C365725E2C70300D0B86A /* CGMath */,
+			);
+			productName = Automata;
+			productReference = 5B4C361225E2BD2B00D0B86A /* Automata.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5B4C360A25E2BD2B00D0B86A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				ORGANIZATIONNAME = "Apparata AB";
+				TargetAttributes = {
+					5B4C361125E2BD2B00D0B86A = {
+						CreatedOnToolsVersion = 12.4;
+					};
+				};
+			};
+			buildConfigurationList = 5B4C360D25E2BD2B00D0B86A /* Build configuration list for PBXProject "Automata" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 5B4C360925E2BD2B00D0B86A;
+			packageReferences = (
+				5B4C362E25E2C2EB00D0B86A /* XCRemoteSwiftPackageReference "CollectionKit" */,
+				5B4C363225E2C30300D0B86A /* XCRemoteSwiftPackageReference "ConcurrencyToolbox" */,
+				5B4C363625E2C33200D0B86A /* XCRemoteSwiftPackageReference "Constructs" */,
+				5B4C363A25E2C36B00D0B86A /* XCRemoteSwiftPackageReference "SwiftUIToolbox" */,
+				5B4C363E25E2C38D00D0B86A /* XCRemoteSwiftPackageReference "TextToolbox" */,
+				5B4C364225E2C3A600D0B86A /* XCRemoteSwiftPackageReference "SystemKit" */,
+				5B4C365225E2C45100D0B86A /* XCRemoteSwiftPackageReference "MathKit" */,
+				5B4C365625E2C70300D0B86A /* XCRemoteSwiftPackageReference "CGMath" */,
+			);
+			productRefGroup = 5B4C361325E2BD2B00D0B86A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5B4C361125E2BD2B00D0B86A /* Automata */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5B4C361025E2BD2B00D0B86A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B4C361F25E2BD2E00D0B86A /* Preview Assets.xcassets in Resources */,
+				5B4C361C25E2BD2E00D0B86A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5B4C360E25E2BD2B00D0B86A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B4C366725E2D95600D0B86A /* Canvas.swift in Sources */,
+				5BD1694F25E4294C00FE67DC /* TransitionCreationView.swift in Sources */,
+				5B4C364E25E2C3E400D0B86A /* StateTransition.swift in Sources */,
+				5BD168B025E32C4100FE67DC /* Log.swift in Sources */,
+				5BD1695325E42ABF00FE67DC /* TransitionView.swift in Sources */,
+				5B4C364F25E2C3E400D0B86A /* StateNode.swift in Sources */,
+				5B4C361825E2BD2B00D0B86A /* AutomatDocument.swift in Sources */,
+				5B4C364D25E2C3E400D0B86A /* TransitionCreation.swift in Sources */,
+				5B4C366B25E2D97300D0B86A /* CanvasBackground.swift in Sources */,
+				5B4C366F25E2D99D00D0B86A /* StateView.swift in Sources */,
+				5BD1688625E3014900FE67DC /* Automat.swift in Sources */,
+				5B4C361625E2BD2B00D0B86A /* AutomataApp.swift in Sources */,
+				5B4C361A25E2BD2B00D0B86A /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		5B4C362225E2BD2F00D0B86A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		5B4C362325E2BD2F00D0B86A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		5B4C362525E2BD2F00D0B86A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Automata/Automata.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"Automata/Preview Content\"";
+				DEVELOPMENT_TEAM = DR5YAK7GKS;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Automata/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = se.apparata.tools.Automata;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		5B4C362625E2BD2F00D0B86A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Automata/Automata.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"Automata/Preview Content\"";
+				DEVELOPMENT_TEAM = DR5YAK7GKS;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Automata/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = se.apparata.tools.Automata;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5B4C360D25E2BD2B00D0B86A /* Build configuration list for PBXProject "Automata" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B4C362225E2BD2F00D0B86A /* Debug */,
+				5B4C362325E2BD2F00D0B86A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5B4C362425E2BD2F00D0B86A /* Build configuration list for PBXNativeTarget "Automata" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B4C362525E2BD2F00D0B86A /* Debug */,
+				5B4C362625E2BD2F00D0B86A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5B4C362E25E2C2EB00D0B86A /* XCRemoteSwiftPackageReference "CollectionKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apparata/CollectionKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.5;
+			};
+		};
+		5B4C363225E2C30300D0B86A /* XCRemoteSwiftPackageReference "ConcurrencyToolbox" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apparata/ConcurrencyToolbox.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.2;
+			};
+		};
+		5B4C363625E2C33200D0B86A /* XCRemoteSwiftPackageReference "Constructs" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apparata/Constructs.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.5;
+			};
+		};
+		5B4C363A25E2C36B00D0B86A /* XCRemoteSwiftPackageReference "SwiftUIToolbox" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apparata/SwiftUIToolbox.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.6;
+			};
+		};
+		5B4C363E25E2C38D00D0B86A /* XCRemoteSwiftPackageReference "TextToolbox" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apparata/TextToolbox.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		5B4C364225E2C3A600D0B86A /* XCRemoteSwiftPackageReference "SystemKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apparata/SystemKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.7;
+			};
+		};
+		5B4C365225E2C45100D0B86A /* XCRemoteSwiftPackageReference "MathKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apparata/MathKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
+		5B4C365625E2C70300D0B86A /* XCRemoteSwiftPackageReference "CGMath" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apparata/CGMath.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5B4C362F25E2C2EB00D0B86A /* CollectionKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B4C362E25E2C2EB00D0B86A /* XCRemoteSwiftPackageReference "CollectionKit" */;
+			productName = CollectionKit;
+		};
+		5B4C363325E2C30300D0B86A /* ConcurrencyToolbox */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B4C363225E2C30300D0B86A /* XCRemoteSwiftPackageReference "ConcurrencyToolbox" */;
+			productName = ConcurrencyToolbox;
+		};
+		5B4C363725E2C33200D0B86A /* Constructs */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B4C363625E2C33200D0B86A /* XCRemoteSwiftPackageReference "Constructs" */;
+			productName = Constructs;
+		};
+		5B4C363B25E2C36B00D0B86A /* SwiftUIToolbox */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B4C363A25E2C36B00D0B86A /* XCRemoteSwiftPackageReference "SwiftUIToolbox" */;
+			productName = SwiftUIToolbox;
+		};
+		5B4C363F25E2C38D00D0B86A /* TextToolbox */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B4C363E25E2C38D00D0B86A /* XCRemoteSwiftPackageReference "TextToolbox" */;
+			productName = TextToolbox;
+		};
+		5B4C364325E2C3A600D0B86A /* SystemKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B4C364225E2C3A600D0B86A /* XCRemoteSwiftPackageReference "SystemKit" */;
+			productName = SystemKit;
+		};
+		5B4C365325E2C45100D0B86A /* MathKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B4C365225E2C45100D0B86A /* XCRemoteSwiftPackageReference "MathKit" */;
+			productName = MathKit;
+		};
+		5B4C365725E2C70300D0B86A /* CGMath */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B4C365625E2C70300D0B86A /* XCRemoteSwiftPackageReference "CGMath" */;
+			productName = CGMath;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 5B4C360A25E2BD2B00D0B86A /* Project object */;
+}
