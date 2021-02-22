@@ -12,8 +12,8 @@ class StateNode: Identifiable, ObservableObject, Codable {
 
     weak var automat: Automat?
     
-    @Published var name: String
-    @Published var position: CGPoint
+    private(set) var name: String
+    private(set) var position: CGPoint
     
     var outgoingTransitions: [StateTransitionID] = []
     var incomingTransitions: [StateTransitionID] = []
@@ -24,7 +24,17 @@ class StateNode: Identifiable, ObservableObject, Codable {
         self.position = position
         self.automat = automat
     }
+
+    func updateName(_ name: String) {
+        objectWillChange.send()
+        self.name = name
+    }
     
+    func updatePosition(_ position: CGPoint) {
+        objectWillChange.send()
+        self.position = position
+    }
+
     func addOutgoingTransition(_ transitionID: StateTransitionID) {
         outgoingTransitions.append(transitionID)
     }
@@ -40,7 +50,7 @@ class StateNode: Identifiable, ObservableObject, Codable {
     func removeIncomingTransition(_ transitionID: StateTransitionID) {
         incomingTransitions.removeFirst { transitionID == $0 }
     }
-
+    
     // MARK: - Codable
     
     enum CodingKeys: String, CodingKey {
