@@ -36,7 +36,9 @@ struct Canvas: View {
                             automat.clearSelection()
                         }
                     }
-                    .gesture(selectAreaGesture())
+                    .gesture(selectAreaGesture(.additive).modifiers([.shift]))
+                    .gesture(selectAreaGesture(.subtractive).modifiers([.option]))
+                    .gesture(selectAreaGesture(.exact))
                 
                 MouseTracker(onMove: mouseMoved) {
                     EmptyView()
@@ -93,7 +95,7 @@ struct Canvas: View {
         mousePosition.point = point
     }
     
-    private func selectAreaGesture() -> some Gesture {
+    private func selectAreaGesture(_ mode: Automat.SelectionMode = .exact) -> some Gesture {
         DragGesture()
             .updating($isSelectingArea) { (value, gestureState, transaction) in
                 gestureState = true
@@ -111,7 +113,7 @@ struct Canvas: View {
                 let width = abs(value.startLocation.x - value.location.x)
                 let height = abs(value.startLocation.y - value.location.y)
                 selectionAreaFrame = CGRect(x: x, y: y, width: width, height: height)
-                automat.selectStateNodes(in: selectionAreaFrame)
+                automat.selectStateNodes(in: selectionAreaFrame, mode: mode)
             }
     }
     

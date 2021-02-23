@@ -9,7 +9,13 @@ import SwiftUI
 // MARK: - Automat
 
 class Automat: ObservableObject, Codable {
-        
+
+    enum SelectionMode {
+        case exact
+        case additive
+        case subtractive
+    }
+    
     var stateNodes: [StateNode] {
         data.stateNodes
     }
@@ -226,6 +232,18 @@ class Automat: ObservableObject, Codable {
     func isStateNodeSelected(id: StateNodeID) -> Bool {
         return data.isStateNodeSelected(id: id)
     }
+    
+    func selectStateNodes(in area: CGRect, mode: SelectionMode = .exact) {
+        let ids = Set(stateNodes.filter { area.intersects($0.frame) }.map(\.id))
+        switch mode {
+        case .exact:
+            selectStateNodes(ids: ids)
+        case .additive:
+            addStateNodesToSelection(ids: ids)
+        case .subtractive:
+            deselectStateNode(ids: ids)
+        }
+    }
         
     func selectStateNodes(ids: Set<StateNodeID>) {
         
@@ -244,11 +262,6 @@ class Automat: ObservableObject, Codable {
         }
         
         data.selectStateNodes(ids: ids)
-    }
-
-    func selectStateNodes(in area: CGRect) {
-        let ids = Set(stateNodes.filter { area.intersects($0.frame) }.map(\.id))
-        selectStateNodes(ids: ids)
     }
     
     func addStateNodesToSelection(ids: Set<StateNodeID>) {

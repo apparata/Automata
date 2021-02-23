@@ -54,7 +54,9 @@ struct StateView: View {
         .gesture(transitionAndStateCreationGesture())
         .gesture(transitionCreationGesture())
         .gesture(moveGesture())
-        .onTapGesture(perform: selectNode)
+        .gesture(TapGesture().modifiers(.command).onEnded(toggleNodeSelection))
+        .gesture(TapGesture().modifiers(.shift).onEnded(addNodeToSelection))
+        .onTapGesture(perform: selectOnlyThisNode)
         .onPreferenceChange(StateViewSizeKey.self) { size in
             node.updateSize(size)
         }
@@ -152,12 +154,33 @@ struct StateView: View {
     
     // MARK: - Selection
     
-    private func selectNode() {
+    private func selectOnlyThisNode() {
         guard !isSelected else {
             return
         }
         withAnimation(Animation.stateNodeFade) {
             node.automat?.selectStateNodes(ids: [node.id])
+        }
+    }
+
+    private func addNodeToSelection() {
+        guard !isSelected else {
+            return
+        }
+        withAnimation(Animation.stateNodeFade) {
+            node.automat?.addStateNodesToSelection(ids: [node.id])
+        }
+    }
+
+    private func toggleNodeSelection() {
+        if isSelected {
+            withAnimation(Animation.stateNodeFade) {
+                node.automat?.deselectStateNode(ids: [node.id])
+            }
+        } else {
+            withAnimation(Animation.stateNodeFade) {
+                node.automat?.addStateNodesToSelection(ids: [node.id])
+            }
         }
     }
 
