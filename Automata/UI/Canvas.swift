@@ -25,7 +25,8 @@ struct Canvas: View {
                 CanvasBackground()
                     .contextMenu {
                         Button(action: addState, label: {
-                            Label("Add State", systemImage: "plus")
+                            Image(systemName: "plus")
+                            Text("Add State")
                         })
                     }
                 
@@ -65,7 +66,8 @@ struct Canvas: View {
                     Button(action: {
                         removeState(node)
                     }, label: {
-                        Label("Remove", systemImage: "trash")
+                        Image(systemName: "trash")
+                        Text("Remove")
                     })
                 }
         }
