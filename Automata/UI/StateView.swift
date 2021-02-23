@@ -4,8 +4,20 @@
 
 import SwiftUI
 
+private struct StateViewSizeKey: PreferenceKey {
+    
+    static var defaultValue: CGSize = CGSize(width: StateView.minWidth, height: StateView.minHeight)
+
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
+    }
+}
+
 struct StateView: View {
-        
+    
+    fileprivate static let minWidth: CGFloat = 80
+    fileprivate static let minHeight: CGFloat = 50
+    
     @ObservedObject var node: StateNode
     
     @Binding var transitionCreation: TransitionCreation
@@ -31,15 +43,21 @@ struct StateView: View {
                 .padding(.horizontal, 30)
                 .padding(.vertical, 20)
         }
-        .frame(minWidth: 80, minHeight: 50)
+        .frame(minWidth: StateView.minWidth, minHeight: StateView.minHeight)
         .onHover(perform: handleHover)
-        .background(background())
+        .background(GeometryReader { geometry in
+            background()
+                .preference(key: StateViewSizeKey.self, value: geometry.size)
+        })
         .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 2)
         .position(node.position)
         .gesture(transitionAndStateCreationGesture())
         .gesture(transitionCreationGesture())
         .gesture(moveGesture())
         .onTapGesture(perform: selectNode)
+        .onPreferenceChange(StateViewSizeKey.self) { size in
+            node.updateSize(size)
+        }
     }
 
     // MARK: - Subviews

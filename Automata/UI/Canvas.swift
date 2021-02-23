@@ -15,10 +15,14 @@ struct Canvas: View {
     
     @StateObject private var mousePosition = MousePosition()
     
+    @GestureState var isSelectingArea: Bool = false
+    
+    @State var selectionAreaFrame: CGRect = .zero
+    
     var body: some View {
         
         ScrollView([.horizontal, .vertical], showsIndicators: true) {
-            ZStack {
+            ZStack(alignment: .topLeading) {
                                 
                 CanvasBackground()
                     .contextMenu {
@@ -32,6 +36,7 @@ struct Canvas: View {
                             automat.clearSelection()
                         }
                     }
+                    .gesture(selectAreaGesture())
                 
                 MouseTracker(onMove: mouseMoved) {
                     EmptyView()
@@ -46,9 +51,17 @@ struct Canvas: View {
 
                 stateViews()
                 
+                if isSelectingArea {
+                    Rectangle()
+                        .strokeBorder(Color.yellow.opacity(0.4), lineWidth: 1)
+                        .background(Color.yellow.opacity(0.1))
+                        .position(selectionAreaFrame.center)
+                        .frame(width: selectionAreaFrame.width, height: selectionAreaFrame.height)
+                        .allowsHitTesting(false)
+                }
+                
             }.frame(width: 2000, height: 2000)
         }
-        
     }
     
     private func transitionViews() -> some View {
@@ -79,6 +92,30 @@ struct Canvas: View {
     private func mouseMoved(to point: CGPoint) {
         mousePosition.point = point
     }
+    
+    private func selectAreaGesture() -> some Gesture {
+        DragGesture()
+            .updating($isSelectingArea) { (value, gestureState, transaction) in
+                gestureState = true
+            }
+            .onChanged { value in
+                let x = min(value.startLocation.x, value.location.x)
+                let y = min(value.startLocation.y, value.location.y)
+                let width = abs(value.startLocation.x - value.location.x)
+                let height = abs(value.startLocation.y - value.location.y)
+                selectionAreaFrame = CGRect(x: x, y: y, width: width, height: height)
+            }
+            .onEnded { value in
+                let x = min(value.startLocation.x, value.location.x)
+                let y = min(value.startLocation.y, value.location.y)
+                let width = abs(value.startLocation.x - value.location.x)
+                let height = abs(value.startLocation.y - value.location.y)
+                selectionAreaFrame = CGRect(x: x, y: y, width: width, height: height)
+                automat.selectStateNodes(in: selectionAreaFrame)
+            }
+    }
+    
+    // MARK: - Data Model
     
     private func addState() {
         withAnimation(Animation.stateNodeFade) {

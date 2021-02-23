@@ -245,6 +245,11 @@ class Automat: ObservableObject, Codable {
         
         data.selectStateNodes(ids: ids)
     }
+
+    func selectStateNodes(in area: CGRect) {
+        let ids = Set(stateNodes.filter { area.intersects($0.frame) }.map(\.id))
+        selectStateNodes(ids: ids)
+    }
     
     func addStateNodesToSelection(ids: Set<StateNodeID>) {
         
