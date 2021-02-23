@@ -126,7 +126,6 @@ struct StateView: View {
                 isDragging = false
                 let position = CGPoint(x: value.location.x - dragOffset.x, y: value.location.y - dragOffset.y)
                 node.automat?.undoManager = undoManager
-                dump(node.automat?.state(by: node.id) === node)
                 node.automat?.moveState(id: node.id, from: value.startLocation, to: position)
             }
     }

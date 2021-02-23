@@ -134,7 +134,7 @@ class Automat: ObservableObject, Codable {
 
         undoManager?.registerUndo(withTarget: self) { automat in
             log(debug: "↩️ Undo ✨ add state \(stateID)")
-            withAnimation(Animation.easeInOut(duration: 0.2)) {
+            withAnimation(Animation.stateNodeFade) {
                 automat.removeState(id: stateID)
             }
         }
@@ -165,7 +165,7 @@ class Automat: ObservableObject, Codable {
         
         undoManager?.registerUndo(withTarget: self) { automat in
             log(debug: "↩️ Undo 🗑 remove state \(id) at (\(position.x), \(position.y))")
-            _ = withAnimation(Animation.easeInOut(duration: 0.2)) {
+            _ = withAnimation(Animation.stateNodeFade) {
                 automat.addState(at: position, id: id)
             }
         }
@@ -232,7 +232,7 @@ class Automat: ObservableObject, Codable {
         
         undoManager?.registerUndo(withTarget: self) { automat in
             log(debug: "↩️ Undo ✨ add transition \(transitionID)")
-            withAnimation(Animation.easeInOut(duration: 0.2)) {
+            withAnimation(Animation.stateTransitionFade) {
                 automat.removeTransition(id: transitionID)
             }
         }
@@ -256,7 +256,7 @@ class Automat: ObservableObject, Codable {
         
         undoManager?.registerUndo(withTarget: self) { automat in
             log(debug: "↩️ Undo 🗑 remove transition \(id)")
-            _ = withAnimation(Animation.easeInOut(duration: 0.2)) {
+            _ = withAnimation(Animation.stateTransitionFade) {
                 automat.addTransition(from: fromID, to: toID, id: id)
             }
         }

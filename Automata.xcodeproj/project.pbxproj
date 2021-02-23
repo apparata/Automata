@@ -30,6 +30,7 @@
 		5BD168B025E32C4100FE67DC /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD168AF25E32C4100FE67DC /* Log.swift */; };
 		5BD1694F25E4294C00FE67DC /* TransitionCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1694E25E4294C00FE67DC /* TransitionCreationView.swift */; };
 		5BD1695325E42ABF00FE67DC /* TransitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1695225E42ABF00FE67DC /* TransitionView.swift */; };
+		5BD1695D25E461F700FE67DC /* Animation+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1695C25E461F700FE67DC /* Animation+Custom.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		5BD168AF25E32C4100FE67DC /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		5BD1694E25E4294C00FE67DC /* TransitionCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionCreationView.swift; sourceTree = "<group>"; };
 		5BD1695225E42ABF00FE67DC /* TransitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionView.swift; sourceTree = "<group>"; };
+		5BD1695C25E461F700FE67DC /* Animation+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animation+Custom.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 		5B4C365A25E2C8FA00D0B86A /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5BD1695B25E461DB00FE67DC /* Animation */,
 				5B4C361925E2BD2B00D0B86A /* ContentView.swift */,
 				5B4C366625E2D95600D0B86A /* Canvas.swift */,
 				5B4C366A25E2D97300D0B86A /* CanvasBackground.swift */,
@@ -142,6 +145,14 @@
 				5BD168AF25E32C4100FE67DC /* Log.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		5BD1695B25E461DB00FE67DC /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				5BD1695C25E461F700FE67DC /* Animation+Custom.swift */,
+			);
+			path = Animation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,6 +251,7 @@
 				5BD168B025E32C4100FE67DC /* Log.swift in Sources */,
 				5BD1695325E42ABF00FE67DC /* TransitionView.swift in Sources */,
 				5B4C364F25E2C3E400D0B86A /* StateNode.swift in Sources */,
+				5BD1695D25E461F700FE67DC /* Animation+Custom.swift in Sources */,
 				5B4C361825E2BD2B00D0B86A /* AutomatDocument.swift in Sources */,
 				5B4C364D25E2C3E400D0B86A /* TransitionCreation.swift in Sources */,
 				5B4C366B25E2D97300D0B86A /* CanvasBackground.swift in Sources */,

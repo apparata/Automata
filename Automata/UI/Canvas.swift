@@ -76,14 +76,14 @@ struct Canvas: View {
     }
     
     private func addState() {
-        withAnimation(Animation.easeInOut(duration: 0.2)) {
+        withAnimation(Animation.stateNodeFade) {
             automat.undoManager = undoManager
             _ = automat.addState(at: mousePosition.point)
         }
     }
     
     private func removeState(_ node: StateNode) {
-        withAnimation(Animation.easeInOut(duration: 0.2)) {
+        withAnimation(Animation.stateNodeFade) {
             automat.undoManager = undoManager
             automat.removeState(id: node.id)
         }
@@ -91,11 +91,11 @@ struct Canvas: View {
     
     private func createTransition(from node: StateNode) {
         if let toNode = targetForTransitionCreation {
-            withAnimation(Animation.easeInOut(duration: 0.2)) {
+            withAnimation(Animation.stateTransitionFade) {
                 _ = automat.addTransition(from: node.id, to: toNode.id)
             }
         } else if transitionCreation.createStateIfNeeded {
-            withAnimation(Animation.easeInOut(duration: 0.2)) {
+            withAnimation(Animation.stateTransitionFade) {
                 let toNode = automat.addState(at: transitionCreation.toPoint)
                 automat.addTransition(from: node.id, to: toNode.id)
             }
