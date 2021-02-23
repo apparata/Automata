@@ -3,6 +3,7 @@
 //
 
 import SwiftUI
+import CGMath
 
 private struct StateViewSizeKey: PreferenceKey {
     
@@ -127,28 +128,66 @@ struct StateView: View {
     private func moveGesture() -> some Gesture {
         DragGesture()
             .onChanged { value in
+                
+                func notifyTransitionsOfChange(node: StateNode) {
+                    for transitionID in node.outgoingTransitions {
+                        if let transition = node.automat?.transition(by: transitionID) {
+                            transition.objectWillChange.send()
+                        }
+                    }
+
+                    for transitionID in node.incomingTransitions {
+                        if let transition = node.automat?.transition(by: transitionID) {
+                            transition.objectWillChange.send()
+                        }
+                    }
+                }
+                
                 if !isDragging {
-                    dragOffset = CGPoint(x: value.startLocation.x - node.position.x, y: value.startLocation.y - node.position.y)
+                    dragOffset = value.startLocation - node.position
                 }
                 isDragging = true
-                node.updatePosition(CGPoint(x: value.location.x - dragOffset.x, y: value.location.y - dragOffset.y))
+                                                
+                guard let automat = node.automat else {
+                    return
+                }
                 
-                for transitionID in node.outgoingTransitions {
-                    if let transition = node.automat?.transition(by: transitionID) {
-                        transition.objectWillChange.send()
+                let toPoint = value.location - dragOffset
+                let relativeDistance = toPoint - node.position
+                
+                if isSelected {
+                    automat.forEachSelectedNode { selectedNode in
+                        selectedNode.updatePosition(selectedNode.position + relativeDistance)
+                        notifyTransitionsOfChange(node: selectedNode)
                     }
+                } else {
+                    node.updatePosition(toPoint)
+                    notifyTransitionsOfChange(node: node)
+                    automat.selectStateNodes(ids: [node.id])
                 }
-
-                for transitionID in node.incomingTransitions {
-                    if let transition = node.automat?.transition(by: transitionID) {
-                        transition.objectWillChange.send()
-                    }
-                }
+                
             }
             .onEnded { value in
                 isDragging = false
-                let position = CGPoint(x: value.location.x - dragOffset.x, y: value.location.y - dragOffset.y)
-                node.automat?.moveState(id: node.id, from: value.startLocation, to: position)
+                
+                guard let automat = node.automat else {
+                    return
+                }
+                
+                let distance = value.location - dragOffset - value.startLocation
+                
+                if isSelected {
+                    automat.forEachSelectedNode { selectedNode in
+                        let fromPoint = selectedNode.position - distance
+                        let toPoint = selectedNode.position
+                        automat.moveState(id: selectedNode.id, from: fromPoint, to: toPoint)
+                    }
+                } else {
+                    let fromPoint = node.position - distance
+                    let toPoint = node.position
+                    automat.moveState(id: node.id, from: fromPoint, to: toPoint)
+                }
+                
             }
     }
     
