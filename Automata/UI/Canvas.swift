@@ -7,8 +7,6 @@ import SwiftUIToolbox
 
 struct Canvas: View {
     
-    @Environment(\.undoManager) var undoManager
-    
     @ObservedObject var automat: Automat
             
     @State var transitionCreation = TransitionCreation()
@@ -84,14 +82,12 @@ struct Canvas: View {
     
     private func addState() {
         withAnimation(Animation.stateNodeFade) {
-            automat.undoManager = undoManager
             _ = automat.addState(at: mousePosition.point)
         }
     }
     
     private func removeState(_ node: StateNode) {
         withAnimation(Animation.stateNodeFade) {
-            automat.undoManager = undoManager
             automat.removeState(id: node.id)
         }
     }
@@ -112,7 +108,6 @@ struct Canvas: View {
     // MARK: - Selection
     
     private func clearSelection() {
-        automat.undoManager = undoManager
         withAnimation(Animation.selectionFade) {
             automat.clearSelection()
         }

@@ -18,7 +18,7 @@ class Automat: ObservableObject, Codable {
         data.stateTransitions
     }
 
-    var undoManager: UndoManager?
+    private var undoManager: UndoManager?
 
     private var data: DataModel
     
@@ -35,6 +35,12 @@ class Automat: ObservableObject, Codable {
     
     func snapshot() -> Automat {
         return Automat(self)
+    }
+    
+    // MARK: - Undo Management
+    
+    func updateUndoManager(_ undoManager: UndoManager?) {
+        self.undoManager = undoManager
     }
     
     // MARK: - Lookup

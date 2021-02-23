@@ -5,9 +5,7 @@
 import SwiftUI
 
 struct StateView: View {
-    
-    @Environment(\.undoManager) var undoManager
-    
+        
     @ObservedObject var node: StateNode
     
     @Binding var transitionCreation: TransitionCreation
@@ -130,7 +128,6 @@ struct StateView: View {
             .onEnded { value in
                 isDragging = false
                 let position = CGPoint(x: value.location.x - dragOffset.x, y: value.location.y - dragOffset.y)
-                node.automat?.undoManager = undoManager
                 node.automat?.moveState(id: node.id, from: value.startLocation, to: position)
             }
     }
@@ -141,7 +138,6 @@ struct StateView: View {
         guard !isSelected else {
             return
         }
-        node.automat?.undoManager = undoManager
         withAnimation(Animation.stateNodeFade) {
             node.automat?.selectStateNodes(ids: [node.id])
         }
