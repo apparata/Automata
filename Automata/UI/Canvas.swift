@@ -29,6 +29,11 @@ struct Canvas: View {
                             Text("Add State")
                         })
                     }
+                    .onTapGesture {
+                        withAnimation(Animation.stateTransitionFade) {
+                            automat.clearSelection()
+                        }
+                    }
                 
                 MouseTracker(onMove: mouseMoved) {
                     EmptyView()
@@ -101,6 +106,15 @@ struct Canvas: View {
                 let toNode = automat.addState(at: transitionCreation.toPoint)
                 automat.addTransition(from: node.id, to: toNode.id)
             }
+        }
+    }
+    
+    // MARK: - Selection
+    
+    private func clearSelection() {
+        automat.undoManager = undoManager
+        withAnimation(Animation.selectionFade) {
+            automat.clearSelection()
         }
     }
 }

@@ -6,87 +6,10 @@ import Foundation
 import CollectionKit
 import SwiftUI
 
-class Automat: ObservableObject, Codable {
-    
-    /// Provides fast lookups, additions, but slow removals.
-    private class DataModel: Codable {
-        
-        private(set) var stateNodes: [StateNode]
-        private(set) var stateNodesByID: [StateNodeID: StateNode]
-        
-        private(set) var stateTransitions: [StateTransition]
-        private(set) var stateTransitionsByID: [StateTransitionID: StateTransition]
-        
-        init() {
-            stateNodes = []
-            stateNodesByID = [:]
-            stateTransitions = []
-            stateTransitionsByID = [:]
-        }
-        
-        init(_ data: DataModel) {
-            stateNodes = data.stateNodes
-            stateNodesByID = data.stateNodesByID
-            stateTransitions = data.stateTransitions
-            stateTransitionsByID = data.stateTransitionsByID
-        }
-        
-        func state(by id: StateNodeID) -> StateNode? {
-            stateNodesByID[id]
-        }
+// MARK: - Automat
 
-        func transition(by id: StateTransitionID) -> StateTransition? {
-            stateTransitionsByID[id]
-        }
+class Automat: ObservableObject, Codable {
         
-        func addStateNode(_ node: StateNode) {
-            stateNodes.append(node)
-            stateNodesByID[node.id] = node
-        }
-        
-        func removeStateNode(id: StateNodeID) {
-            stateNodes.removeFirst(where: { $0.id == id })
-            stateNodesByID.removeValue(forKey: id)
-        }
-        
-        func addStateTransition(_ transition: StateTransition) {
-            stateTransitions.append(transition)
-            stateTransitionsByID[transition.id] = transition
-        }
-        
-        func removeStateTransition(id: StateTransitionID) {
-            stateTransitions.removeFirst(where: { $0.id == id })
-            stateTransitionsByID.removeValue(forKey: id)
-        }
-        
-        // MARK: - Codable
-        
-        enum CodingKeys: String, CodingKey {
-            case stateNodes
-            case stateTransitions
-        }
-        
-        required init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            stateNodes = try container.decode([StateNode].self, forKey: .stateNodes)
-            stateTransitions = try container.decode([StateTransition].self, forKey: .stateTransitions)
-            stateNodesByID = [:]
-            for node in stateNodes {
-                stateNodesByID[node.id] = node
-            }
-            stateTransitionsByID = [:]
-            for transition in stateTransitions {
-                stateTransitionsByID[transition.id] = transition
-            }
-        }
-        
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(stateNodes, forKey: .stateNodes)
-            try container.encode(stateTransitions, forKey: .stateTransitions)
-        }
-    }
-    
     var stateNodes: [StateNode] {
         data.stateNodes
     }
@@ -103,6 +26,8 @@ class Automat: ObservableObject, Codable {
         data = DataModel()
     }
     
+    // MARK: - Snapshotting
+    
     init(_ automat: Automat) {
         data = DataModel(automat.data)
         undoManager = automat.undoManager
@@ -112,6 +37,8 @@ class Automat: ObservableObject, Codable {
         return Automat(self)
     }
     
+    // MARK: - Lookup
+    
     func state(by id: StateNodeID) -> StateNode? {
         data.state(by: id)
     }
@@ -119,6 +46,8 @@ class Automat: ObservableObject, Codable {
     func transition(by id: StateTransitionID) -> StateTransition? {
         data.transition(by: id)
     }
+    
+    // MARK: - Add State
     
     @discardableResult
     func addState(at position: CGPoint, id: StateNodeID? = nil) -> StateNode {
@@ -141,6 +70,8 @@ class Automat: ObservableObject, Codable {
         
         return node
     }
+    
+    // MARK: - Remove State
     
     func removeState(id: StateNodeID) {
         
@@ -173,6 +104,8 @@ class Automat: ObservableObject, Codable {
         data.removeStateNode(id: id)
     }
     
+    // MARK: - Move State
+    
     func moveState(id: StateNodeID, from fromPoint: CGPoint, to toPoint: CGPoint) {
         
         log(debug: "🚀 Move state \(id) to (\(toPoint.x), \(toPoint.y))")
@@ -204,6 +137,8 @@ class Automat: ObservableObject, Codable {
         
         node.updatePosition(toPoint)
     }
+    
+    // MARK: Add Transition
     
     @discardableResult
     func addTransition(from fromNodeID: StateNodeID, to toNodeID: StateNodeID, id: StateTransitionID? = nil) -> StateTransition {
@@ -239,6 +174,8 @@ class Automat: ObservableObject, Codable {
         
         return transition
     }
+    
+    // MARK: - Remove Transition
     
     func removeTransition(id: StateTransitionID) {
         
@@ -277,6 +214,87 @@ class Automat: ObservableObject, Codable {
         
         data.removeStateTransition(id: id)
     }
+    
+    // MARK: - Selection
+    
+    func isStateNodeSelected(id: StateNodeID) -> Bool {
+        return data.isStateNodeSelected(id: id)
+    }
+        
+    func selectStateNodes(ids: Set<StateNodeID>) {
+        
+        let idsString = ids.map(\.uuidString).joined(separator: ", ")
+        log(debug: "👈 Select state nodes \(idsString)")
+        
+        objectWillChange.send()
+
+        let currentSelection = data.selectedNodesByID
+
+        undoManager?.registerUndo(withTarget: self) { automat in
+            log(debug: "↩️ Undo 👈 select state nodes \(idsString)")
+            withAnimation(Animation.stateTransitionFade) {
+                automat.selectStateNodes(ids: currentSelection)
+            }
+        }
+        
+        data.selectStateNodes(ids: ids)
+    }
+    
+    func addStateNodesToSelection(ids: Set<StateNodeID>) {
+        
+        let idsString = ids.map(\.uuidString).joined(separator: ", ")
+        log(debug: "👈 Add state nodes to selection \(idsString)")
+        
+        objectWillChange.send()
+
+        let currentSelection = data.selectedNodesByID
+
+        undoManager?.registerUndo(withTarget: self) { automat in
+            log(debug: "↩️ Undo 👈 add state nodes to selection \(idsString)")
+            withAnimation(Animation.stateTransitionFade) {
+                automat.selectStateNodes(ids: currentSelection)
+            }
+        }
+        
+        data.addStateNodesToSelection(ids: ids)
+    }
+    
+    func deselectStateNode(ids: Set<StateNodeID>) {
+        
+        let idsString = ids.map(\.uuidString).joined(separator: ", ")
+        log(debug: "✋ Remove state nodes from selection \(idsString)")
+        
+        objectWillChange.send()
+
+        let currentSelection = data.selectedNodesByID
+
+        undoManager?.registerUndo(withTarget: self) { automat in
+            log(debug: "↩️ Undo ✋ remove state nodes from selection \(idsString)")
+            withAnimation(Animation.stateTransitionFade) {
+                automat.selectStateNodes(ids: currentSelection)
+            }
+        }
+        
+        data.deselectStateNodes(ids: ids)
+    }
+
+    func clearSelection() {
+        
+        log(debug: "👋 Clear selection")
+        
+        objectWillChange.send()
+
+        let currentSelection = data.selectedNodesByID
+
+        undoManager?.registerUndo(withTarget: self) { automat in
+            log(debug: "↩️ Undo 👋 clear selection")
+            withAnimation(Animation.selectionFade) {
+                automat.selectStateNodes(ids: currentSelection)
+            }
+        }
+        
+        data.clearSelection()
+    }
 
     // MARK: - Codable
     
@@ -299,4 +317,127 @@ class Automat: ObservableObject, Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(data, forKey: .data)
     }
+}
+
+private extension Automat {
+
+    // MARK: - Internal Data Model
+    
+    /// Provides fast lookups, additions, but slow removals.
+    private class DataModel: Codable {
+        
+        private(set) var stateNodes: [StateNode]
+        private(set) var stateNodesByID: [StateNodeID: StateNode]
+        
+        private(set) var stateTransitions: [StateTransition]
+        private(set) var stateTransitionsByID: [StateTransitionID: StateTransition]
+        
+        private(set) var selectedNodesByID: Set<StateNodeID>
+        
+        init() {
+            stateNodes = []
+            stateNodesByID = [:]
+            stateTransitions = []
+            stateTransitionsByID = [:]
+            selectedNodesByID = []
+        }
+        
+        init(_ data: DataModel) {
+            stateNodes = data.stateNodes
+            stateNodesByID = data.stateNodesByID
+            stateTransitions = data.stateTransitions
+            stateTransitionsByID = data.stateTransitionsByID
+            selectedNodesByID = data.selectedNodesByID
+        }
+        
+        // MARK: - Lookup
+        
+        func state(by id: StateNodeID) -> StateNode? {
+            stateNodesByID[id]
+        }
+
+        func transition(by id: StateTransitionID) -> StateTransition? {
+            stateTransitionsByID[id]
+        }
+        
+        // MARK: - Add / Remove State
+        
+        func addStateNode(_ node: StateNode) {
+            stateNodes.append(node)
+            stateNodesByID[node.id] = node
+        }
+        
+        func removeStateNode(id: StateNodeID) {
+            stateNodes.removeFirst(where: { $0.id == id })
+            stateNodesByID.removeValue(forKey: id)
+        }
+        
+        // MARK: - Add / Remove Transition
+        
+        func addStateTransition(_ transition: StateTransition) {
+            stateTransitions.append(transition)
+            stateTransitionsByID[transition.id] = transition
+        }
+        
+        func removeStateTransition(id: StateTransitionID) {
+            stateTransitions.removeFirst(where: { $0.id == id })
+            stateTransitionsByID.removeValue(forKey: id)
+        }
+        
+        // MARK: - Selection
+        
+        func isStateNodeSelected(id: StateNodeID) -> Bool {
+            return selectedNodesByID.contains(id)
+        }
+        
+        func selectStateNodes(ids: Set<StateNodeID>) {
+            selectedNodesByID = Set(ids)
+        }
+        
+        func addStateNodesToSelection(ids: Set<StateNodeID>) {
+            selectedNodesByID.formUnion(ids)
+        }
+        
+        func deselectStateNodes(ids: Set<StateNodeID>) {
+            selectedNodesByID.subtract(ids)
+        }
+        
+        func clearSelection() {
+            selectedNodesByID = []
+        }
+        
+        // MARK: - Codable
+        
+        enum CodingKeys: String, CodingKey {
+            case stateNodes
+            case stateTransitions
+            case selectedNodesByID
+        }
+        
+        required init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            
+            stateNodes = try container.decode([StateNode].self, forKey: .stateNodes)
+            stateNodesByID = [:]
+            for node in stateNodes {
+                stateNodesByID[node.id] = node
+            }
+
+            stateTransitions = try container.decode([StateTransition].self, forKey: .stateTransitions)
+            stateTransitionsByID = [:]
+            for transition in stateTransitions {
+                stateTransitionsByID[transition.id] = transition
+            }
+            
+            selectedNodesByID = try container.decode(Set<StateNodeID>.self, forKey: .selectedNodesByID)
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(stateNodes, forKey: .stateNodes)
+            try container.encode(stateTransitions, forKey: .stateTransitions)
+            try container.encode(selectedNodesByID, forKey: .selectedNodesByID)
+        }
+    }
+
 }

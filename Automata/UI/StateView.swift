@@ -19,6 +19,10 @@ struct StateView: View {
     @State private var dragOffset: CGPoint = .zero
     @State private var isHovering: Bool = false
     
+    private var isSelected: Bool {
+        node.automat?.isStateNodeSelected(id: node.id) ?? false
+    }
+    
     // MARK: - Body
     
     var body: some View {
@@ -37,13 +41,14 @@ struct StateView: View {
         .gesture(transitionAndStateCreationGesture())
         .gesture(transitionCreationGesture())
         .gesture(moveGesture())
+        .onTapGesture(perform: selectNode)
     }
 
     // MARK: - Subviews
     
     private func background() -> some View {
         RoundedRectangle(cornerRadius: 16, style: .continuous)
-            .strokeBorder(Color.black.opacity(0.3), lineWidth: 2)
+            .strokeBorder(isSelected ? Color.yellow : Color.black.opacity(0.2), lineWidth: 3)
             .background(RoundedRectangle(cornerRadius: 16, style: .continuous)
                             .foregroundColor(evaluateNodeColor()))
     }
@@ -128,6 +133,18 @@ struct StateView: View {
                 node.automat?.undoManager = undoManager
                 node.automat?.moveState(id: node.id, from: value.startLocation, to: position)
             }
+    }
+    
+    // MARK: - Selection
+    
+    private func selectNode() {
+        guard !isSelected else {
+            return
+        }
+        node.automat?.undoManager = undoManager
+        withAnimation(Animation.stateNodeFade) {
+            node.automat?.selectStateNodes(ids: [node.id])
+        }
     }
 
 }
