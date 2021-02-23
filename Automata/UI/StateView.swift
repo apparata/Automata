@@ -19,6 +19,8 @@ struct StateView: View {
     fileprivate static let minWidth: CGFloat = 80
     fileprivate static let minHeight: CGFloat = 50
     
+    @EnvironmentObject private var automat: Automat
+    
     @ObservedObject var node: StateNode
     
     @Binding var transitionCreation: TransitionCreation
@@ -31,7 +33,7 @@ struct StateView: View {
     @State private var isHovering: Bool = false
     
     private var isSelected: Bool {
-        node.automat?.isStateNodeSelected(id: node.id) ?? false
+        automat.isStateNodeSelected(id: node.id)
     }
     
     // MARK: - Body
@@ -131,13 +133,13 @@ struct StateView: View {
                 
                 func notifyTransitionsOfChange(node: StateNode) {
                     for transitionID in node.outgoingTransitions {
-                        if let transition = node.automat?.transition(by: transitionID) {
+                        if let transition = automat.transition(by: transitionID) {
                             transition.objectWillChange.send()
                         }
                     }
 
                     for transitionID in node.incomingTransitions {
-                        if let transition = node.automat?.transition(by: transitionID) {
+                        if let transition = automat.transition(by: transitionID) {
                             transition.objectWillChange.send()
                         }
                     }
@@ -147,11 +149,7 @@ struct StateView: View {
                     dragOffset = value.startLocation - node.position
                 }
                 isDragging = true
-                                                
-                guard let automat = node.automat else {
-                    return
-                }
-                
+                                                                
                 let toPoint = value.location - dragOffset
                 let relativeDistance = toPoint - node.position
                 
@@ -169,11 +167,7 @@ struct StateView: View {
             }
             .onEnded { value in
                 isDragging = false
-                
-                guard let automat = node.automat else {
-                    return
-                }
-                
+                                
                 let distance = value.location - dragOffset - value.startLocation
                 
                 if isSelected {
@@ -198,7 +192,7 @@ struct StateView: View {
             return
         }
         withAnimation(Animation.stateNodeFade) {
-            node.automat?.selectStateNodes(ids: [node.id])
+            automat.selectStateNodes(ids: [node.id])
         }
     }
 
@@ -207,18 +201,18 @@ struct StateView: View {
             return
         }
         withAnimation(Animation.stateNodeFade) {
-            node.automat?.addStateNodesToSelection(ids: [node.id])
+            automat.addStateNodesToSelection(ids: [node.id])
         }
     }
 
     private func toggleNodeSelection() {
         if isSelected {
             withAnimation(Animation.stateNodeFade) {
-                node.automat?.deselectStateNode(ids: [node.id])
+                automat.deselectStateNode(ids: [node.id])
             }
         } else {
             withAnimation(Animation.stateNodeFade) {
-                node.automat?.addStateNodesToSelection(ids: [node.id])
+                automat.addStateNodesToSelection(ids: [node.id])
             }
         }
     }

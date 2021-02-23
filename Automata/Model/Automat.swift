@@ -71,7 +71,7 @@ class Automat: ObservableObject, Codable {
 
         objectWillChange.send()
 
-        let node = StateNode(id: stateID, name: "New State", position: position, automat: self)
+        let node = StateNode(id: stateID, name: "New State", position: position)
         data.addStateNode(node)
 
         undoManager?.registerUndo(withTarget: self) { automat in
@@ -171,7 +171,7 @@ class Automat: ObservableObject, Codable {
 
         objectWillChange.send()
 
-        let transition = StateTransition(id: transitionID, from: fromNodeID, to: toNodeID, automat: self)
+        let transition = StateTransition(id: transitionID, from: fromNodeID, to: toNodeID)
         
         guard let fromNode = state(by: fromNodeID) else {
             log(error: "⚠️ WARNING: Could not find 'from' node to add transition to: \(fromNodeID)")
@@ -348,12 +348,6 @@ class Automat: ObservableObject, Codable {
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         data = try container.decode(DataModel.self, forKey: .data)
-        for node in data.stateNodes {
-            node.automat = self
-        }
-        for transition in data.stateTransitions {
-            transition.automat = self
-        }
     }
     
     func encode(to encoder: Encoder) throws {

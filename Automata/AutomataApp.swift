@@ -9,7 +9,8 @@ struct AutomataApp: App {
         
     var body: some Scene {
         DocumentGroup(newDocument: { AutomatDocument() }) { file in
-            ContentView(automat: file.document.automat)
+            ContentView()
+                .environmentObject(file.document.automat)
         }
     }
 }

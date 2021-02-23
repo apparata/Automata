@@ -6,12 +6,12 @@ import SwiftUI
 
 struct ContentView: View {
         
-    @ObservedObject var automat: Automat
+    @EnvironmentObject private var automat: Automat
         
     @Environment(\.undoManager) private var undoManager
     
     var body: some View {
-        Canvas(automat: automat)
+        Canvas()
             .onChange(of: undoManager, perform: automat.updateUndoManager)
     }
 }

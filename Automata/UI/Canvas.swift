@@ -7,7 +7,7 @@ import SwiftUIToolbox
 
 struct Canvas: View {
     
-    @ObservedObject var automat: Automat
+    @EnvironmentObject private var automat: Automat
             
     @State var transitionCreation = TransitionCreation()
     

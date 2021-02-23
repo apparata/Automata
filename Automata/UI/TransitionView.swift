@@ -7,6 +7,8 @@ import CGMath
 
 struct TransitionView: View {
     
+    @EnvironmentObject private var automat: Automat
+    
     @ObservedObject var transition: StateTransition
             
     @State var isAnimating = false
@@ -29,25 +31,21 @@ struct TransitionView: View {
                 isAnimating = true
             }
             
-            TransitionEventLabel(for: transition)
+            TransitionEventLabel(fromPoint: automat.state(by: transition.fromNode)?.position ?? .zero,
+                                 toPoint: automat.state(by: transition.toNode)?.position ?? .zero)
         }
     }
     
     private func position(of stateNodeID: StateNodeID) -> CGPoint {
         // MARK: This is not efficient.
-        transition.automat?.state(by: stateNodeID)?.position ?? .zero
+        automat.state(by: stateNodeID)?.position ?? .zero
     }
 }
 
 struct TransitionEventLabel: View {
-
+    
     private let fromPoint: CGPoint
     private let toPoint: CGPoint
-    
-    init(for transition: StateTransition) {
-        fromPoint = transition.automat?.state(by: transition.fromNode)?.position ?? .zero
-        toPoint = transition.automat?.state(by: transition.toNode)?.position ?? .zero
-    }
     
     init(fromPoint: CGPoint, toPoint: CGPoint) {
         self.fromPoint = fromPoint

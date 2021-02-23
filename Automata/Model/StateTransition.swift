@@ -9,20 +9,17 @@ typealias StateTransitionID = UUID
 class StateTransition: Identifiable, ObservableObject, Codable {
 
     let id: StateTransitionID
-
-    weak var automat: Automat?
     
     @Published var event: String
     
     let fromNode: StateNodeID
     let toNode: StateNodeID
     
-    init(id: StateTransitionID, from fromNode: StateNodeID, to toNode: StateNodeID, dueTo event: String? = nil, automat: Automat) {
+    init(id: StateTransitionID, from fromNode: StateNodeID, to toNode: StateNodeID, dueTo event: String? = nil) {
         self.id = id
         self.event = event ?? "Transition"
         self.fromNode = fromNode
         self.toNode = toNode
-        self.automat = automat
     }
     
     // MARK: - Codable

@@ -9,8 +9,6 @@ typealias StateNodeID = UUID
 class StateNode: Identifiable, ObservableObject, Codable {
 
     var id: StateNodeID
-
-    weak var automat: Automat?
     
     private(set) var name: String
     private(set) var position: CGPoint
@@ -23,11 +21,10 @@ class StateNode: Identifiable, ObservableObject, Codable {
     var outgoingTransitions: [StateTransitionID] = []
     var incomingTransitions: [StateTransitionID] = []
     
-    init(id: StateNodeID, name: String, position: CGPoint, automat: Automat, size: CGSize = .zero) {
+    init(id: StateNodeID, name: String, position: CGPoint, size: CGSize = .zero) {
         self.id = id
         self.name = name
         self.position = position
-        self.automat = automat
         self.size = size
     }
 
