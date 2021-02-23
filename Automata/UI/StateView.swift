@@ -16,6 +16,11 @@ private struct StateViewSizeKey: PreferenceKey {
 
 struct StateView: View {
     
+    private struct MoveState {
+        var isDragging: Bool = false
+        var dragOffset: CGPoint = .zero
+    }
+    
     fileprivate static let minWidth: CGFloat = 80
     fileprivate static let minHeight: CGFloat = 50
     
@@ -28,8 +33,7 @@ struct StateView: View {
     let onCreateTransition: (_ from: StateNode) -> Void
     @State private var isSourceOfTransitionCreation: Bool = false
     
-    @State private var isDragging: Bool = false
-    @State private var dragOffset: CGPoint = .zero
+    @GestureState private var moveState = MoveState()
     @State private var isHovering: Bool = false
     
     private var isSelected: Bool {
@@ -127,10 +131,20 @@ struct StateView: View {
             .modifiers([.command, .shift])
     }
     
+        
     private func moveGesture() -> some Gesture {
         DragGesture()
+            .updating($moveState, body: { (value, gestureState, transaction) in
+                let dragOffset: CGPoint
+                if !gestureState.isDragging {
+                    dragOffset = value.startLocation - node.position
+                } else {
+                    dragOffset = gestureState.dragOffset
+                }
+                gestureState = MoveState(isDragging: true, dragOffset: dragOffset)
+            })
             .onChanged { value in
-                
+                                
                 func notifyTransitionsOfChange(node: StateNode) {
                     for transitionID in node.outgoingTransitions {
                         if let transition = automat.transition(by: transitionID) {
@@ -144,13 +158,8 @@ struct StateView: View {
                         }
                     }
                 }
-                
-                if !isDragging {
-                    dragOffset = value.startLocation - node.position
-                }
-                isDragging = true
-                                                                
-                let toPoint = value.location - dragOffset
+                                                                                
+                let toPoint = value.location - moveState.dragOffset
                 let relativeDistance = toPoint - node.position
                 
                 if isSelected {
@@ -166,9 +175,7 @@ struct StateView: View {
                 
             }
             .onEnded { value in
-                isDragging = false
-                                
-                let distance = value.location - dragOffset - value.startLocation
+                let distance = value.location - moveState.dragOffset - value.startLocation
                 
                 if isSelected {
                     automat.forEachSelectedNode { selectedNode in
