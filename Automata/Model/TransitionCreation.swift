@@ -10,7 +10,7 @@ struct TransitionCreation: Equatable {
     let fromPoint: CGPoint
     let toPoint: CGPoint
     let createStateIfNeeded: Bool
-    
+        
     init() {
         isActive = false
         fromPoint = .zero
@@ -18,8 +18,8 @@ struct TransitionCreation: Equatable {
         createStateIfNeeded = false
     }
     
-    init(fromPoint: CGPoint, toPoint: CGPoint, createStateIfNeeded: Bool = false) {
-        isActive = true
+    init(fromPoint: CGPoint, toPoint: CGPoint, createStateIfNeeded: Bool = false, isActive: Bool = true) {
+        self.isActive = isActive
         self.fromPoint = fromPoint
         self.toPoint = toPoint
         self.createStateIfNeeded = createStateIfNeeded

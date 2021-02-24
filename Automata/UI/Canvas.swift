@@ -4,15 +4,24 @@
 
 import SwiftUI
 import SwiftUIToolbox
+import CGMath
 
 struct Canvas: View {
     
-    @EnvironmentObject private var automat: Automat
-            
-    @State var transitionCreation = TransitionCreation()
+    private struct MoveState {
+        var isDragging: Bool = false
+        var dragOffset: CGPoint = .zero
+    }
+    
+    @GestureState private var sourceOfTransitionCreation: StateNodeID?
+    @GestureState private var transitionCreation = TransitionCreation()
     
     @State var targetForTransitionCreation: StateNode?
     
+    @GestureState private var moveState = MoveState()
+    
+    @EnvironmentObject private var automat: Automat
+            
     @StateObject private var mousePosition = MousePosition()
     
     @GestureState var isSelectingArea: Bool = false
@@ -23,7 +32,7 @@ struct Canvas: View {
         
         ScrollView([.horizontal, .vertical], showsIndicators: true) {
             ZStack(alignment: .topLeading) {
-                                
+                
                 CanvasBackground()
                     .contextMenu {
                         Button(action: addState, label: {
@@ -72,13 +81,19 @@ struct Canvas: View {
                 .transition(.opacity)
         }
     }
-    
+        
     private func stateViews() -> some View {
         ForEach(automat.stateNodes) { node in
             StateView(node: node,
-                      transitionCreation: $transitionCreation,
-                      targetForTransitionCreation: $targetForTransitionCreation,
-                      onCreateTransition: createTransition)
+                      transitionCreation: transitionCreation,
+                      isSourceOfTransitionCreation: sourceOfTransitionCreation == node.id,
+                      targetForTransitionCreation: $targetForTransitionCreation)
+                .gesture(transitionCreationGesture(createStateIfNeeded: true, node: node))
+                .gesture(transitionCreationGesture(createStateIfNeeded: false, node: node))
+                .gesture(moveGesture(for: node))
+                .gesture(TapGesture().modifiers(.command).onEnded { toggleNodeSelection(node) })
+                .gesture(TapGesture().modifiers(.shift).onEnded {addNodeToSelection(node) })
+                .onTapGesture { selectOnlyThisNode(node) }
                 .transition(.opacity)
                 .contextMenu {
                     Button(action: {
@@ -91,9 +106,122 @@ struct Canvas: View {
         }
     }
     
+    // MARK: - Gesture Input
+        
+    private func transitionCreationGesture(createStateIfNeeded: Bool, node: StateNode) -> some Gesture {
+        DragGesture()
+            .updating($sourceOfTransitionCreation, body: { (value, gestureState, transaction) in
+                gestureState = node.id
+            })
+            .updating($transitionCreation, body: { (value, gestureState, transaction) in
+                let transitionCreation = TransitionCreation(fromPoint: node.position,
+                                                            toPoint: value.location,
+                                                            createStateIfNeeded: createStateIfNeeded)
+                gestureState = transitionCreation
+            })
+            .onEnded { _ in
+                createTransition(from: node)
+            }
+            .modifiers(createStateIfNeeded ? [.command, .shift] : [.command])
+    }
+        
+    private func moveGesture(for node: StateNode) -> some Gesture {
+        DragGesture()
+            .updating($moveState, body: { (value, gestureState, transaction) in
+                let dragOffset: CGPoint
+                if !gestureState.isDragging {
+                    dragOffset = value.startLocation - node.position
+                } else {
+                    dragOffset = gestureState.dragOffset
+                }
+                gestureState = MoveState(isDragging: true, dragOffset: dragOffset)
+            })
+            .onChanged { value in
+                                
+                func notifyTransitionsOfChange(node: StateNode) {
+                    for transitionID in node.outgoingTransitions {
+                        if let transition = automat.transition(by: transitionID) {
+                            transition.objectWillChange.send()
+                        }
+                    }
+
+                    for transitionID in node.incomingTransitions {
+                        if let transition = automat.transition(by: transitionID) {
+                            transition.objectWillChange.send()
+                        }
+                    }
+                }
+                                                                                
+                let toPoint = value.location - moveState.dragOffset
+                let relativeDistance = toPoint - node.position
+                
+                if automat.isStateNodeSelected(id: node.id) {
+                    automat.forEachSelectedNode { selectedNode in
+                        selectedNode.updatePosition(selectedNode.position + relativeDistance)
+                        notifyTransitionsOfChange(node: selectedNode)
+                    }
+                } else {
+                    node.updatePosition(toPoint)
+                    notifyTransitionsOfChange(node: node)
+                    automat.selectStateNodes(ids: [node.id])
+                }
+                
+            }
+            .onEnded { value in
+                let distance = value.location - moveState.dragOffset - value.startLocation
+                
+                if automat.isStateNodeSelected(id: node.id) {
+                    automat.forEachSelectedNode { selectedNode in
+                        let fromPoint = selectedNode.position - distance
+                        let toPoint = selectedNode.position
+                        automat.moveState(id: selectedNode.id, from: fromPoint, to: toPoint)
+                    }
+                } else {
+                    let fromPoint = node.position - distance
+                    let toPoint = node.position
+                    automat.moveState(id: node.id, from: fromPoint, to: toPoint)
+                }
+                
+            }
+    }
+    
+    // MARK: - Selection
+    
+    private func selectOnlyThisNode(_ node: StateNode) {
+        guard !automat.isStateNodeSelected(id: node.id) else {
+            return
+        }
+        withAnimation(Animation.stateNodeFade) {
+            automat.selectStateNodes(ids: [node.id])
+        }
+    }
+
+    private func addNodeToSelection(_ node: StateNode) {
+        guard !automat.isStateNodeSelected(id: node.id) else {
+            return
+        }
+        withAnimation(Animation.stateNodeFade) {
+            automat.addStateNodesToSelection(ids: [node.id])
+        }
+    }
+
+    private func toggleNodeSelection(_ node: StateNode) {
+        if automat.isStateNodeSelected(id: node.id) {
+            withAnimation(Animation.stateNodeFade) {
+                automat.deselectStateNode(ids: [node.id])
+            }
+        } else {
+            withAnimation(Animation.stateNodeFade) {
+                automat.addStateNodesToSelection(ids: [node.id])
+            }
+        }
+    }
+    
     private func mouseMoved(to point: CGPoint) {
         mousePosition.point = point
     }
+    
+    // MARK: Selection
     
     private func selectAreaGesture(_ mode: Automat.SelectionMode = .exact) -> some Gesture {
         DragGesture()

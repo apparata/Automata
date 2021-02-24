@@ -16,26 +16,19 @@ private struct StateViewSizeKey: PreferenceKey {
 
 struct StateView: View {
     
-    private struct MoveState {
-        var isDragging: Bool = false
-        var dragOffset: CGPoint = .zero
-    }
-    
     fileprivate static let minWidth: CGFloat = 80
     fileprivate static let minHeight: CGFloat = 50
     
     @EnvironmentObject private var automat: Automat
     
     @ObservedObject var node: StateNode
-    
-    @Binding var transitionCreation: TransitionCreation
+        
+    var transitionCreation: TransitionCreation
+    var isSourceOfTransitionCreation: Bool
     @Binding var targetForTransitionCreation: StateNode?
-    let onCreateTransition: (_ from: StateNode) -> Void
-    @State private var isSourceOfTransitionCreation: Bool = false
-    
-    @GestureState private var moveState = MoveState()
+
     @State private var isHovering: Bool = false
-    
+
     private var isSelected: Bool {
         automat.isStateNodeSelected(id: node.id)
     }
@@ -55,15 +48,10 @@ struct StateView: View {
         .background(GeometryReader { geometry in
             background()
                 .preference(key: StateViewSizeKey.self, value: geometry.size)
+                .zIndex(0)
         })
         .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 2)
         .position(node.position)
-        .gesture(transitionAndStateCreationGesture())
-        .gesture(transitionCreationGesture())
-        .gesture(moveGesture())
-        .gesture(TapGesture().modifiers(.command).onEnded(toggleNodeSelection))
-        .gesture(TapGesture().modifiers(.shift).onEnded(addNodeToSelection))
-        .onTapGesture(perform: selectOnlyThisNode)
         .onPreferenceChange(StateViewSizeKey.self) { size in
             node.updateSize(size)
         }
@@ -88,7 +76,7 @@ struct StateView: View {
         }
     }
     
-    // MARK: - Gesture Input
+    // MARK: - Hovering
     
     private func handleHover(isHovering: Bool) {
         self.isHovering = isHovering
@@ -98,130 +86,4 @@ struct StateView: View {
             targetForTransitionCreation = nil
         }
     }
-    
-    private func transitionCreationGesture() -> some Gesture {
-        DragGesture()
-            .onChanged { value in
-                if !isSourceOfTransitionCreation {
-                    isSourceOfTransitionCreation = true
-                }
-                transitionCreation = TransitionCreation(fromPoint: node.position, toPoint: value.location)
-            }
-            .onEnded { _ in
-                onCreateTransition(node)
-                transitionCreation = TransitionCreation()
-                isSourceOfTransitionCreation = false
-            }
-            .modifiers(.command)
-    }
-    
-    private func transitionAndStateCreationGesture() -> some Gesture {
-        DragGesture()
-            .onChanged { value in
-                if !isSourceOfTransitionCreation {
-                    isSourceOfTransitionCreation = true
-                }
-                transitionCreation = TransitionCreation(fromPoint: node.position, toPoint: value.location, createStateIfNeeded: true)
-            }
-            .onEnded { _ in
-                onCreateTransition(node)
-                transitionCreation = TransitionCreation()
-                isSourceOfTransitionCreation = false
-            }
-            .modifiers([.command, .shift])
-    }
-    
-        
-    private func moveGesture() -> some Gesture {
-        DragGesture()
-            .updating($moveState, body: { (value, gestureState, transaction) in
-                let dragOffset: CGPoint
-                if !gestureState.isDragging {
-                    dragOffset = value.startLocation - node.position
-                } else {
-                    dragOffset = gestureState.dragOffset
-                }
-                gestureState = MoveState(isDragging: true, dragOffset: dragOffset)
-            })
-            .onChanged { value in
-                                
-                func notifyTransitionsOfChange(node: StateNode) {
-                    for transitionID in node.outgoingTransitions {
-                        if let transition = automat.transition(by: transitionID) {
-                            transition.objectWillChange.send()
-                        }
-                    }
-
-                    for transitionID in node.incomingTransitions {
-                        if let transition = automat.transition(by: transitionID) {
-                            transition.objectWillChange.send()
-                        }
-                    }
-                }
-                                                                                
-                let toPoint = value.location - moveState.dragOffset
-                let relativeDistance = toPoint - node.position
-                
-                if isSelected {
-                    automat.forEachSelectedNode { selectedNode in
-                        selectedNode.updatePosition(selectedNode.position + relativeDistance)
-                        notifyTransitionsOfChange(node: selectedNode)
-                    }
-                } else {
-                    node.updatePosition(toPoint)
-                    notifyTransitionsOfChange(node: node)
-                    automat.selectStateNodes(ids: [node.id])
-                }
-                
-            }
-            .onEnded { value in
-                let distance = value.location - moveState.dragOffset - value.startLocation
-                
-                if isSelected {
-                    automat.forEachSelectedNode { selectedNode in
-                        let fromPoint = selectedNode.position - distance
-                        let toPoint = selectedNode.position
-                        automat.moveState(id: selectedNode.id, from: fromPoint, to: toPoint)
-                    }
-                } else {
-                    let fromPoint = node.position - distance
-                    let toPoint = node.position
-                    automat.moveState(id: node.id, from: fromPoint, to: toPoint)
-                }
-                
-            }
-    }
-    
-    // MARK: - Selection
-    
-    private func selectOnlyThisNode() {
-        guard !isSelected else {
-            return
-        }
-        withAnimation(Animation.stateNodeFade) {
-            automat.selectStateNodes(ids: [node.id])
-        }
-    }
-
-    private func addNodeToSelection() {
-        guard !isSelected else {
-            return
-        }
-        withAnimation(Animation.stateNodeFade) {
-            automat.addStateNodesToSelection(ids: [node.id])
-        }
-    }
-
-    private func toggleNodeSelection() {
-        if isSelected {
-            withAnimation(Animation.stateNodeFade) {
-                automat.deselectStateNode(ids: [node.id])
-            }
-        } else {
-            withAnimation(Animation.stateNodeFade) {
-                automat.addStateNodesToSelection(ids: [node.id])
-            }
-        }
-    }
-
 }
