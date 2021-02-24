@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B26CA4F25E6FE1300344BAA /* KeyEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B26CA4E25E6FE1300344BAA /* KeyEventView.swift */; };
 		5B4C361625E2BD2B00D0B86A /* AutomataApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C361525E2BD2B00D0B86A /* AutomataApp.swift */; };
 		5B4C361825E2BD2B00D0B86A /* AutomatDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C361725E2BD2B00D0B86A /* AutomatDocument.swift */; };
 		5B4C361A25E2BD2B00D0B86A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C361925E2BD2B00D0B86A /* ContentView.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B26CA4E25E6FE1300344BAA /* KeyEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyEventView.swift; sourceTree = "<group>"; };
 		5B4C361225E2BD2B00D0B86A /* Automata.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Automata.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B4C361525E2BD2B00D0B86A /* AutomataApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomataApp.swift; sourceTree = "<group>"; };
 		5B4C361725E2BD2B00D0B86A /* AutomatDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatDocument.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 		5B4C365A25E2C8FA00D0B86A /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5BD1697525E6FDCF00FE67DC /* Utility Views */,
 				5BD1695B25E461DB00FE67DC /* Animation */,
 				5B4C361925E2BD2B00D0B86A /* ContentView.swift */,
 				5B4C366625E2D95600D0B86A /* Canvas.swift */,
@@ -153,6 +156,14 @@
 				5BD1695C25E461F700FE67DC /* Animation+Custom.swift */,
 			);
 			path = Animation;
+			sourceTree = "<group>";
+		};
+		5BD1697525E6FDCF00FE67DC /* Utility Views */ = {
+			isa = PBXGroup;
+			children = (
+				5B26CA4E25E6FE1300344BAA /* KeyEventView.swift */,
+			);
+			path = "Utility Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,6 +264,7 @@
 				5B4C364F25E2C3E400D0B86A /* StateNode.swift in Sources */,
 				5BD1695D25E461F700FE67DC /* Animation+Custom.swift in Sources */,
 				5B4C361825E2BD2B00D0B86A /* AutomatDocument.swift in Sources */,
+				5B26CA4F25E6FE1300344BAA /* KeyEventView.swift in Sources */,
 				5B4C364D25E2C3E400D0B86A /* TransitionCreation.swift in Sources */,
 				5B4C366B25E2D97300D0B86A /* CanvasBackground.swift in Sources */,
 				5B4C366F25E2D99D00D0B86A /* StateView.swift in Sources */,

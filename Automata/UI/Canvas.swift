@@ -48,6 +48,11 @@ struct Canvas: View {
                     .gesture(selectAreaGesture(.additive).modifiers([.shift]))
                     .gesture(selectAreaGesture(.subtractive).modifiers([.option]))
                     .gesture(selectAreaGesture(.exact))
+                    .background(KeyEventView(onKeyDown: { key in
+                        if key == .delete {
+                            removeSelectedStates()
+                        }
+                    }))
                 
                 MouseTracker(onMove: mouseMoved) {
                     EmptyView()
@@ -92,8 +97,8 @@ struct Canvas: View {
                 .gesture(transitionCreationGesture(createStateIfNeeded: false, node: node))
                 .gesture(moveGesture(for: node))
                 .gesture(TapGesture().modifiers(.command).onEnded { toggleNodeSelection(node) })
-                .gesture(TapGesture().modifiers(.shift).onEnded {addNodeToSelection(node) })
-                .onTapGesture { selectOnlyThisNode(node) }
+                .gesture(TapGesture().modifiers(.shift).onEnded { addNodeToSelection(node) })
+                .gesture(TapGesture().onEnded { selectOnlyThisNode(node) })
                 .transition(.opacity)
                 .contextMenu {
                     Button(action: {
@@ -254,8 +259,20 @@ struct Canvas: View {
     }
     
     private func removeState(_ node: StateNode) {
+        if automat.isStateNodeSelected(id: node.id) {
+            removeSelectedStates()
+        } else {
+            withAnimation(Animation.stateNodeFade) {
+                automat.removeState(id: node.id)
+            }
+        }
+    }
+
+    private func removeSelectedStates() {
         withAnimation(Animation.stateNodeFade) {
-            automat.removeState(id: node.id)
+            automat.forEachSelectedNode { stateNode in
+                automat.removeState(id: stateNode.id)
+            }
         }
     }
     
