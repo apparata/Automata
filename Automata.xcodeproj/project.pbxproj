@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5B26CA4F25E6FE1300344BAA /* KeyEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B26CA4E25E6FE1300344BAA /* KeyEventView.swift */; };
+		5B26CA5325E710DB00344BAA /* NodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B26CA5225E710DB00344BAA /* NodeTextField.swift */; };
 		5B4C361625E2BD2B00D0B86A /* AutomataApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C361525E2BD2B00D0B86A /* AutomataApp.swift */; };
 		5B4C361825E2BD2B00D0B86A /* AutomatDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C361725E2BD2B00D0B86A /* AutomatDocument.swift */; };
 		5B4C361A25E2BD2B00D0B86A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C361925E2BD2B00D0B86A /* ContentView.swift */; };
@@ -36,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		5B26CA4E25E6FE1300344BAA /* KeyEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyEventView.swift; sourceTree = "<group>"; };
+		5B26CA5225E710DB00344BAA /* NodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTextField.swift; sourceTree = "<group>"; };
 		5B4C361225E2BD2B00D0B86A /* Automata.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Automata.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B4C361525E2BD2B00D0B86A /* AutomataApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomataApp.swift; sourceTree = "<group>"; };
 		5B4C361725E2BD2B00D0B86A /* AutomatDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomatDocument.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				5B26CA4E25E6FE1300344BAA /* KeyEventView.swift */,
+				5B26CA5225E710DB00344BAA /* NodeTextField.swift */,
 			);
 			path = "Utility Views";
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				5B4C366B25E2D97300D0B86A /* CanvasBackground.swift in Sources */,
 				5B4C366F25E2D99D00D0B86A /* StateView.swift in Sources */,
 				5BD1688625E3014900FE67DC /* Automat.swift in Sources */,
+				5B26CA5325E710DB00344BAA /* NodeTextField.swift in Sources */,
 				5B4C361625E2BD2B00D0B86A /* AutomataApp.swift in Sources */,
 				5B4C361A25E2BD2B00D0B86A /* ContentView.swift in Sources */,
 			);

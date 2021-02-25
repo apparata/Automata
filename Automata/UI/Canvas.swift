@@ -41,18 +41,16 @@ struct Canvas: View {
                         })
                     }
                     .onTapGesture {
-                        withAnimation(Animation.stateTransitionFade) {
-                            automat.clearSelection()
-                        }
+                        clearSelection()
                     }
                     .gesture(selectAreaGesture(.additive).modifiers([.shift]))
                     .gesture(selectAreaGesture(.subtractive).modifiers([.option]))
                     .gesture(selectAreaGesture(.exact))
-                    .background(KeyEventView(onKeyDown: { key in
+                    .background(KeyEventView { key in
                         if key == .delete {
                             removeSelectedStates()
                         }
-                    }))
+                    })
                 
                 MouseTracker(onMove: mouseMoved) {
                     EmptyView()
@@ -192,6 +190,13 @@ struct Canvas: View {
     
     // MARK: - Selection
     
+    private func clearSelection() {
+        withAnimation(Animation.stateTransitionFade) {
+            automat.clearSelection()
+        }
+        KeyEventView.resumeListeningToKeyDown()
+    }
+    
     private func selectOnlyThisNode(_ node: StateNode) {
         guard !automat.isStateNodeSelected(id: node.id) else {
             return
@@ -199,6 +204,7 @@ struct Canvas: View {
         withAnimation(Animation.stateNodeFade) {
             automat.selectStateNodes(ids: [node.id])
         }
+        KeyEventView.resumeListeningToKeyDown()
     }
 
     private func addNodeToSelection(_ node: StateNode) {
@@ -208,6 +214,7 @@ struct Canvas: View {
         withAnimation(Animation.stateNodeFade) {
             automat.addStateNodesToSelection(ids: [node.id])
         }
+        KeyEventView.resumeListeningToKeyDown()
     }
 
     private func toggleNodeSelection(_ node: StateNode) {
@@ -220,13 +227,14 @@ struct Canvas: View {
                 automat.addStateNodesToSelection(ids: [node.id])
             }
         }
+        KeyEventView.resumeListeningToKeyDown()
     }
     
     private func mouseMoved(to point: CGPoint) {
         mousePosition.point = point
     }
-    
-    // MARK: Selection
+        
+    // MARK: Area Selection
     
     private func selectAreaGesture(_ mode: Automat.SelectionMode = .exact) -> some Gesture {
         DragGesture()
@@ -288,14 +296,7 @@ struct Canvas: View {
             }
         }
     }
-    
-    // MARK: - Selection
-    
-    private func clearSelection() {
-        withAnimation(Animation.selectionFade) {
-            automat.clearSelection()
-        }
-    }
+
 }
 
 fileprivate class MousePosition: ObservableObject {

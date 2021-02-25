@@ -10,7 +10,11 @@ class StateNode: Identifiable, ObservableObject, Codable {
 
     var id: StateNodeID
     
-    private(set) var name: String
+    var name: String {
+        willSet {
+            objectWillChange.send()
+        }
+    }
     private(set) var position: CGPoint
     private(set) var size: CGSize
     

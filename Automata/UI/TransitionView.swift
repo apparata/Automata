@@ -62,7 +62,7 @@ struct TransitionEventLabel: View {
                 Image(systemName: "arrowtriangle.forward.fill")
             }
         }
-        .font(Font.system(size: 14, weight: .medium, design: .rounded))
+        .font(Font.system(size: 14, weight: .medium, design: .default))
         .foregroundColor(.white)
         .offset(x: 0, y: -16)
         .rotationEffect(labelAngle)

@@ -22,15 +22,22 @@ struct StateView: View {
     @EnvironmentObject private var automat: Automat
     
     @ObservedObject var node: StateNode
-        
+            
     var transitionCreation: TransitionCreation
     var isSourceOfTransitionCreation: Bool
     @Binding var targetForTransitionCreation: StateNode?
 
     @State private var isHovering: Bool = false
-
+    
     private var isSelected: Bool {
         automat.isStateNodeSelected(id: node.id)
+    }
+    
+    init(node: StateNode, transitionCreation: TransitionCreation, isSourceOfTransitionCreation: Bool, targetForTransitionCreation: Binding<StateNode?>) {
+        self.node = node
+        self.transitionCreation = transitionCreation
+        self.isSourceOfTransitionCreation = isSourceOfTransitionCreation
+        self._targetForTransitionCreation = targetForTransitionCreation
     }
     
     // MARK: - Body
@@ -38,10 +45,18 @@ struct StateView: View {
     var body: some View {
         ZStack {
             Text(node.name)
-                .font(Font.system(size: 14, weight: .medium, design: .rounded))
+                .font(Font.system(size: 14, weight: .medium, design: .default))
+                .lineLimit(1)
                 .foregroundColor(.white)
+                .overlay(nameTextField())
                 .padding(.horizontal, 30)
                 .padding(.vertical, 20)
+                .onTapGesture(count: 2, perform: {
+                    NodeTextField.notifyTextFieldIsNowEditing(nodeID: node.id)
+                    withAnimation(Animation.selectionFade) {
+                        automat.selectStateNodes(ids: [node.id])
+                    }
+                })
         }
         .frame(minWidth: StateView.minWidth, minHeight: StateView.minHeight)
         .onHover(perform: handleHover)
@@ -74,6 +89,13 @@ struct StateView: View {
         } else {
             return Color(.systemBlue)
         }
+    }
+    
+    private func nameTextField() -> some View {
+        NodeTextField(text: $node.name, nodeID: node.id)
+            .font(Font.system(size: 14, weight: .medium, design: .rounded))
+            .foregroundColor(.clear)
+            .textFieldStyle(PlainTextFieldStyle())
     }
     
     // MARK: - Hovering

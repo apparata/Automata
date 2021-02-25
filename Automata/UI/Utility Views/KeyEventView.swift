@@ -3,12 +3,20 @@
 //
 
 import SwiftUI
-import Carbon.HIToolbox.Events
+import AppKit
+
+extension Notification.Name {
+    static let keyEventViewResumeListeningToKeyDown = Self("keyEventViewResumeListeningToKeyDown")
+}
 
 struct KeyEventView: NSViewRepresentable {
 
     enum Event {
         case delete
+    }
+    
+    static func resumeListeningToKeyDown() {
+        NotificationCenter.default.post(name: .keyEventViewResumeListeningToKeyDown, object: nil)
     }
 
     let onKeyDown: (Event) -> Void
@@ -16,6 +24,7 @@ struct KeyEventView: NSViewRepresentable {
     func makeNSView(context: Context) -> NSView {
         let view = KeyNSEventView()
         view.onEvent = onKeyDown
+        NotificationCenter.default.addObserver(view, selector: #selector(KeyNSEventView.didReceiveNotification(_:)), name: .keyEventViewResumeListeningToKeyDown, object: nil)
         DispatchQueue.main.async {
             view.window?.makeFirstResponder(view)
         }
@@ -30,6 +39,7 @@ private class KeyNSEventView: NSView {
     var onEvent: (KeyEventView.Event) -> Void = { _ in }
 
     override var acceptsFirstResponder: Bool { true }
+        
     override func keyDown(with event: NSEvent) {
         if event.charactersIgnoringModifiers == String(UnicodeScalar(NSDeleteCharacter)!) {
             onEvent(.delete)
@@ -37,4 +47,14 @@ private class KeyNSEventView: NSView {
             super.keyDown(with: event)
         }
     }
+    
+    @objc func didReceiveNotification(_ notification: Notification) {
+        guard let window = window else {
+            return
+        }
+        if window.firstResponder != self {
+            window.makeFirstResponder(self)
+        }
+    }
+
 }
