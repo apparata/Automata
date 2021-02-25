@@ -51,12 +51,7 @@ struct StateView: View {
                 .overlay(nameTextField())
                 .padding(.horizontal, 30)
                 .padding(.vertical, 20)
-                .onTapGesture(count: 2, perform: {
-                    NodeTextField.notifyTextFieldIsNowEditing(nodeID: node.id)
-                    withAnimation(Animation.selectionFade) {
-                        automat.selectStateNodes(ids: [node.id])
-                    }
-                })
+
         }
         .frame(minWidth: StateView.minWidth, minHeight: StateView.minHeight)
         .onHover(perform: handleHover)

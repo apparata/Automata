@@ -97,6 +97,12 @@ struct Canvas: View {
                 .gesture(TapGesture().modifiers(.command).onEnded { toggleNodeSelection(node) })
                 .gesture(TapGesture().modifiers(.shift).onEnded { addNodeToSelection(node) })
                 .gesture(TapGesture().onEnded { selectOnlyThisNode(node) })
+                .simultaneousGesture(TapGesture(count: 2).onEnded { _ in
+                    NodeTextField.notifyTextFieldIsNowEditing(nodeID: node.id)
+                    withAnimation(Animation.selectionFade) {
+                        automat.selectStateNodes(ids: [node.id])
+                    }
+                })
                 .transition(.opacity)
                 .contextMenu {
                     Button(action: {
