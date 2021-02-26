@@ -5,19 +5,54 @@
 import Foundation
 
 typealias StateTransitionID = UUID
+typealias TransitionEventID = UUID
 
 class StateTransition: Identifiable, ObservableObject, Codable {
 
     let id: StateTransitionID
     
-    @Published var event: String
+    class Event: Identifiable, ObservableObject, Codable {
+        let id: TransitionEventID
+        @Published var name: String
+        @Published var outgoing: Bool
+        
+        init(id: TransitionEventID = UUID(), name: String, outgoing: Bool) {
+            self.id = id
+            self.name = name
+            self.outgoing = outgoing
+        }
+        
+        // MARK: - Codable
+        
+        enum CodingKeys: String, CodingKey {
+            case id
+            case name
+            case outgoing
+        }
+        
+        required public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            id = try container.decode(StateNodeID.self, forKey: .id)
+            name = try container.decode(String.self, forKey: .name)
+            outgoing = try container.decode(Bool.self, forKey: .outgoing)
+        }
+        
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encode(name, forKey: .name)
+            try container.encode(outgoing, forKey: .outgoing)
+        }
+    }
+    
+    @Published var events: [Event]
     
     let fromNode: StateNodeID
     let toNode: StateNodeID
     
-    init(id: StateTransitionID, from fromNode: StateNodeID, to toNode: StateNodeID, dueTo event: String? = nil) {
+    init(id: StateTransitionID, from fromNode: StateNodeID, to toNode: StateNodeID, dueTo event: Event? = nil) {
         self.id = id
-        self.event = event ?? "Transition"
+        self.events = [event ?? Event(name: "Transition", outgoing: true)]
         self.fromNode = fromNode
         self.toNode = toNode
     }
@@ -26,7 +61,7 @@ class StateTransition: Identifiable, ObservableObject, Codable {
     
     enum CodingKeys: String, CodingKey {
         case id
-        case event
+        case events
         case fromNode
         case toNode
     }
@@ -34,7 +69,7 @@ class StateTransition: Identifiable, ObservableObject, Codable {
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(StateNodeID.self, forKey: .id)
-        event = try container.decode(String.self, forKey: .event)
+        events = try container.decode([Event].self, forKey: .events)
         fromNode = try container.decode(StateNodeID.self, forKey: .fromNode)
         toNode = try container.decode(StateNodeID.self, forKey: .toNode)
     }
@@ -42,7 +77,7 @@ class StateTransition: Identifiable, ObservableObject, Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
-        try container.encode(event, forKey: .event)
+        try container.encode(events, forKey: .events)
         try container.encode(fromNode, forKey: .fromNode)
         try container.encode(toNode, forKey: .toNode)
     }

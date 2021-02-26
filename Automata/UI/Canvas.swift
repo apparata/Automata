@@ -27,7 +27,7 @@ struct Canvas: View {
     @GestureState var isSelectingArea: Bool = false
     
     @State var selectionAreaFrame: CGRect = .zero
-    
+        
     var body: some View {
         
         ScrollView([.horizontal, .vertical], showsIndicators: true) {
