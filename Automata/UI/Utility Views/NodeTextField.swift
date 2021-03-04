@@ -117,6 +117,9 @@ struct NodeTextField: NSViewRepresentable {
             guard let textView = textView else {
                 return
             }
+            if textView.string == "New State" {
+                mutator("")
+            }
             textView.isEditable = true
             textView.isHidden = false
             textView.window?.makeFirstResponder(textView)

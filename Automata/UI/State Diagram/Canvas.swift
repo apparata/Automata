@@ -74,7 +74,7 @@ struct Canvas: View {
                         .allowsHitTesting(false)
                 }
                 
-            }.frame(width: 2000, height: 2000)
+            }.frame(width: 3000, height: 2400)
         }
     }
     

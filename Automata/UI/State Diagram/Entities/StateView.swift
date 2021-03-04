@@ -48,6 +48,7 @@ struct StateView: View {
                 .font(Font.system(size: 14, weight: .medium, design: .default))
                 .lineLimit(1)
                 .foregroundColor(.white)
+                .frame(minWidth: 4, minHeight: 20)
                 .overlay(nameTextField())
                 .padding(.horizontal, 30)
                 .padding(.vertical, 20)
@@ -91,6 +92,9 @@ struct StateView: View {
             .font(Font.system(size: 14, weight: .medium, design: .rounded))
             .foregroundColor(.clear)
             .textFieldStyle(PlainTextFieldStyle())
+            .onChange(of: node.name) { _ in
+                automat.objectWillChange.send()
+            }
     }
     
     // MARK: - Hovering

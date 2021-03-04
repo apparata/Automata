@@ -6,6 +6,8 @@ import SwiftUI
 import CGMath
 import SwiftUIToolbox
 
+// MARK: - Event Names Height Key
+
 private struct EventNamesHeightKey: PreferenceKey {
     
     static var defaultValue: CGFloat = 20
@@ -14,6 +16,8 @@ private struct EventNamesHeightKey: PreferenceKey {
         value = nextValue()
     }
 }
+
+// MARK: - Transition View
 
 struct TransitionView: View {
     
@@ -100,22 +104,32 @@ struct TransitionView: View {
     }
 }
 
+// MARK: - Edit Event Name View
+
 struct EditEventNameView: View {
+    
+    @EnvironmentObject var automat: Automat
     
     @ObservedObject var event: StateTransition.Event
     
     var transition: StateTransition
-    
+        
     var body: some View {
-        TextField("Event", text: $event.name)
+        TextField("New Event", text: $event.name)
             .multilineTextAlignment(.center)
             .font(Font.system(size: 14, weight: .medium, design: .default))
             .textFieldStyle(PlainTextFieldStyle())
+            .simultaneousGesture(TapGesture().onEnded { _ in
+                print("Hello")
+            })
             .onReceive(event.objectWillChange) { _ in
                 transition.objectWillChange.send()
+                automat.objectWillChange.send()
             }
     }
 }
+
+// MARK: - Transition Event Label
 
 struct TransitionEventLabel: View {
     
@@ -294,10 +308,12 @@ struct TransitionEventLabel: View {
     }
     
     private func addEvent() {
+        automat.objectWillChange.send()
         transition.events.append(.init(name: "New Event", outgoing: true))
     }
     
     private func removeEvent(_ event: StateTransition.Event) {
+        automat.objectWillChange.send()
         if transition.events.count > 1 {
             transition.events.removeFirst(where: { $0.id == event.id })
         } else {

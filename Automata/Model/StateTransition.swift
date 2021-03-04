@@ -52,7 +52,7 @@ class StateTransition: Identifiable, ObservableObject, Codable {
     
     init(id: StateTransitionID, from fromNode: StateNodeID, to toNode: StateNodeID, dueTo event: Event? = nil) {
         self.id = id
-        self.events = [event ?? Event(name: "Transition", outgoing: true)]
+        self.events = [event ?? Event(name: "New Event", outgoing: true)]
         self.fromNode = fromNode
         self.toNode = toNode
     }
