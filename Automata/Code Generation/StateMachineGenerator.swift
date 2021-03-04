@@ -55,6 +55,8 @@ func generateStateMachine(name: String, automat: Automat) -> String {
     } else {
         eventsString = eventCases.joined().trimmed()
     }
+    
+    let exampleEvent = automat.stateTransitions.first?.events.first?.name.camelCase.lowercasingFirst.trimmed() ?? "exampleEvent"
         
     // MARK: Transitions
     
@@ -93,10 +95,11 @@ import Constructs
 ///
 /// ```
 /// let stateMachine = StateMachine(initialState: .\(initialState))
-/// let delegate = \(nameString)()
+/// let delegate = \(nameString)Delegate()
 /// stateMachine.delegate = delegate
+/// stateMachine.fireEvent(.\(exampleEvent))
 /// ```
-class \(nameString): StateMachineDelegate {
+class \(nameString)Delegate: StateMachineDelegate {
  
     enum State {
         \(statesString)

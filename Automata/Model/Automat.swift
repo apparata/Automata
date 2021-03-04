@@ -166,12 +166,8 @@ class Automat: ObservableObject, Codable {
     @discardableResult
     func addTransition(from fromNodeID: StateNodeID, to toNodeID: StateNodeID, id: StateTransitionID? = nil) -> StateTransition {
         let transitionID = id ?? UUID()
-                        
+        
         log(debug: "✨ Add transition \(transitionID)")
-
-        objectWillChange.send()
-
-        let transition = StateTransition(id: transitionID, from: fromNodeID, to: toNodeID)
         
         guard let fromNode = state(by: fromNodeID) else {
             log(error: "⚠️ WARNING: Could not find 'from' node to add transition to: \(fromNodeID)")
@@ -183,6 +179,24 @@ class Automat: ObservableObject, Codable {
             fatalError()
         }
         
+        // Let's check if there already is a transition between these states.
+        for id in fromNode.outgoingTransitions {
+            if let transition = transition(by: id), transition.toNode == toNodeID {
+                addEvent(to: transition, outgoing: true)
+                return transition
+            }
+        }
+        for id in fromNode.incomingTransitions {
+            if let transition = transition(by: id), transition.fromNode == toNodeID {
+                addEvent(to: transition, outgoing: false)
+                return transition
+            }
+        }
+        
+        objectWillChange.send()
+
+        let transition = StateTransition(id: transitionID, from: fromNodeID, to: toNodeID)
+
         fromNode.addOutgoingTransition(transition.id)
         toNode.addIncomingTransition(transition.id)
         
@@ -236,6 +250,44 @@ class Automat: ObservableObject, Codable {
         toNode.removeIncomingTransition(transition.id)
         
         data.removeStateTransition(id: id)
+    }
+    
+    // MARK: - Add Transition Event
+    
+    func addEvent(id: TransitionEventID = UUID(), to transition: StateTransition, outgoing: Bool) {
+        
+        objectWillChange.send()
+        
+        let event = StateTransition.Event(id: id, name: "New Event", outgoing: outgoing)
+        
+        transition.events.append(event)
+
+        undoManager?.registerUndo(withTarget: self) { automat in
+            log(debug: "↩️ Undo ✨ add event \(transition.id)")
+            withAnimation(Animation.stateTransitionFade) {
+                automat.removeEvent(event, from: transition.id)
+            }
+        }
+    }
+    
+    func removeEvent(_ event: StateTransition.Event, from transitionID: StateTransitionID) {
+        
+        guard let transition = transition(by: transitionID) else {
+            return
+        }
+
+        if transition.events.count > 1 {
+            objectWillChange.send()
+            transition.events.removeFirst(where: { $0.id == event.id })
+            undoManager?.registerUndo(withTarget: self) { automat in
+                log(debug: "↩️ Undo ✨ remove event \(transition.id)")
+                withAnimation(Animation.stateTransitionFade) {
+                    automat.addEvent(id: event.id, to: transition, outgoing: event.outgoing)
+                }
+            }
+        } else {
+            removeTransition(id: transition.id)
+        }
     }
     
     // MARK: - Selection
