@@ -111,6 +111,12 @@ struct Canvas: View {
                         Image(systemName: "trash")
                         Text("Remove")
                     })
+                    Button(action: {
+                        setInitialState(node)
+                    }, label: {
+                        Image(systemName: "1.square.fill")
+                        Text("Set Initial State")
+                    })
                 }
         }
     }
@@ -265,6 +271,12 @@ struct Canvas: View {
     }
     
     // MARK: - Data Model
+    
+    private func setInitialState(_ node: StateNode) {
+        withAnimation(Animation.stateNodeFade) {
+            automat.setInitialState(id: node.id)
+        }
+    }
     
     private func addState() {
         withAnimation(Animation.stateNodeFade) {

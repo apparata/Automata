@@ -15,8 +15,7 @@ func generateStateMachine(name: String, automat: Automat) -> String {
         (state.id, state.name.camelCase.lowercasingFirst)
     }
     
-    // TODO: Get an actual initial state from the automat
-    let initialState = stateNameTuples.first?.1 ?? "exampleState"
+    let initialState = automat.initialState?.name.camelCase.lowercasingFirst ?? stateNameTuples.first?.1 ?? "exampleState"
     
     let groupedStateNames = Dictionary(grouping: stateNameTuples.map(\.1), by: { $0 })
     

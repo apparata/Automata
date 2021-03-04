@@ -24,6 +24,12 @@ class Automat: ObservableObject, Codable {
     var stateTransitions: [StateTransition] {
         data.stateTransitions
     }
+    
+    var initialState: StateNode? {
+        data.initialState.flatMap {
+            state(by: $0)
+        }
+    }
 
     private var undoManager: UndoManager?
 
@@ -115,6 +121,10 @@ class Automat: ObservableObject, Codable {
         }
         
         data.removeStateNode(id: id)
+        
+        if isInitialStateNode(id: id) {
+            setInitialState(id: nil)
+        }
     }
 
     // MARK: - Move States
@@ -161,6 +171,24 @@ class Automat: ObservableObject, Codable {
         node.updatePosition(toPoint)
     }
     
+    // MARK: Set Initial Event
+    
+    func setInitialState(id: StateNodeID?) {
+        
+        log(debug: "🟢 Set initial state to \(id?.uuidString ?? "<none>")")
+        
+        objectWillChange.send()
+
+        let initialState = data.initialState
+        
+        undoManager?.registerUndo(withTarget: self) { automat in
+            log(debug: "↩️ Undo 🟢 set initial state to \(id?.uuidString ?? "<none>")")
+            automat.setInitialState(id: initialState)
+        }
+        
+        data.setInitialState(id: id)
+    }
+        
     // MARK: Add Transition
     
     @discardableResult
@@ -303,7 +331,11 @@ class Automat: ObservableObject, Codable {
     func isStateNodeSelected(id: StateNodeID) -> Bool {
         return data.isStateNodeSelected(id: id)
     }
-    
+
+    func isInitialStateNode(id: StateNodeID) -> Bool {
+        return data.initialState == id
+    }
+
     func selectStateNodes(in area: CGRect, mode: SelectionMode = .exact) {
         let ids = Set(stateNodes.filter { area.intersects($0.frame) }.map(\.id))
         switch mode {
@@ -423,12 +455,15 @@ private extension Automat {
         
         private(set) var selectedNodesByID: Set<StateNodeID>
         
+        private(set) var initialState: StateNodeID?
+        
         init() {
             stateNodes = []
             stateNodesByID = [:]
             stateTransitions = []
             stateTransitionsByID = [:]
             selectedNodesByID = []
+            initialState = nil
         }
         
         init(_ data: DataModel) {
@@ -437,6 +472,7 @@ private extension Automat {
             stateTransitions = data.stateTransitions
             stateTransitionsByID = data.stateTransitionsByID
             selectedNodesByID = data.selectedNodesByID
+            initialState = data.initialState
         }
         
         // MARK: - Lookup
@@ -459,6 +495,10 @@ private extension Automat {
         func removeStateNode(id: StateNodeID) {
             stateNodes.removeFirst(where: { $0.id == id })
             stateNodesByID.removeValue(forKey: id)
+        }
+        
+        func setInitialState(id: StateNodeID?) {
+            initialState = id
         }
         
         // MARK: - Add / Remove Transition
@@ -501,6 +541,7 @@ private extension Automat {
             case stateNodes
             case stateTransitions
             case selectedNodesByID
+            case initialState
         }
         
         required init(from decoder: Decoder) throws {
@@ -519,6 +560,8 @@ private extension Automat {
             }
             
             selectedNodesByID = try container.decode(Set<StateNodeID>.self, forKey: .selectedNodesByID)
+            
+            initialState = try container.decodeIfPresent(StateNodeID.self, forKey: .initialState)
         }
         
         func encode(to encoder: Encoder) throws {
@@ -526,6 +569,7 @@ private extension Automat {
             try container.encode(stateNodes, forKey: .stateNodes)
             try container.encode(stateTransitions, forKey: .stateTransitions)
             try container.encode(selectedNodesByID, forKey: .selectedNodesByID)
+            try container.encodeIfPresent(initialState, forKey: .initialState)
         }
     }
 

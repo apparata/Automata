@@ -33,6 +33,10 @@ struct StateView: View {
         automat.isStateNodeSelected(id: node.id)
     }
     
+    private var isInitialState: Bool {
+        automat.isInitialStateNode(id: node.id)
+    }
+    
     init(node: StateNode, transitionCreation: TransitionCreation, isSourceOfTransitionCreation: Bool, targetForTransitionCreation: Binding<StateNode?>) {
         self.node = node
         self.transitionCreation = transitionCreation
@@ -79,11 +83,13 @@ struct StateView: View {
     
     private func evaluateNodeColor() -> Color {
         if transitionCreation.isActive, isHovering {
-            return Color.pink
+            return .pink
         } else if transitionCreation.isActive, isSourceOfTransitionCreation {
-            return Color.pink
+            return .pink
+        } else if isInitialState {
+            return .systemGreen
         } else {
-            return Color(.systemBlue)
+            return .systemBlue
         }
     }
     
