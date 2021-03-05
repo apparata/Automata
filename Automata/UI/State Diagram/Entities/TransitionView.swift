@@ -44,6 +44,46 @@ struct TransitionView: View {
     }
     
     var body: some View {
+        if transition.isLoop {
+            loopTransition
+        } else {
+            regularTransition
+        }
+    }
+        
+    private var loopTransition: some View {
+        ZStack {
+            Path { path in
+                let fromPosition = position(of: transition.fromNode)
+                path.move(to: fromPosition)
+                path.addCurve(to: fromPosition,
+                              control1: fromPosition + CGPoint(x: -90, y: -90),
+                              control2: fromPosition + CGPoint(x: 90, y: -90))
+            }
+            .stroke(Color.yellow, style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round))
+            
+            Path { path in
+                let fromPosition = position(of: transition.fromNode)
+                path.move(to: fromPosition)
+                path.addCurve(to: fromPosition,
+                              control1: fromPosition + CGPoint(x: -90, y: -90),
+                              control2: fromPosition + CGPoint(x: 90, y: -90))
+            }
+            .stroke(Color.black.opacity(0.3), style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round, dash: [12, 12], dashPhase: self.isAnimating ? 0 : 48))
+            .animation(Animation.linear(duration: 1).repeatForever(autoreverses: false))
+            .onAppear {
+                isAnimating.toggle()
+            }
+
+            TransitionEventLabel(
+                transition: transition,
+                outgoing: true,
+                fromPoint: automat.state(by: transition.fromNode)?.position ?? .zero,
+                toPoint: automat.state(by: transition.toNode)?.position ?? .zero)
+        }
+    }
+    
+    private var regularTransition: some View {
         ZStack {
             Path { path in
                 path.move(to: position(of: transition.fromNode))
@@ -152,8 +192,46 @@ struct TransitionEventLabel: View {
         self.fromPoint = fromPoint
         self.toPoint = toPoint
     }
-            
+    
     var body: some View {
+        if transition.isLoop {
+            loopTransitionEvent
+        } else {
+            regularTransitionEvent
+        }
+    }
+    
+    private var loopTransitionEvent: some View {
+        HStack(spacing: 4) {
+            if transition.events.count > 0 {
+                VStack(spacing: 2) {
+                    ForEach(transition.events.filter { $0.outgoing }) { event in
+                        Text(event.name)
+                            .font(Font.system(size: 14, weight: .medium, design: .default))
+                    }
+                }
+                Image(systemName: "arrowtriangle.forward.fill")
+            }
+        }
+        .font(Font.system(size: 14, weight: .medium, design: .default))
+        .foregroundColor(.white)
+        .background(GeometryReader { proxy in
+            Color.clear
+                .preference(key: EventNamesHeightKey.self, value: proxy.size.height / 2)
+            }.onPreferenceChange(EventNamesHeightKey.self, perform: { height in
+                eventsNamesOffset = height
+            }))
+        .offset(x: 8, y: -78 - eventsNamesOffset)
+        .popover(isPresented: $isEditingEvents) {
+            eventsEditor()
+        }
+        .position(CGPoint.average(fromPoint, toPoint))
+        .gesture(TapGesture(count: 1).onEnded {
+            isEditingEvents = true
+        })
+    }
+            
+    private var regularTransitionEvent: some View {
         HStack(spacing: 4) {
             if outgoing, transition.events.filter({ $0.outgoing }).count > 0 {
                 if !isFromStateLeftOfToState {
@@ -225,10 +303,14 @@ struct TransitionEventLabel: View {
                         EditEventNameView(event: event, transition: transition)
 
                         Spacer()
-                        Button(action: { flipEvent(event) }) {
-                            Image(systemName: "arrowtriangle.forward.circle.fill")
+                        if transition.isLoop {
+                            Color.clear.frame(width: 24, height: 24)
+                        } else {
+                            Button(action: { flipEvent(event) }) {
+                                Image(systemName: "arrowtriangle.forward.circle.fill")
+                            }
+                            .buttonStyle(PlainButtonStyle())
                         }
-                        .buttonStyle(PlainButtonStyle())
                     }
                     .padding(4)
                     .animation(.easeInOut(duration: 0.3))
@@ -295,7 +377,11 @@ struct TransitionEventLabel: View {
         } else {
             a = CGPoint(x: from.x - to.x, y: from.y - to.y)
         }
-                
+        
+        if a.x < 0.001 && a.y < 0.001 {
+            return 0
+        }
+        
         let cosine = a.x / sqrt(a.x * a.x + a.y * a.y)
         
         let angle = acos(cosine)

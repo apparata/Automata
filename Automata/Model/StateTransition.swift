@@ -10,7 +10,7 @@ typealias TransitionEventID = UUID
 class StateTransition: Identifiable, ObservableObject, Codable {
 
     let id: StateTransitionID
-    
+        
     class Event: Identifiable, ObservableObject, Codable {
         let id: TransitionEventID
         @Published var name: String
@@ -49,6 +49,10 @@ class StateTransition: Identifiable, ObservableObject, Codable {
     
     let fromNode: StateNodeID
     let toNode: StateNodeID
+    
+    var isLoop: Bool {
+        fromNode == toNode
+    }
     
     init(id: StateTransitionID, from fromNode: StateNodeID, to toNode: StateNodeID, dueTo event: Event? = nil) {
         self.id = id

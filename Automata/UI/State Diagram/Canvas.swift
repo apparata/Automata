@@ -27,6 +27,9 @@ struct Canvas: View {
     @GestureState var isSelectingArea: Bool = false
     
     @State var selectionAreaFrame: CGRect = .zero
+    
+    @State private var dropPoint: CGPoint? = nil
+    @State private var dropProgress: Double = 0
         
     var body: some View {
         
@@ -56,11 +59,14 @@ struct Canvas: View {
                     EmptyView()
                 }
                 
+                dropCircle
+                
                 transitionViews()
                 
                 if transitionCreation.isActive {
                     TransitionCreationView(fromPoint: transitionCreation.fromPoint,
-                                           toPoint: transitionCreation.toPoint)
+                                           toPoint: transitionCreation.toPoint,
+                                           isLoop: transitionCreation.isLoop)
                 }
 
                 stateViews()
@@ -75,6 +81,18 @@ struct Canvas: View {
                 }
                 
             }.frame(width: 3000, height: 2400)
+        }
+    }
+    
+    @ViewBuilder var dropCircle: some View {
+        if let dropPoint = dropPoint {
+            Circle()
+                .frame(width: CGFloat(dropProgress * 200),
+                       height: CGFloat(dropProgress * 200))
+                .foregroundColor(.black)
+                .position(dropPoint)
+                .opacity(0.2 * (1 - dropProgress))
+                .allowsHitTesting(false)
         }
     }
     
@@ -129,10 +147,12 @@ struct Canvas: View {
                 gestureState = node.id
             })
             .updating($transitionCreation, body: { (value, gestureState, transaction) in
-                let transitionCreation = TransitionCreation(fromPoint: node.position,
-                                                            toPoint: value.location,
-                                                            createStateIfNeeded: createStateIfNeeded)
-                gestureState = transitionCreation
+                let isLoop = node == targetForTransitionCreation
+                    let transitionCreation = TransitionCreation(fromPoint: node.position,
+                                                                toPoint: value.location,
+                                                                createStateIfNeeded: createStateIfNeeded,
+                                                                isLoop: isLoop)
+                    gestureState = transitionCreation
             })
             .onEnded { _ in
                 createTransition(from: node)
@@ -279,8 +299,14 @@ struct Canvas: View {
     }
     
     private func addState() {
+        let point = mousePosition.point
         withAnimation(Animation.stateNodeFade) {
-            _ = automat.addState(at: mousePosition.point)
+            _ = automat.addState(at: point)
+        }
+        dropPoint = point
+        dropProgress = 0
+        withAnimation(Animation.easeOut(duration: 0.4)) {
+            dropProgress = 1
         }
     }
     
