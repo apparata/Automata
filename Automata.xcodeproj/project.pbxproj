@@ -42,6 +42,7 @@
 		5BD1694F25E4294C00FE67DC /* TransitionCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1694E25E4294C00FE67DC /* TransitionCreationView.swift */; };
 		5BD1695325E42ABF00FE67DC /* TransitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1695225E42ABF00FE67DC /* TransitionView.swift */; };
 		5BD1695D25E461F700FE67DC /* Animation+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1695C25E461F700FE67DC /* Animation+Custom.swift */; };
+		5BDF3B2F25F1BB27000E1466 /* PasteboardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDF3B2E25F1BB27000E1466 /* PasteboardData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +75,7 @@
 		5BD1694E25E4294C00FE67DC /* TransitionCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionCreationView.swift; sourceTree = "<group>"; };
 		5BD1695225E42ABF00FE67DC /* TransitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionView.swift; sourceTree = "<group>"; };
 		5BD1695C25E461F700FE67DC /* Animation+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animation+Custom.swift"; sourceTree = "<group>"; };
+		5BDF3B2E25F1BB27000E1466 /* PasteboardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +210,7 @@
 				5B4C364925E2C3E400D0B86A /* TransitionCreation.swift */,
 				5BD1688525E3014900FE67DC /* Automat.swift */,
 				5B4C361725E2BD2B00D0B86A /* AutomatDocument.swift */,
+				5BDF3B2E25F1BB27000E1466 /* PasteboardData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				5B26CBE725E9AEC700344BAA /* SwiftCode.swift in Sources */,
 				5B26CBCA25E96F1900344BAA /* SettingsView.swift in Sources */,
 				5B4C364E25E2C3E400D0B86A /* StateTransition.swift in Sources */,
+				5BDF3B2F25F1BB27000E1466 /* PasteboardData.swift in Sources */,
 				5B26CBCF25E9791E00344BAA /* AboutView.swift in Sources */,
 				5BD168B025E32C4100FE67DC /* Log.swift in Sources */,
 				5BD1695325E42ABF00FE67DC /* TransitionView.swift in Sources */,

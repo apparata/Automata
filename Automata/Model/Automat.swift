@@ -6,6 +6,7 @@ import Foundation
 import CollectionKit
 import SwiftUI
 import CGMath
+import UniformTypeIdentifiers
 
 // MARK: - Automat
 
@@ -16,6 +17,8 @@ class Automat: ObservableObject, Codable {
         case additive
         case subtractive
     }
+
+    static let pasteboardType = UTType(exportedAs: "se.apparata.tools.Automata.states")
     
     var stateNodes: [StateNode] {
         data.stateNodes
@@ -88,6 +91,22 @@ class Automat: ObservableObject, Codable {
         }
         
         return node
+    }
+
+    func addState(_ state: StateNode) {
+                        
+        log(debug: "✨ Add state \(state.id) at (\(state.position.x), \(state.position.y))")
+
+        objectWillChange.send()
+
+        data.addStateNode(state)
+
+        undoManager?.registerUndo(withTarget: self) { automat in
+            log(debug: "↩️ Undo ✨ add state \(state.id)")
+            withAnimation(Animation.stateNodeFade) {
+                automat.removeState(id: state.id)
+            }
+        }
     }
     
     // MARK: - Remove State
@@ -239,7 +258,36 @@ class Automat: ObservableObject, Codable {
         
         return transition
     }
-    
+
+    func addTransition(_ transition: StateTransition) {
+        
+        log(debug: "✨ Add transition \(transition.id)")
+        
+        guard let fromNode = state(by: transition.fromNode) else {
+            log(error: "⚠️ WARNING: Could not find 'from' node to add transition to: \(transition.fromNode)")
+            fatalError()
+        }
+
+        guard let toNode = state(by: transition.toNode) else {
+            log(error: "⚠️ WARNING: Could not find 'to' node to add transition to: \(transition.toNode)")
+            fatalError()
+        }
+                
+        objectWillChange.send()
+
+        fromNode.addOutgoingTransition(transition.id)
+        toNode.addIncomingTransition(transition.id)
+        
+        data.addStateTransition(transition)
+        
+        undoManager?.registerUndo(withTarget: self) { automat in
+            log(debug: "↩️ Undo ✨ add transition \(transition.id)")
+            withAnimation(Animation.stateTransitionFade) {
+                automat.removeTransition(id: transition.id)
+            }
+        }
+    }
+
     // MARK: - Remove Transition
     
     func removeTransition(id: StateTransitionID) {
@@ -422,7 +470,61 @@ class Automat: ObservableObject, Codable {
         
         data.clearSelection()
     }
+    
+    func cutPasteboardData() -> PasteboardData {
+        let pasteData = copyPasteboardData()
+        for stateID in data.selectedNodesByID {
+            removeState(id: stateID)
+        }
+        return pasteData
+    }
+    
+    func copyPasteboardData() -> PasteboardData {
+        let pasteData = DataModel()
+        
+        var idMap: [StateNodeID: StateNodeID] = [:]
+        for stateNodeID in data.selectedNodesByID {
+            guard let stateNode = state(by: stateNodeID) else {
+                continue
+            }
+            let newID = StateNodeID()
+            idMap[stateNode.id] = newID
+            let copiedState = StateNode(id: newID, state: stateNode)
+            pasteData.addStateNode(copiedState)
+        }
+        
+        for transition in stateTransitions {
+            if data.isStateNodeSelected(id: transition.fromNode),
+               data.isStateNodeSelected(id: transition.toNode),
+               let fromNodeID = idMap[transition.fromNode],
+               let toNodeID = idMap[transition.toNode] {
+                let events = transition.events.map {
+                    StateTransition.Event(id: TransitionEventID(), event: $0)
+                }
+                let copiedTransition = StateTransition(id: StateTransitionID(),
+                                                       from: fromNodeID,
+                                                       to: toNodeID,
+                                                       dueTo: events)
+                pasteData.addStateTransition(copiedTransition)
+            }
+        }
+        
+        return PasteboardData(data: pasteData)
+    }
 
+    func addPasteboardData(_ data: DataModel, at position: CGPoint) {
+        let averagePosition = CGPoint.average(data.stateNodes.map(\.position))
+        for state in data.stateNodes {
+            let newPosition = state.position - averagePosition + position
+            state.updatePosition(newPosition)
+            addState(state)
+        }
+        for transition in data.stateTransitions {
+            addTransition(transition)
+        }
+    }
+
+    
     // MARK: - Codable
     
     enum CodingKeys: String, CodingKey {
@@ -440,12 +542,12 @@ class Automat: ObservableObject, Codable {
     }
 }
 
-private extension Automat {
+extension Automat {
 
     // MARK: - Internal Data Model
     
     /// Provides fast lookups, additions, but slow removals.
-    private class DataModel: Codable {
+    class DataModel: Codable {
         
         private(set) var stateNodes: [StateNode]
         private(set) var stateNodesByID: [StateNodeID: StateNode]

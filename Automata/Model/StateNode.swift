@@ -31,6 +31,13 @@ class StateNode: Identifiable, ObservableObject, Codable {
         self.position = position
         self.size = size
     }
+    
+    convenience init(id: StateNodeID, state: StateNode) {
+        self.init(id: id,
+                  name: state.name,
+                  position: state.position,
+                  size: state.size)
+    }
 
     func updateName(_ name: String) {
         objectWillChange.send()

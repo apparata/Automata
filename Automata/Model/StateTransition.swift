@@ -21,6 +21,10 @@ class StateTransition: Identifiable, ObservableObject, Codable {
             self.name = name
             self.outgoing = outgoing
         }
+
+        convenience init(id: TransitionEventID = UUID(), event: Event) {
+            self.init(id: id, name: event.name, outgoing: event.outgoing)
+        }
         
         // MARK: - Codable
         
@@ -57,6 +61,13 @@ class StateTransition: Identifiable, ObservableObject, Codable {
     init(id: StateTransitionID, from fromNode: StateNodeID, to toNode: StateNodeID, dueTo event: Event? = nil) {
         self.id = id
         self.events = [event ?? Event(name: "New Event", outgoing: true)]
+        self.fromNode = fromNode
+        self.toNode = toNode
+    }
+
+    init(id: StateTransitionID, from fromNode: StateNodeID, to toNode: StateNodeID, dueTo events: [Event]) {
+        self.id = id
+        self.events = events
         self.fromNode = fromNode
         self.toNode = toNode
     }
