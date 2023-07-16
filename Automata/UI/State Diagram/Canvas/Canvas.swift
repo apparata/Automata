@@ -49,9 +49,12 @@ struct Canvas: View {
                     .gesture(selectAreaGesture(.additive).modifiers([.shift]))
                     .gesture(selectAreaGesture(.subtractive).modifiers([.option]))
                     .gesture(selectAreaGesture(.exact))
+                    .simultaneousGesture(TapGesture(count: 2).onEnded { value in
+                        addState()
+                    })
                     .background(KeyEventView { key in
                         if key == .delete {
-                            removeSelectedStates()
+                            automat.removeSelectedStates()
                         }
                     })
 
@@ -59,7 +62,7 @@ struct Canvas: View {
                     EmptyView()
                 }
                 
-                dropCircle
+                DropCircle(at: dropPoint, progress: dropProgress)
                 
                 transitionViews()
                 
@@ -72,26 +75,21 @@ struct Canvas: View {
                 stateViews()
                 
                 if isSelectingArea {
-                    Rectangle()
-                        .strokeBorder(Color.yellow.opacity(0.4), lineWidth: 1)
-                        .background(Color.yellow.opacity(0.1))
-                        .position(selectionAreaFrame.center)
-                        .frame(width: selectionAreaFrame.width, height: selectionAreaFrame.height)
-                        .allowsHitTesting(false)
+                    SelectionArea(frame: selectionAreaFrame)
                 }
                 
             }.frame(width: 3000, height: 2400)
         }
         .onCutCommand { () -> [NSItemProvider] in
-            print("Cut!")
+            log(debug: "Cut!")
             return [NSItemProvider(object: automat.cutPasteboardData())]
         }
         .onCopyCommand { () -> [NSItemProvider] in
-            print("Copy!")
+            log(debug: "Copy!")
             return [NSItemProvider(object: automat.copyPasteboardData())]
         }
         .onPasteCommand(of: ["se.apparata.tools.Automata.states"]) { items in
-            print("Paste!")
+            log(debug: "Paste!")
             for item in items {
                 item.loadItem(forTypeIdentifier: "se.apparata.tools.Automata.states", options: nil) { item, error in
                     guard let pasteData = item as? Data else {
@@ -110,19 +108,7 @@ struct Canvas: View {
             }
         }
     }
-    
-    @ViewBuilder var dropCircle: some View {
-        if let dropPoint = dropPoint {
-            Circle()
-                .frame(width: CGFloat(dropProgress * 200),
-                       height: CGFloat(dropProgress * 200))
-                .foregroundColor(.black)
-                .position(dropPoint)
-                .opacity(0.2 * (1 - dropProgress))
-                .allowsHitTesting(false)
-        }
-    }
-    
+        
     private func transitionViews() -> some View {
         ForEach(automat.stateTransitions) { transition in
             TransitionView(transition: transition)
@@ -148,18 +134,18 @@ struct Canvas: View {
                 })
                 .transition(.opacity)
                 .contextMenu {
-                    Button(action: {
+                    Button {
                         removeState(node)
-                    }, label: {
+                    } label: {
                         Image(systemName: "trash")
                         Text("Remove")
-                    })
-                    Button(action: {
+                    }
+                    Button {
                         setInitialState(node)
-                    }, label: {
+                    } label: {
                         Image(systemName: "1.square.fill")
                         Text("Set Initial State")
-                    })
+                    }
                 }
         }
     }
@@ -350,18 +336,10 @@ struct Canvas: View {
     
     private func removeState(_ node: StateNode) {
         if automat.isStateNodeSelected(id: node.id) {
-            removeSelectedStates()
+            automat.removeSelectedStates()
         } else {
             withAnimation(Animation.stateNodeFade) {
                 automat.removeState(id: node.id)
-            }
-        }
-    }
-
-    private func removeSelectedStates() {
-        withAnimation(Animation.stateNodeFade) {
-            automat.forEachSelectedNode { stateNode in
-                automat.removeState(id: stateNode.id)
             }
         }
     }

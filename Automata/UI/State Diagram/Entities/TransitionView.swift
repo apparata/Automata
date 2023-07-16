@@ -160,7 +160,7 @@ struct EditEventNameView: View {
             .font(Font.system(size: 14, weight: .medium, design: .default))
             .textFieldStyle(PlainTextFieldStyle())
             .simultaneousGesture(TapGesture().onEnded { _ in
-                print("Hello")
+                //
             })
             .onReceive(event.objectWillChange) { _ in
                 transition.objectWillChange.send()

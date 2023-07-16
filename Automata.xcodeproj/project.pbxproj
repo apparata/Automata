@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4131B8E62A646AA000375C8C /* AppCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8E52A646AA000375C8C /* AppCommands.swift */; };
+		4131B8E92A649F5200375C8C /* DropCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8E82A649F5200375C8C /* DropCircle.swift */; };
+		4131B8EC2A64A13E00375C8C /* SelectionArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8EB2A64A13E00375C8C /* SelectionArea.swift */; };
 		5B26CA4F25E6FE1300344BAA /* KeyEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B26CA4E25E6FE1300344BAA /* KeyEventView.swift */; };
 		5B26CA5325E710DB00344BAA /* NodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B26CA5225E710DB00344BAA /* NodeTextField.swift */; };
 		5B26CBCA25E96F1900344BAA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B26CBC925E96F1900344BAA /* SettingsView.swift */; };
@@ -46,6 +48,8 @@
 
 /* Begin PBXFileReference section */
 		4131B8E52A646AA000375C8C /* AppCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommands.swift; sourceTree = "<group>"; };
+		4131B8E82A649F5200375C8C /* DropCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropCircle.swift; sourceTree = "<group>"; };
+		4131B8EB2A64A13E00375C8C /* SelectionArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionArea.swift; sourceTree = "<group>"; };
 		5B26CA4E25E6FE1300344BAA /* KeyEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyEventView.swift; sourceTree = "<group>"; };
 		5B26CA5225E710DB00344BAA /* NodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTextField.swift; sourceTree = "<group>"; };
 		5B26CBC925E96F1900344BAA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -104,6 +108,17 @@
 			path = Commands;
 			sourceTree = "<group>";
 		};
+		4131B8EA2A64A03C00375C8C /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				5B4C366625E2D95600D0B86A /* Canvas.swift */,
+				5B4C366A25E2D97300D0B86A /* CanvasBackground.swift */,
+				4131B8E82A649F5200375C8C /* DropCircle.swift */,
+				4131B8EB2A64A13E00375C8C /* SelectionArea.swift */,
+			);
+			path = Canvas;
+			sourceTree = "<group>";
+		};
 		5B26CBD225E9793200344BAA /* About */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,9 +140,8 @@
 		5B26CBE125E9ADFF00344BAA /* State Diagram */ = {
 			isa = PBXGroup;
 			children = (
+				4131B8EA2A64A03C00375C8C /* Canvas */,
 				5B26CBE025E9ADE200344BAA /* Entities */,
-				5B4C366625E2D95600D0B86A /* Canvas.swift */,
-				5B4C366A25E2D97300D0B86A /* CanvasBackground.swift */,
 			);
 			path = "State Diagram";
 			sourceTree = "<group>";
@@ -356,12 +370,14 @@
 				5B26CBE725E9AEC700344BAA /* SwiftCode.swift in Sources */,
 				5B26CBCA25E96F1900344BAA /* SettingsView.swift in Sources */,
 				4131B8E62A646AA000375C8C /* AppCommands.swift in Sources */,
+				4131B8EC2A64A13E00375C8C /* SelectionArea.swift in Sources */,
 				5B4C364E25E2C3E400D0B86A /* StateTransition.swift in Sources */,
 				5BDF3B2F25F1BB27000E1466 /* PasteboardData.swift in Sources */,
 				5B26CBCF25E9791E00344BAA /* AboutView.swift in Sources */,
 				5BD168B025E32C4100FE67DC /* Log.swift in Sources */,
 				5BD1695325E42ABF00FE67DC /* TransitionView.swift in Sources */,
 				5B4C364F25E2C3E400D0B86A /* StateNode.swift in Sources */,
+				4131B8E92A649F5200375C8C /* DropCircle.swift in Sources */,
 				5B26CBF425E9CF3200344BAA /* HSplitView.swift in Sources */,
 				5B26CBF725E9DCF600344BAA /* AutomatTheme.swift in Sources */,
 				5BD1695D25E461F700FE67DC /* Animation+Custom.swift in Sources */,

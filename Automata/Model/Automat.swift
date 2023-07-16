@@ -145,6 +145,14 @@ class Automat: ObservableObject, Codable {
             setInitialState(id: nil)
         }
     }
+    
+    func removeSelectedStates() {
+        withAnimation(Animation.stateNodeFade) {
+            forEachSelectedNode { stateNode in
+                removeState(id: stateNode.id)
+            }
+        }
+    }
 
     // MARK: - Move States
 
