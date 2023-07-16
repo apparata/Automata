@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4131B8E62A646AA000375C8C /* AppCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8E52A646AA000375C8C /* AppCommands.swift */; };
 		5B26CA4F25E6FE1300344BAA /* KeyEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B26CA4E25E6FE1300344BAA /* KeyEventView.swift */; };
 		5B26CA5325E710DB00344BAA /* NodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B26CA5225E710DB00344BAA /* NodeTextField.swift */; };
 		5B26CBCA25E96F1900344BAA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B26CBC925E96F1900344BAA /* SettingsView.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4131B8E52A646AA000375C8C /* AppCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommands.swift; sourceTree = "<group>"; };
 		5B26CA4E25E6FE1300344BAA /* KeyEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyEventView.swift; sourceTree = "<group>"; };
 		5B26CA5225E710DB00344BAA /* NodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTextField.swift; sourceTree = "<group>"; };
 		5B26CBC925E96F1900344BAA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -94,6 +96,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4131B8E72A646AD800375C8C /* Commands */ = {
+			isa = PBXGroup;
+			children = (
+				4131B8E52A646AA000375C8C /* AppCommands.swift */,
+			);
+			path = Commands;
+			sourceTree = "<group>";
+		};
 		5B26CBD225E9793200344BAA /* About */ = {
 			isa = PBXGroup;
 			children = (
@@ -215,6 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				5BD1697525E6FDCF00FE67DC /* Utility Views */,
+				4131B8E72A646AD800375C8C /* Commands */,
 				5BD1695B25E461DB00FE67DC /* Animation */,
 				5B26CBE125E9ADFF00344BAA /* State Diagram */,
 				5B26CBE425E9AE1E00344BAA /* Code Viewer */,
@@ -344,6 +355,7 @@
 				5B26CBEB25E9C73B00344BAA /* StateMachineGenerator.swift in Sources */,
 				5B26CBE725E9AEC700344BAA /* SwiftCode.swift in Sources */,
 				5B26CBCA25E96F1900344BAA /* SettingsView.swift in Sources */,
+				4131B8E62A646AA000375C8C /* AppCommands.swift in Sources */,
 				5B4C364E25E2C3E400D0B86A /* StateTransition.swift in Sources */,
 				5BDF3B2F25F1BB27000E1466 /* PasteboardData.swift in Sources */,
 				5B26CBCF25E9791E00344BAA /* AboutView.swift in Sources */,
