@@ -366,6 +366,18 @@ class Automat: ObservableObject, Codable {
         }
     }
     
+    // MARK: - State at Point
+    
+    func stateAtPoint(_ point: CGPoint) -> StateNode? {
+        for stateNode in stateNodes {
+            if stateNode.frame.contains(point) {
+                log(debug: stateNode.name)
+                return stateNode
+            }
+        }
+        return nil
+    }
+    
     // MARK: - Selection
     
     func forEachSelectedNode(_ action: (StateNode) -> Void) {

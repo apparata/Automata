@@ -16,7 +16,7 @@ struct Canvas: View {
     @GestureState private var sourceOfTransitionCreation: StateNodeID?
     @GestureState private var transitionCreation = TransitionCreation()
     
-    @State var targetForTransitionCreation: StateNode?
+    @GestureState var targetForTransitionCreation: StateNode?
     
     @GestureState private var moveState = MoveState()
     
@@ -133,9 +133,7 @@ struct Canvas: View {
     private func stateViews() -> some View {
         ForEach(automat.stateNodes) { node in
             StateView(node: node,
-                      transitionCreation: transitionCreation,
-                      isSourceOfTransitionCreation: sourceOfTransitionCreation == node.id,
-                      targetForTransitionCreation: $targetForTransitionCreation)
+                      transitionCreation: transitionCreation)
                 .gesture(transitionCreationGesture(createStateIfNeeded: true, node: node))
                 .gesture(transitionCreationGesture(createStateIfNeeded: false, node: node))
                 .gesture(moveGesture(for: node))
@@ -173,16 +171,22 @@ struct Canvas: View {
             .updating($sourceOfTransitionCreation, body: { (value, gestureState, transaction) in
                 gestureState = node.id
             })
+            .updating($targetForTransitionCreation, body: { (value, gestureState, transaction) in
+                gestureState = automat.stateAtPoint(value.location)
+            })
             .updating($transitionCreation, body: { (value, gestureState, transaction) in
                 let isLoop = node == targetForTransitionCreation
-                    let transitionCreation = TransitionCreation(fromPoint: node.position,
-                                                                toPoint: value.location,
-                                                                createStateIfNeeded: createStateIfNeeded,
-                                                                isLoop: isLoop)
-                    gestureState = transitionCreation
+                let transitionCreation = TransitionCreation(fromPoint: node.position,
+                                                            fromNodeID: node.id,
+                                                            toPoint: value.location,
+                                                            toNodeID: targetForTransitionCreation?.id,
+                                                            createStateIfNeeded: createStateIfNeeded,
+                                                            isLoop: isLoop)
+                gestureState = transitionCreation
             })
-            .onEnded { _ in
-                createTransition(from: node)
+            .onEnded { value in
+                let targetNode = automat.stateAtPoint(value.location)
+                createTransition(from: node, to: targetNode)
             }
             .modifiers(createStateIfNeeded ? [.command, .shift] : [.command])
     }
@@ -355,8 +359,8 @@ struct Canvas: View {
         }
     }
     
-    private func createTransition(from node: StateNode) {
-        if let toNode = targetForTransitionCreation {
+    private func createTransition(from node: StateNode, to targetNode: StateNode?) {
+        if let toNode = targetNode {
             withAnimation(Animation.stateTransitionFade) {
                 _ = automat.addTransition(from: node.id, to: toNode.id)
             }

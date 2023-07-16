@@ -43,11 +43,10 @@ struct ContentView: View {
             }*/
 
             ToolbarItem {
-                Button(action: {
-                    isCodeVisible.toggle()
-                }) {
+                Toggle(isOn: $isCodeVisible) {
                     Image(systemName: "uiwindow.split.2x1")
                 }
+                .toggleStyle(.button)
             }
         }
     }

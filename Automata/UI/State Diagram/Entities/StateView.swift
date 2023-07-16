@@ -21,11 +21,11 @@ struct StateView: View {
     
     @EnvironmentObject private var automat: Automat
     
-    @ObservedObject var node: StateNode
+    @ObservedObject private var node: StateNode
             
-    var transitionCreation: TransitionCreation
-    var isSourceOfTransitionCreation: Bool
-    @Binding var targetForTransitionCreation: StateNode?
+    private var transitionCreation: TransitionCreation
+    private var isSourceOfTransitionCreation: Bool
+    private var isTargetOfTransitionCreation: Bool
 
     @State private var isHovering: Bool = false
     
@@ -37,11 +37,11 @@ struct StateView: View {
         automat.isInitialStateNode(id: node.id)
     }
     
-    init(node: StateNode, transitionCreation: TransitionCreation, isSourceOfTransitionCreation: Bool, targetForTransitionCreation: Binding<StateNode?>) {
+    init(node: StateNode, transitionCreation: TransitionCreation) {
         self.node = node
         self.transitionCreation = transitionCreation
-        self.isSourceOfTransitionCreation = isSourceOfTransitionCreation
-        self._targetForTransitionCreation = targetForTransitionCreation
+        isSourceOfTransitionCreation = transitionCreation.fromNodeID == node.id
+        isTargetOfTransitionCreation = transitionCreation.toNodeID == node.id
     }
     
     // MARK: - Body
@@ -59,17 +59,18 @@ struct StateView: View {
 
         }
         .frame(minWidth: StateView.minWidth, minHeight: StateView.minHeight)
-        .onHover(perform: handleHover)
-        .background(GeometryReader { geometry in
-            background()
-                .preference(key: StateViewSizeKey.self, value: geometry.size)
-                .zIndex(0)
-        })
+        .background(
+            GeometryReader { geometry in
+                background()
+                    .preference(key: StateViewSizeKey.self, value: geometry.size)
+                    .zIndex(0)
+            }
+            .onPreferenceChange(StateViewSizeKey.self) { size in
+                node.updateSize(size)
+            }
+        )
         .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 2)
         .position(node.position)
-        .onPreferenceChange(StateViewSizeKey.self) { size in
-            node.updateSize(size)
-        }
     }
 
     // MARK: - Subviews
@@ -82,7 +83,7 @@ struct StateView: View {
     }
     
     private func evaluateNodeColor() -> Color {
-        if transitionCreation.isActive, isHovering {
+        if transitionCreation.isActive, isTargetOfTransitionCreation {
             return .pink
         } else if transitionCreation.isActive, isSourceOfTransitionCreation {
             return .pink
@@ -101,16 +102,5 @@ struct StateView: View {
             .onChange(of: node.name) { _ in
                 automat.objectWillChange.send()
             }
-    }
-    
-    // MARK: - Hovering
-    
-    private func handleHover(isHovering: Bool) {
-        self.isHovering = isHovering
-        if isHovering, transitionCreation.isActive {
-            targetForTransitionCreation = node
-        } else if !isHovering, targetForTransitionCreation == node {
-            targetForTransitionCreation = nil
-        }
     }
 }
