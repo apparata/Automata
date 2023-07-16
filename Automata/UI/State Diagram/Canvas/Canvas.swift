@@ -81,15 +81,15 @@ struct Canvas: View {
             }.frame(width: 3000, height: 2400)
         }
         .onCutCommand { () -> [NSItemProvider] in
-            log(debug: "Cut!")
+            logger.debug("Cut!")
             return [NSItemProvider(object: automat.cutPasteboardData())]
         }
         .onCopyCommand { () -> [NSItemProvider] in
-            log(debug: "Copy!")
+            logger.debug("Copy!")
             return [NSItemProvider(object: automat.copyPasteboardData())]
         }
         .onPasteCommand(of: ["se.apparata.tools.Automata.states"]) { items in
-            log(debug: "Paste!")
+            logger.debug("Paste!")
             for item in items {
                 item.loadItem(forTypeIdentifier: "se.apparata.tools.Automata.states", options: nil) { item, error in
                     guard let pasteData = item as? Data else {

@@ -41,7 +41,7 @@ class AutomatDocument: ReferenceFileDocument {
     }
     
     func fileWrapper(snapshot: Automat, configuration: WriteConfiguration) throws -> FileWrapper {
-        log(debug: "💾 Saving...")
+        logger.debug("💾 Saving...")
         let data = try JSONEncoder().encode(automat)
         return .init(regularFileWithContents: data)
     }
