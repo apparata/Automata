@@ -287,6 +287,22 @@ class Automat: ObservableObject, Codable {
             }
         }
     }
+    
+    func createTransition(using parameters: TransitionCreation) {
+        guard let fromNodeID = parameters.fromNodeID else {
+            return
+        }
+        if let toNodeID = parameters.toNodeID {
+            withAnimation(Animation.stateTransitionFade) {
+                _ = addTransition(from: fromNodeID, to: toNodeID)
+            }
+        } else if parameters.createStateIfNeeded {
+            withAnimation(Animation.stateTransitionFade) {
+                let toNode = addState(at: parameters.toPoint)
+                addTransition(from: fromNodeID, to: toNode.id)
+            }
+        }
+    }
 
     // MARK: - Remove Transition
     

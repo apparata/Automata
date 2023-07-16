@@ -186,7 +186,14 @@ struct Canvas: View {
             })
             .onEnded { value in
                 let targetNode = automat.stateAtPoint(value.location)
-                createTransition(from: node, to: targetNode)
+                let isLoop = node == targetForTransitionCreation
+                let transitionCreation = TransitionCreation(fromPoint: node.position,
+                                                            fromNodeID: node.id,
+                                                            toPoint: value.location,
+                                                            toNodeID: targetNode?.id,
+                                                            createStateIfNeeded: createStateIfNeeded,
+                                                            isLoop: isLoop)
+                automat.createTransition(using: transitionCreation)
             }
             .modifiers(createStateIfNeeded ? [.command, .shift] : [.command])
     }
@@ -358,20 +365,6 @@ struct Canvas: View {
             }
         }
     }
-    
-    private func createTransition(from node: StateNode, to targetNode: StateNode?) {
-        if let toNode = targetNode {
-            withAnimation(Animation.stateTransitionFade) {
-                _ = automat.addTransition(from: node.id, to: toNode.id)
-            }
-        } else if transitionCreation.createStateIfNeeded {
-            withAnimation(Animation.stateTransitionFade) {
-                let toNode = automat.addState(at: transitionCreation.toPoint)
-                automat.addTransition(from: node.id, to: toNode.id)
-            }
-        }
-    }
-
 }
 
 fileprivate class MousePosition: ObservableObject {
