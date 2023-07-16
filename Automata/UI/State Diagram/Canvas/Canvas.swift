@@ -13,24 +13,28 @@ struct Canvas: View {
         var dragOffset: CGPoint = .zero
     }
     
-    @GestureState private var sourceOfTransitionCreation: StateNodeID?
-    @GestureState private var transitionCreation = TransitionCreation()
+    private struct SelectionAreaState {
+        var isSelecting: Bool = false
+        var frame: CGRect = .zero
+    }
     
-    @GestureState var targetForTransitionCreation: StateNode?
-    
-    @GestureState private var moveState = MoveState()
-    
-    @EnvironmentObject private var automat: Automat
-            
+    private struct DropState {
+        var point: CGPoint? = nil
+        var progress: Double = 0
+    }
+        
     @StateObject private var mousePosition = MousePosition()
     
-    @GestureState var isSelectingArea: Bool = false
+    @GestureState private var transitionCreation = TransitionCreation()
     
-    @State var selectionAreaFrame: CGRect = .zero
+    @GestureState private var moveState = MoveState()
+                    
+    @GestureState private var selectionAreaState = SelectionAreaState()
     
-    @State private var dropPoint: CGPoint? = nil
-    @State private var dropProgress: Double = 0
-        
+    @State private var dropState = DropState()
+    
+    @EnvironmentObject private var automat: Automat
+    
     var body: some View {
         
         ScrollView([.horizontal, .vertical], showsIndicators: true) {
@@ -38,10 +42,12 @@ struct Canvas: View {
                 
                 CanvasBackground()
                     .contextMenu {
-                        Button(action: addState, label: {
+                        Button {
+                            addState()
+                        } label: {
                             Image(systemName: "plus")
                             Text("Add State")
-                        })
+                        }
                     }
                     .onTapGesture {
                         clearSelection()
@@ -62,7 +68,7 @@ struct Canvas: View {
                     EmptyView()
                 }
                 
-                DropCircle(at: dropPoint, progress: dropProgress)
+                DropCircle(at: dropState.point, progress: dropState.progress)
                 
                 transitionViews()
                 
@@ -74,8 +80,8 @@ struct Canvas: View {
 
                 stateViews()
                 
-                if isSelectingArea {
-                    SelectionArea(frame: selectionAreaFrame)
+                if selectionAreaState.isSelecting {
+                    SelectionArea(frame: selectionAreaState.frame)
                 }
                 
             }.frame(width: 3000, height: 2400)
@@ -154,25 +160,20 @@ struct Canvas: View {
         
     private func transitionCreationGesture(createStateIfNeeded: Bool, node: StateNode) -> some Gesture {
         DragGesture()
-            .updating($sourceOfTransitionCreation, body: { (value, gestureState, transaction) in
-                gestureState = node.id
-            })
-            .updating($targetForTransitionCreation, body: { (value, gestureState, transaction) in
-                gestureState = automat.stateAtPoint(value.location)
-            })
             .updating($transitionCreation, body: { (value, gestureState, transaction) in
-                let isLoop = node == targetForTransitionCreation
+                let targetNode = automat.stateAtPoint(value.location)
+                let isLoop = node.id == targetNode?.id
                 let transitionCreation = TransitionCreation(fromPoint: node.position,
                                                             fromNodeID: node.id,
                                                             toPoint: value.location,
-                                                            toNodeID: targetForTransitionCreation?.id,
+                                                            toNodeID: targetNode?.id,
                                                             createStateIfNeeded: createStateIfNeeded,
                                                             isLoop: isLoop)
                 gestureState = transitionCreation
             })
             .onEnded { value in
                 let targetNode = automat.stateAtPoint(value.location)
-                let isLoop = node == targetForTransitionCreation
+                let isLoop = node.id == targetNode?.id
                 let transitionCreation = TransitionCreation(fromPoint: node.position,
                                                             fromNodeID: node.id,
                                                             toPoint: value.location,
@@ -294,24 +295,23 @@ struct Canvas: View {
     
     private func selectAreaGesture(_ mode: Automat.SelectionMode = .exact) -> some Gesture {
         DragGesture()
-            .updating($isSelectingArea) { (value, gestureState, transaction) in
-                gestureState = true
-            }
-            .onChanged { value in
-                let x = min(value.startLocation.x, value.location.x)
-                let y = min(value.startLocation.y, value.location.y)
-                let width = abs(value.startLocation.x - value.location.x)
-                let height = abs(value.startLocation.y - value.location.y)
-                selectionAreaFrame = CGRect(x: x, y: y, width: width, height: height)
+            .updating($selectionAreaState) { (value, gestureState, transaction) in
+                gestureState = SelectionAreaState(
+                    isSelecting: true,
+                    frame: absoluteFrame(from: value.startLocation, to: value.location))
             }
             .onEnded { value in
-                let x = min(value.startLocation.x, value.location.x)
-                let y = min(value.startLocation.y, value.location.y)
-                let width = abs(value.startLocation.x - value.location.x)
-                let height = abs(value.startLocation.y - value.location.y)
-                selectionAreaFrame = CGRect(x: x, y: y, width: width, height: height)
-                automat.selectStateNodes(in: selectionAreaFrame, mode: mode)
+                let frame = absoluteFrame(from: value.startLocation, to: value.location)
+                automat.selectStateNodes(in: frame, mode: mode)
             }
+    }
+    
+    private func absoluteFrame(from: CGPoint, to: CGPoint) -> CGRect {
+        let x = min(from.x, to.x)
+        let y = min(from.y, to.y)
+        let width = abs(from.x - to.x)
+        let height = abs(from.y - to.y)
+        return CGRect(x: x, y: y, width: width, height: height)
     }
     
     // MARK: - Data Model
@@ -324,13 +324,14 @@ struct Canvas: View {
     
     private func addState() {
         let point = mousePosition.point
+        
         withAnimation(Animation.stateNodeFade) {
             _ = automat.addState(at: point)
         }
-        dropPoint = point
-        dropProgress = 0
+        
+        dropState = DropState(point: point, progress: 0)
         withAnimation(Animation.easeOut(duration: 0.4)) {
-            dropProgress = 1
+            dropState = DropState(point: point, progress: 1)
         }
     }
     
