@@ -11,7 +11,7 @@ struct AutomataApp: App {
         
     var body: some Scene {
         DocumentGroup(newDocument: { AutomatDocument() }) { file in
-            ContentView()
+            ContentView(url: file.fileURL)
                 .frame(minWidth: 800, minHeight: 400)
                 .environmentObject(file.document.automat)
         }

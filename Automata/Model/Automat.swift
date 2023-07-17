@@ -168,7 +168,9 @@ class Automat: ObservableObject, Codable {
     
     func moveState(id: StateNodeID, from fromPoint: CGPoint, to toPoint: CGPoint) {
         
-        logger.debug("🚀 Move state \(id) to (\(toPoint.x), \(toPoint.y))")
+        let toX = String(Int(toPoint.x))
+        let toY = String(Int(toPoint.y))
+        logger.debug("🚀 Move state \(id, privacy: .public) to (\(toX, privacy: .public), \(toY, privacy: .public))")
         
         guard let node = state(by: id) else {
             logger.error("⚠️ WARNING: Could not find node to move: \(id)")
@@ -178,7 +180,7 @@ class Automat: ObservableObject, Codable {
         objectWillChange.send()
 
         undoManager?.registerUndo(withTarget: self) { automat in
-            logger.debug("↩️ Undo 🚀 move state \(id) to (\(fromPoint.x), \(fromPoint.y))")
+            logger.debug("↩️ Undo 🚀 move state \(id, privacy: .public) to (\(fromPoint.x), \(fromPoint.y))")
             automat.moveState(id: id, from: toPoint, to: fromPoint)
         }
         
@@ -202,14 +204,14 @@ class Automat: ObservableObject, Codable {
     
     func setInitialState(id: StateNodeID?) {
         
-        logger.debug("🟢 Set initial state to \(id?.uuidString ?? "<none>")")
+        logger.debug("🟢 Set initial state to \(id?.uuidString ?? "<none>", privacy: .public)")
         
         objectWillChange.send()
 
         let initialState = data.initialState
         
         undoManager?.registerUndo(withTarget: self) { automat in
-            logger.debug("↩️ Undo 🟢 set initial state to \(id?.uuidString ?? "<none>")")
+            logger.debug("↩️ Undo 🟢 set initial state to \(id?.uuidString ?? "<none>", privacy: .public)")
             automat.setInitialState(id: initialState)
         }
         
@@ -225,12 +227,12 @@ class Automat: ObservableObject, Codable {
         logger.debug("✨ Add transition \(transitionID)")
         
         guard let fromNode = state(by: fromNodeID) else {
-            logger.error("⚠️ WARNING: Could not find 'from' node to add transition to: \(fromNodeID)")
+            logger.error("⚠️ WARNING: Could not find 'from' node to add transition to: \(fromNodeID, privacy: .public)")
             fatalError()
         }
 
         guard let toNode = state(by: toNodeID) else {
-            logger.error("⚠️ WARNING: Could not find 'to' node to add transition to: \(toNodeID)")
+            logger.error("⚠️ WARNING: Could not find 'to' node to add transition to: \(toNodeID, privacy: .public)")
             fatalError()
         }
         
@@ -258,7 +260,7 @@ class Automat: ObservableObject, Codable {
         data.addStateTransition(transition)
         
         undoManager?.registerUndo(withTarget: self) { automat in
-            logger.debug("↩️ Undo ✨ add transition \(transitionID)")
+            logger.debug("↩️ Undo ✨ add transition \(transitionID, privacy: .public)")
             withAnimation(Animation.stateTransitionFade) {
                 automat.removeTransition(id: transitionID)
             }
@@ -272,12 +274,12 @@ class Automat: ObservableObject, Codable {
         logger.debug("✨ Add transition \(transition.id)")
         
         guard let fromNode = state(by: transition.fromNode) else {
-            logger.error("⚠️ WARNING: Could not find 'from' node to add transition to: \(transition.fromNode)")
+            logger.error("⚠️ WARNING: Could not find 'from' node to add transition to: \(transition.fromNode, privacy: .public)")
             fatalError()
         }
 
         guard let toNode = state(by: transition.toNode) else {
-            logger.error("⚠️ WARNING: Could not find 'to' node to add transition to: \(transition.toNode)")
+            logger.error("⚠️ WARNING: Could not find 'to' node to add transition to: \(transition.toNode, privacy: .public)")
             fatalError()
         }
                 
@@ -289,7 +291,7 @@ class Automat: ObservableObject, Codable {
         data.addStateTransition(transition)
         
         undoManager?.registerUndo(withTarget: self) { automat in
-            logger.error("↩️ Undo ✨ add transition \(transition.id)")
+            logger.error("↩️ Undo ✨ add transition \(transition.id, privacy: .public)")
             withAnimation(Animation.stateTransitionFade) {
                 automat.removeTransition(id: transition.id)
             }
@@ -319,7 +321,7 @@ class Automat: ObservableObject, Codable {
         logger.debug("🗑 Remove transition \(id)")
 
         guard let transition = transition(by: id) else {
-            logger.error("⚠️ WARNING: Could not find transition to remove: \(id)")
+            logger.error("⚠️ WARNING: Could not find transition to remove: \(id, privacy: .public)")
             return
         }
         
@@ -329,19 +331,19 @@ class Automat: ObservableObject, Codable {
         let toID = transition.toNode
         
         undoManager?.registerUndo(withTarget: self) { automat in
-            logger.debug("↩️ Undo 🗑 remove transition \(id)")
+            logger.debug("↩️ Undo 🗑 remove transition \(id, privacy: .public)")
             _ = withAnimation(Animation.stateTransitionFade) {
                 automat.addTransition(from: fromID, to: toID, id: id)
             }
         }
         
         guard let fromNode = state(by: fromID) else {
-            logger.error("⚠️ WARNING: Could not find 'from' node to remove transition from: \(fromID)")
+            logger.error("⚠️ WARNING: Could not find 'from' node to remove transition from: \(fromID, privacy: .public)")
             fatalError()
         }
 
         guard let toNode = state(by: toID) else {
-            logger.error("⚠️ WARNING: Could not find 'to' node to remove transition from: \(toID)")
+            logger.error("⚠️ WARNING: Could not find 'to' node to remove transition from: \(toID, privacy: .public)")
             fatalError()
         }
         
@@ -363,7 +365,7 @@ class Automat: ObservableObject, Codable {
         transition.events.append(event)
 
         undoManager?.registerUndo(withTarget: self) { automat in
-            logger.debug("↩️ Undo ✨ add event \(transition.id)")
+            logger.debug("↩️ Undo ✨ add event \(transition.id, privacy: .public)")
             withAnimation(Animation.stateTransitionFade) {
                 automat.removeEvent(event, from: transition.id)
             }
@@ -380,7 +382,7 @@ class Automat: ObservableObject, Codable {
             objectWillChange.send()
             transition.events.removeFirst(where: { $0.id == event.id })
             undoManager?.registerUndo(withTarget: self) { automat in
-                logger.debug("↩️ Undo ✨ remove event \(transition.id)")
+                logger.debug("↩️ Undo ✨ remove event \(transition.id, privacy: .public)")
                 withAnimation(Animation.stateTransitionFade) {
                     automat.addEvent(id: event.id, to: transition, outgoing: event.outgoing)
                 }
@@ -434,14 +436,14 @@ class Automat: ObservableObject, Codable {
     func selectStateNodes(ids: Set<StateNodeID>) {
         
         let idsString = ids.map(\.uuidString).joined(separator: ", ")
-        logger.debug("👈 Select state nodes \(idsString)")
+        logger.debug("👈 Select state nodes \(idsString, privacy: .public)")
         
         objectWillChange.send()
 
         let currentSelection = data.selectedNodesByID
 
         undoManager?.registerUndo(withTarget: self) { automat in
-            logger.debug("↩️ Undo 👈 select state nodes \(idsString)")
+            logger.debug("↩️ Undo 👈 select state nodes \(idsString, privacy: .public)")
             withAnimation(Animation.stateTransitionFade) {
                 automat.selectStateNodes(ids: currentSelection)
             }
@@ -453,14 +455,14 @@ class Automat: ObservableObject, Codable {
     func addStateNodesToSelection(ids: Set<StateNodeID>) {
         
         let idsString = ids.map(\.uuidString).joined(separator: ", ")
-        logger.debug("👈 Add state nodes to selection \(idsString)")
+        logger.debug("👈 Add state nodes to selection \(idsString, privacy: .public)")
         
         objectWillChange.send()
 
         let currentSelection = data.selectedNodesByID
 
         undoManager?.registerUndo(withTarget: self) { automat in
-            logger.debug("↩️ Undo 👈 add state nodes to selection \(idsString)")
+            logger.debug("↩️ Undo 👈 add state nodes to selection \(idsString, privacy: .public)")
             withAnimation(Animation.stateTransitionFade) {
                 automat.selectStateNodes(ids: currentSelection)
             }
@@ -472,14 +474,14 @@ class Automat: ObservableObject, Codable {
     func deselectStateNode(ids: Set<StateNodeID>) {
         
         let idsString = ids.map(\.uuidString).joined(separator: ", ")
-        logger.debug("✋ Remove state nodes from selection \(idsString)")
+        logger.debug("✋ Remove state nodes from selection \(idsString, privacy: .public)")
         
         objectWillChange.send()
 
         let currentSelection = data.selectedNodesByID
 
         undoManager?.registerUndo(withTarget: self) { automat in
-            logger.debug("↩️ Undo ✋ remove state nodes from selection \(idsString)")
+            logger.debug("↩️ Undo ✋ remove state nodes from selection \(idsString, privacy: .public)")
             withAnimation(Animation.stateTransitionFade) {
                 automat.selectStateNodes(ids: currentSelection)
             }

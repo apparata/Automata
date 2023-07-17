@@ -141,6 +141,12 @@ struct Canvas: View {
                 .transition(.opacity)
                 .contextMenu {
                     Button {
+                        // TODO: Rename state
+                    } label: {
+                        Image(systemName: "character.cursor.ibeam")
+                        Text("Rename")
+                    }
+                    Button {
                         removeState(node)
                     } label: {
                         Image(systemName: "trash")

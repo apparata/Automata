@@ -7,6 +7,8 @@ import SwiftUI
 
 struct ContentView: View {
         
+    let url: URL?
+    
     @EnvironmentObject private var automat: Automat
         
     @Environment(\.undoManager) private var undoManager
@@ -53,7 +55,7 @@ struct ContentView: View {
                             SwiftCode(licenseForGeneratedCode)
                         }
                         
-                        SwiftCode(generateStateMachine(name: "My State Machine", automat: automat))
+                        SwiftCode(generateStateMachine(url: url, automat: automat))
                         Spacer()
                     }
                     .padding()
@@ -68,7 +70,7 @@ struct ContentView: View {
                     }
                     Button {
                         let code = licenseForGeneratedCode + "\n"
-                            + generateStateMachine(name: "My State Machine", automat: automat)
+                            + generateStateMachine(url: url, automat: automat)
                         NSPasteboard.general.clearContents()
                         NSPasteboard.general.setString(code, forType: .string)
                         withAnimation(.snappy) {

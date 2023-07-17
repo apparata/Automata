@@ -85,7 +85,7 @@ struct StateView: View {
     }
     
     private func glowColor() -> Color {
-        (isSelected ? Color.yellow.opacity(0.3) : evaluateNodeColor().opacity(0.2))
+        (isSelected ? Color.yellow.opacity(0.3) : evaluateNodeColor().opacity(0.1))
     }
     
     private func evaluateNodeColor() -> Color {
