@@ -10,6 +10,7 @@
 		4131B8E62A646AA000375C8C /* AppCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8E52A646AA000375C8C /* AppCommands.swift */; };
 		4131B8E92A649F5200375C8C /* DropCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8E82A649F5200375C8C /* DropCircle.swift */; };
 		4131B8EC2A64A13E00375C8C /* SelectionArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8EB2A64A13E00375C8C /* SelectionArea.swift */; };
+		4131B8F02A64B53300375C8C /* CanvasHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8EF2A64B53300375C8C /* CanvasHelp.swift */; };
 		5B26CA4F25E6FE1300344BAA /* KeyEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B26CA4E25E6FE1300344BAA /* KeyEventView.swift */; };
 		5B26CA5325E710DB00344BAA /* NodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B26CA5225E710DB00344BAA /* NodeTextField.swift */; };
 		5B26CBCA25E96F1900344BAA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B26CBC925E96F1900344BAA /* SettingsView.swift */; };
@@ -50,6 +51,7 @@
 		4131B8E52A646AA000375C8C /* AppCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommands.swift; sourceTree = "<group>"; };
 		4131B8E82A649F5200375C8C /* DropCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropCircle.swift; sourceTree = "<group>"; };
 		4131B8EB2A64A13E00375C8C /* SelectionArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionArea.swift; sourceTree = "<group>"; };
+		4131B8EF2A64B53300375C8C /* CanvasHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasHelp.swift; sourceTree = "<group>"; };
 		5B26CA4E25E6FE1300344BAA /* KeyEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyEventView.swift; sourceTree = "<group>"; };
 		5B26CA5225E710DB00344BAA /* NodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTextField.swift; sourceTree = "<group>"; };
 		5B26CBC925E96F1900344BAA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				5B4C366A25E2D97300D0B86A /* CanvasBackground.swift */,
 				4131B8E82A649F5200375C8C /* DropCircle.swift */,
 				4131B8EB2A64A13E00375C8C /* SelectionArea.swift */,
+				4131B8EF2A64B53300375C8C /* CanvasHelp.swift */,
 			);
 			path = Canvas;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				5B4C364D25E2C3E400D0B86A /* TransitionCreation.swift in Sources */,
 				5B4C366B25E2D97300D0B86A /* CanvasBackground.swift in Sources */,
 				5B4C366F25E2D99D00D0B86A /* StateView.swift in Sources */,
+				4131B8F02A64B53300375C8C /* CanvasHelp.swift in Sources */,
 				5BD1688625E3014900FE67DC /* Automat.swift in Sources */,
 				5B26CA5325E710DB00344BAA /* NodeTextField.swift in Sources */,
 				5B4C361625E2BD2B00D0B86A /* AutomataApp.swift in Sources */,

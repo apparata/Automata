@@ -21,6 +21,10 @@ struct ContentView: View {
                 .onAppear {
                     applyTheme()
                 }
+                .overlay(alignment: .bottomLeading) {
+                    CanvasHelp()
+                        .padding()
+                }
             GeometryReader { geometry in
                 ScrollView(.vertical) {
                     VStack(alignment: .leading) {
