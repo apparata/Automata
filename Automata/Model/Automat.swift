@@ -200,7 +200,7 @@ class Automat: ObservableObject, Codable {
         node.updatePosition(toPoint)
     }
     
-    // MARK: Set Initial Event
+    // MARK: Set Initial State
     
     func setInitialState(id: StateNodeID?) {
         

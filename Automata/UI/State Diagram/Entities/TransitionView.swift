@@ -70,7 +70,7 @@ struct TransitionView: View {
                               control2: fromPosition + CGPoint(x: 90, y: -90))
             }
             .stroke(Color.black.opacity(0.3), style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round, dash: [12, 12], dashPhase: self.isAnimating ? 0 : 48))
-            .animation(Animation.linear(duration: 1).repeatForever(autoreverses: false))
+            .animation(Animation.linear(duration: 1).repeatForever(autoreverses: false), value: isAnimating)
             .onAppear {
                 isAnimating.toggle()
             }
@@ -97,8 +97,8 @@ struct TransitionView: View {
                     path.move(to: position(of: transition.fromNode))
                     path.addLine(to: position(of: transition.toNode))
                 }
-                .stroke(Color.black.opacity(0.3), style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round, dash: [12, 12], dashPhase: self.isAnimating ? 0 : 48))
-                .animation(Animation.linear(duration: 1).repeatForever(autoreverses: false))
+                .stroke(Color.black.opacity(0.3), style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round, dash: [12, 12], dashPhase: isAnimating ? 0 : 48))
+                .animation(Animation.linear(duration: 1).repeatForever(autoreverses: false), value: isAnimating)
                 .onAppear {
                     isAnimating.toggle()
                 }
@@ -107,8 +107,8 @@ struct TransitionView: View {
                     path.move(to: position(of: transition.fromNode))
                     path.addLine(to: position(of: transition.toNode))
                 }
-                .stroke(Color.black.opacity(0.3), style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round, dash: [12, 12], dashPhase: self.isAnimating ? 0 : -48))
-                .animation(Animation.linear(duration: 1).repeatForever(autoreverses: false))
+                .stroke(Color.black.opacity(0.3), style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round, dash: [12, 12], dashPhase: isAnimating ? 0 : -48))
+                .animation(Animation.linear(duration: 1).repeatForever(autoreverses: false), value: isAnimating)
                 .onAppear {
                     isAnimating.toggle()
                 }
@@ -117,8 +117,8 @@ struct TransitionView: View {
                     path.move(to: position(of: transition.fromNode))
                     path.addLine(to: position(of: transition.toNode))
                 }
-                .stroke(Color.black.opacity(0.3), style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round, dash: [12, 12], dashPhase: self.isAnimating ? 0 : 48))
-                .animation(Animation.linear(duration: 1).repeatForever(autoreverses: true))
+                .stroke(Color.black.opacity(0.3), style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round, dash: [12, 12], dashPhase: isAnimating ? 0 : 48))
+                .animation(Animation.linear(duration: 1).repeatForever(autoreverses: true), value: isAnimating)
                 .onAppear {
                     isAnimating.toggle()
                 }
@@ -289,7 +289,7 @@ struct TransitionEventLabel: View {
                 .font(.title2)
                 .fontWeight(.semibold)
 
-            if transition.events.filter { $0.outgoing }.count > 0 {
+            if transition.events.filter({ $0.outgoing }).count > 0 {
                 HSeparator(color: .separator)
                 ForEach(transition.events.filter { $0.outgoing }) { event in
                     HStack {
@@ -314,8 +314,7 @@ struct TransitionEventLabel: View {
                     }
                     .padding(4)
                     .animation(.easeInOut(duration: 0.3))
-                    .transition(.opacity)
-
+                    .transition(.slide)
                 }
             }
 
@@ -341,8 +340,7 @@ struct TransitionEventLabel: View {
                     }
                     .padding(4)
                     .animation(.easeInOut(duration: 0.3))
-                    .transition(.opacity)
-
+                    .transition(.slide)
                 }
             }
 
@@ -396,22 +394,30 @@ struct TransitionEventLabel: View {
     }
     
     private func addEvent() {
-        automat.objectWillChange.send()
-        transition.events.append(.init(name: "New Event", outgoing: true))
+        withAnimation(.easeInOut(duration: 0.3)) {
+            automat.objectWillChange.send()
+            transition.objectWillChange.send()
+            transition.events.append(.init(name: "New Event", outgoing: true))
+        }
     }
     
     private func removeEvent(_ event: StateTransition.Event) {
-        automat.objectWillChange.send()
-        if transition.events.count > 1 {
-            transition.events.removeFirst(where: { $0.id == event.id })
-        } else {
-            automat.removeTransition(id: transition.id)
-            isEditingEvents = false
+        withAnimation(.easeInOut(duration: 0.3)) {
+            automat.objectWillChange.send()
+            transition.objectWillChange.send()
+            if transition.events.count > 1 {
+                transition.events.removeFirst(where: { $0.id == event.id })
+            } else {
+                automat.removeTransition(id: transition.id)
+                isEditingEvents = false
+            }
         }
     }
     
     private func flipEvent(_ event: StateTransition.Event) {
-        withAnimation {
+        withAnimation(.easeInOut(duration: 0.3)) {
+            automat.objectWillChange.send()
+            transition.objectWillChange.send()
             event.outgoing.toggle()
         }
     }

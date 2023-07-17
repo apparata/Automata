@@ -11,7 +11,8 @@ class StateTransition: Identifiable, ObservableObject, Codable {
 
     let id: StateTransitionID
         
-    class Event: Identifiable, ObservableObject, Codable {
+    class Event: Identifiable, ObservableObject, Equatable, Codable {
+        
         let id: TransitionEventID
         @Published var name: String
         @Published var outgoing: Bool
@@ -24,6 +25,10 @@ class StateTransition: Identifiable, ObservableObject, Codable {
 
         convenience init(id: TransitionEventID = UUID(), event: Event) {
             self.init(id: id, name: event.name, outgoing: event.outgoing)
+        }
+        
+        static func == (lhs: StateTransition.Event, rhs: StateTransition.Event) -> Bool {
+            lhs.id == rhs.id && lhs.name == rhs.name && lhs.outgoing == rhs.outgoing
         }
         
         // MARK: - Codable
