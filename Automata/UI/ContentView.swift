@@ -15,6 +15,10 @@ struct ContentView: View {
     
     @State private var isCodeVisible: Bool = false
     
+    @State private var flashCopiedIndicator: Bool = false
+    
+    @State private var isLicenseExpanded: Bool = false
+    
     var body: some View {
         HSplitView(visible: isCodeVisible ? .both : .primary) {
             Canvas()
@@ -28,13 +32,60 @@ struct ContentView: View {
             GeometryReader { geometry in
                 ScrollView(.vertical) {
                     VStack(alignment: .leading) {
+                        Button {
+                            withAnimation {
+                                isLicenseExpanded.toggle()
+                            }
+                        } label: {
+                            HStack(spacing: 4) {
+                                Image(systemName: "chevron.forward")
+                                    .imageScale(.small)
+                                    .fontWeight(.semibold)
+                                    .rotationEffect(isLicenseExpanded ? Angle(degrees: 90) : Angle(degrees: 0))
+                                Text("License for generated code")
+                            }
+                            .foregroundStyle(.white)
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.bottom, 8)
+                        
+                        if isLicenseExpanded {
+                            SwiftCode(licenseForGeneratedCode)
+                        }
+                        
                         SwiftCode(generateStateMachine(name: "My State Machine", automat: automat))
-                            .padding()
                         Spacer()
                     }
+                    .padding()
                 }
             }
             .background(Color(red: 0.098, green: 0.098, blue: 0.098))
+            .overlay(alignment: .bottomTrailing) {
+                HStack(spacing: 8) {
+                    if flashCopiedIndicator {
+                        Text("Copied!")
+                            .foregroundStyle(.white)
+                    }
+                    Button {
+                        let code = licenseForGeneratedCode + "\n"
+                            + generateStateMachine(name: "My State Machine", automat: automat)
+                        NSPasteboard.general.clearContents()
+                        NSPasteboard.general.setString(code, forType: .string)
+                        withAnimation(.snappy) {
+                            flashCopiedIndicator = true
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                            withAnimation(.snappy) {
+                                flashCopiedIndicator = false
+                            }
+                        }
+                    } label: {
+                        Label("Copy", systemImage: "square.on.square")
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding()
+            }
         }
         .onChange(of: undoManager, perform: automat.updateUndoManager)
         .toolbar {
@@ -47,7 +98,7 @@ struct ContentView: View {
             }*/
 
             ToolbarItem {
-                Toggle(isOn: $isCodeVisible) {
+                Toggle(isOn: $isCodeVisible.animation(.snappy)) {
                     Image(systemName: "uiwindow.split.2x1")
                 }
                 .toggleStyle(.button)

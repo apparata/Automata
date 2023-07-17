@@ -69,7 +69,9 @@ struct StateView: View {
                 node.updateSize(size)
             }
         )
+        .compositingGroup()
         .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 2)
+        .shadow(color: glowColor(), radius: 12, x: 0, y: 2)
         .position(node.position)
     }
 
@@ -80,6 +82,10 @@ struct StateView: View {
             .strokeBorder(isSelected ? Color.yellow : Color.black.opacity(0.2), lineWidth: 3)
             .background(RoundedRectangle(cornerRadius: 16, style: .continuous)
                             .foregroundColor(evaluateNodeColor()))
+    }
+    
+    private func glowColor() -> Color {
+        (isSelected ? Color.yellow.opacity(0.3) : evaluateNodeColor().opacity(0.2))
     }
     
     private func evaluateNodeColor() -> Color {

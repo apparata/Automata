@@ -319,7 +319,7 @@ struct TransitionEventLabel: View {
                 }
             }
 
-            if transition.events.filter { !$0.outgoing }.count > 0 {
+            if transition.events.filter({ !$0.outgoing }).count > 0 {
                 HSeparator(color: .separator)
 
                 ForEach(transition.events.filter { !$0.outgoing }) { event in
@@ -347,7 +347,9 @@ struct TransitionEventLabel: View {
             }
 
             HSeparator(color: .separator)
-            Button("Add Event", action: addEvent)
+            Button(action: addEvent) {
+                Label("Add Event", systemImage: "plus")
+            }
                 .padding(.top, 8)
             Spacer()
         }
