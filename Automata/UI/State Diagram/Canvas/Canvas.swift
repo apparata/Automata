@@ -26,6 +26,7 @@ struct Canvas: View {
     @StateObject private var mousePosition = MousePosition()
     
     @GestureState private var transitionCreation = TransitionCreation()
+    @State private var isLoopAllowed: Bool = false
     
     @GestureState private var moveState = MoveState()
                     
@@ -77,7 +78,7 @@ struct Canvas: View {
                 if transitionCreation.isActive {
                     TransitionCreationView(fromPoint: transitionCreation.fromPoint,
                                            toPoint: transitionCreation.toPoint,
-                                           isLoop: transitionCreation.isLoop)
+                                           isLoop: transitionCreation.isLoop && transitionCreation.isLoopAllowed)
                 }
 
                 stateViews()
@@ -183,14 +184,20 @@ struct Canvas: View {
             .updating($transitionCreation, body: { (value, gestureState, transaction) in
                 let targetNode = automat.stateAtPoint(value.location)
                 let isLoop = node.id == targetNode?.id
+                let isLoopAllowed = gestureState.isLoopAllowed || !isLoop
                 let transitionCreation = TransitionCreation(fromPoint: node.position,
                                                             fromNodeID: node.id,
                                                             toPoint: value.location,
                                                             toNodeID: targetNode?.id,
                                                             createStateIfNeeded: createStateIfNeeded,
+                                                            isLoopAllowed: isLoopAllowed,
                                                             isLoop: isLoop)
                 gestureState = transitionCreation
             })
+            .onChanged { _ in
+                // In order to transfer the value from .updating to .onEnded
+                isLoopAllowed = transitionCreation.isLoopAllowed
+            }
             .onEnded { value in
                 let targetNode = automat.stateAtPoint(value.location)
                 let isLoop = node.id == targetNode?.id
@@ -199,6 +206,7 @@ struct Canvas: View {
                                                             toPoint: value.location,
                                                             toNodeID: targetNode?.id,
                                                             createStateIfNeeded: createStateIfNeeded,
+                                                            isLoopAllowed: isLoopAllowed,
                                                             isLoop: isLoop)
                 automat.createTransition(using: transitionCreation)
             }

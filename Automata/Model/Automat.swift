@@ -310,6 +310,9 @@ class Automat: ObservableObject, Codable {
         guard let fromNodeID = parameters.fromNodeID else {
             return
         }
+        if parameters.isLoop, !parameters.isLoopAllowed {
+            return
+        }
         if let toNodeID = parameters.toNodeID {
             withAnimation(Animation.stateTransitionFade) {
                 _ = addTransition(from: fromNodeID, to: toNodeID)

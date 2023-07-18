@@ -12,6 +12,7 @@ struct TransitionCreation: Equatable {
     let toPoint: CGPoint
     let toNodeID: StateNodeID?
     let createStateIfNeeded: Bool
+    let isLoopAllowed: Bool
     let isLoop: Bool
         
     init() {
@@ -21,6 +22,7 @@ struct TransitionCreation: Equatable {
         toPoint = .zero
         toNodeID = nil
         createStateIfNeeded = false
+        isLoopAllowed = false
         isLoop = false
     }
     
@@ -31,6 +33,7 @@ struct TransitionCreation: Equatable {
         toNodeID: StateNodeID?,
         createStateIfNeeded: Bool = false,
         isActive: Bool = true,
+        isLoopAllowed: Bool = false,
         isLoop: Bool = false
     ) {
         self.isActive = isActive
@@ -39,6 +42,7 @@ struct TransitionCreation: Equatable {
         self.toPoint = toPoint
         self.toNodeID = toNodeID
         self.createStateIfNeeded = createStateIfNeeded
+        self.isLoopAllowed = isLoopAllowed
         self.isLoop = isLoop
     }
 }
