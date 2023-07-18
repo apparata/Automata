@@ -148,15 +148,12 @@ struct Canvas: View {
                 .gesture(TapGesture().modifiers(.shift).onEnded { addNodeToSelection(node) })
                 .gesture(TapGesture().onEnded { selectOnlyThisNode(node) })
                 .simultaneousGesture(TapGesture(count: 2).onEnded { _ in
-                    editState.editingNodeWithID = node.id
-                    withAnimation(Animation.selectionFade) {
-                        automat.selectStateNodes(ids: [node.id])
-                    }
+                    editNameOfState(id: node.id)
                 })
                 .transition(.opacity)
                 .contextMenu {
                     Button {
-                        // TODO: Rename state
+                        editNameOfState(id: node.id)
                     } label: {
                         Image(systemName: "character.cursor.ibeam")
                         Text("Rename")
@@ -174,6 +171,15 @@ struct Canvas: View {
                         Text("Set Initial State")
                     }
                 }
+        }
+    }
+    
+    // MARK: - Edit State name
+    
+    private func editNameOfState(id nodeID: StateNodeID) {
+        editState.editingNodeWithID = nodeID
+        withAnimation(Animation.selectionFade) {
+            automat.selectStateNodes(ids: [nodeID])
         }
     }
     
