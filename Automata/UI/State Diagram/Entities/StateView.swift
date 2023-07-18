@@ -14,12 +14,18 @@ private struct StateViewSizeKey: PreferenceKey {
     }
 }
 
+class StateEditState: ObservableObject {
+    @Published var editingNodeWithID: StateNodeID?
+}
+
 struct StateView: View {
     
     fileprivate static let minWidth: CGFloat = 80
     fileprivate static let minHeight: CGFloat = 50
     
     @EnvironmentObject private var automat: Automat
+    
+    @Environment(\.colorScheme) private var colorScheme
     
     @ObservedObject private var node: StateNode
             
@@ -29,6 +35,10 @@ struct StateView: View {
 
     @State private var isHovering: Bool = false
     
+    @ObservedObject private var editState: StateEditState
+    
+    @FocusState private var isFocused: Bool
+    
     private var isSelected: Bool {
         automat.isStateNodeSelected(id: node.id)
     }
@@ -37,9 +47,10 @@ struct StateView: View {
         automat.isInitialStateNode(id: node.id)
     }
     
-    init(node: StateNode, transitionCreation: TransitionCreation) {
+    init(node: StateNode, transitionCreation: TransitionCreation, editState: StateEditState) {
         self.node = node
         self.transitionCreation = transitionCreation
+        self.editState = editState
         isSourceOfTransitionCreation = transitionCreation.fromNodeID == node.id
         isTargetOfTransitionCreation = transitionCreation.toNodeID == node.id
     }
@@ -56,7 +67,6 @@ struct StateView: View {
                 .overlay(nameTextField())
                 .padding(.horizontal, 30)
                 .padding(.vertical, 20)
-
         }
         .frame(minWidth: StateView.minWidth, minHeight: StateView.minHeight)
         .background(
@@ -101,12 +111,23 @@ struct StateView: View {
     }
     
     private func nameTextField() -> some View {
-        NodeTextField(text: $node.name, nodeID: node.id)
-            .font(Font.system(size: 14, weight: .medium, design: .rounded))
+        TextField("", text: $node.name)
+            .labelsHidden()
+            .font(Font.system(size: 14, weight: .medium, design: .default))
             .foregroundColor(.clear)
-            .textFieldStyle(PlainTextFieldStyle())
+            .textFieldStyle(.plain)
+            .saturation(0)
+            .blendMode(colorScheme == .dark ? .screen : .colorBurn)
+            .disabled(editState.editingNodeWithID != node.id)
+            .focused($isFocused)
+            .onSubmit {
+                editState.editingNodeWithID = nil
+            }
             .onChange(of: node.name) { _ in
                 automat.objectWillChange.send()
+            }
+            .onChange(of: editState.editingNodeWithID) { value in
+                isFocused = value == node.id
             }
     }
 }

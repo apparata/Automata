@@ -33,6 +33,8 @@ class Automat: ObservableObject, Codable {
             state(by: $0)
         }
     }
+    
+    var onSelectionChange: ((_ selectedNodesByID: Set<StateNodeID>) -> Void)?
 
     private var undoManager: UndoManager?
 
@@ -40,12 +42,18 @@ class Automat: ObservableObject, Codable {
     
     init() {
         data = DataModel()
+        data.onSelectionChange = { [weak self] selection in
+            self?.onSelectionChange?(selection)
+        }
     }
     
     // MARK: - Snapshotting
     
     init(_ automat: Automat) {
         data = DataModel(automat.data)
+        data.onSelectionChange = { [weak self] selection in
+            self?.onSelectionChange?(selection)
+        }
         undoManager = automat.undoManager
     }
     
@@ -571,6 +579,9 @@ class Automat: ObservableObject, Codable {
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         data = try container.decode(DataModel.self, forKey: .data)
+        data.onSelectionChange = { [weak self] selection in
+            self?.onSelectionChange?(selection)
+        }
     }
     
     func encode(to encoder: Encoder) throws {
@@ -585,6 +596,8 @@ extension Automat {
     
     /// Provides fast lookups, additions, but slow removals.
     class DataModel: Codable {
+        
+        var onSelectionChange: ((_ selectedNodesByID: Set<StateNodeID>) -> Void)?
         
         private(set) var stateNodes: [StateNode]
         private(set) var stateNodesByID: [StateNodeID: StateNode]
@@ -660,18 +673,22 @@ extension Automat {
         
         func selectStateNodes(ids: Set<StateNodeID>) {
             selectedNodesByID = Set(ids)
+            onSelectionChange?(selectedNodesByID)
         }
         
         func addStateNodesToSelection(ids: Set<StateNodeID>) {
             selectedNodesByID.formUnion(ids)
+            onSelectionChange?(selectedNodesByID)
         }
         
         func deselectStateNodes(ids: Set<StateNodeID>) {
             selectedNodesByID.subtract(ids)
+            onSelectionChange?(selectedNodesByID)
         }
         
         func clearSelection() {
             selectedNodesByID = []
+            onSelectionChange?(selectedNodesByID)
         }
         
         // MARK: - Codable

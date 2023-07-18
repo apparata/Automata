@@ -33,6 +33,8 @@ struct Canvas: View {
     
     @State private var dropState = DropState()
     
+    @StateObject private var editState = StateEditState()
+    
     @EnvironmentObject private var automat: Automat
     
     var body: some View {
@@ -86,6 +88,17 @@ struct Canvas: View {
                 
             }.frame(width: 3000, height: 2400)
         }
+        .onAppear {
+            automat.onSelectionChange = { selectedNodesByID in
+                if let nodeID = editState.editingNodeWithID {
+                    if selectedNodesByID.count != 1 {
+                        editState.editingNodeWithID = nil
+                    } else if !selectedNodesByID.contains(nodeID) {
+                        editState.editingNodeWithID = nil
+                    }
+                }
+            }
+        }
         .onCutCommand { () -> [NSItemProvider] in
             logger.debug("Cut!")
             return [NSItemProvider(object: automat.cutPasteboardData())]
@@ -125,7 +138,8 @@ struct Canvas: View {
     private func stateViews() -> some View {
         ForEach(automat.stateNodes) { node in
             StateView(node: node,
-                      transitionCreation: transitionCreation)
+                      transitionCreation: transitionCreation,
+                      editState: editState)
                 .gesture(transitionCreationGesture(createStateIfNeeded: true, node: node))
                 .gesture(transitionCreationGesture(createStateIfNeeded: false, node: node))
                 .gesture(moveGesture(for: node))
@@ -133,7 +147,7 @@ struct Canvas: View {
                 .gesture(TapGesture().modifiers(.shift).onEnded { addNodeToSelection(node) })
                 .gesture(TapGesture().onEnded { selectOnlyThisNode(node) })
                 .simultaneousGesture(TapGesture(count: 2).onEnded { _ in
-                    NodeTextField.notifyTextFieldIsNowEditing(nodeID: node.id)
+                    editState.editingNodeWithID = node.id
                     withAnimation(Animation.selectionFade) {
                         automat.selectStateNodes(ids: [node.id])
                     }
