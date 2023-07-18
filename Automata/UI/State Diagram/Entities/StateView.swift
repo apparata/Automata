@@ -23,9 +23,9 @@ struct StateView: View {
     
     @ObservedObject private var node: StateNode
             
-    private var transitionCreation: TransitionCreation
-    private var isSourceOfTransitionCreation: Bool
-    private var isTargetOfTransitionCreation: Bool
+    private let transitionCreation: TransitionCreation
+    private let isSourceOfTransitionCreation: Bool
+    private let isTargetOfTransitionCreation: Bool
 
     @State private var isHovering: Bool = false
     
