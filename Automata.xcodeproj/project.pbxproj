@@ -22,7 +22,6 @@
 		41B38AC42A6800D600EB5478 /* SettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38AC32A6800D600EB5478 /* SettingsWindow.swift */; };
 		41B38AC62A6806EB00EB5478 /* ColorSchemeCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38AC52A6806EB00EB5478 /* ColorSchemeCommands.swift */; };
 		41B38AC82A6807CC00EB5478 /* DebugCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38AC72A6807CC00EB5478 /* DebugCommands.swift */; };
-		41B38ACA2A68A2F100EB5478 /* AppStorage+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38AC92A68A2F100EB5478 /* AppStorage+Defaults.swift */; };
 		41B38ACF2A6949EC00EB5478 /* EditCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38ACE2A6949EC00EB5478 /* EditCommands.swift */; };
 		41B38AD22A694C5600EB5478 /* DocumentWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38AD12A694C5600EB5478 /* DocumentWindow.swift */; };
 		41B38AD42A6964C800EB5478 /* WindowReflection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38AD32A6964C700EB5478 /* WindowReflection.swift */; };
@@ -76,7 +75,6 @@
 		41B38AC32A6800D600EB5478 /* SettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindow.swift; sourceTree = "<group>"; };
 		41B38AC52A6806EB00EB5478 /* ColorSchemeCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeCommands.swift; sourceTree = "<group>"; };
 		41B38AC72A6807CC00EB5478 /* DebugCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugCommands.swift; sourceTree = "<group>"; };
-		41B38AC92A68A2F100EB5478 /* AppStorage+Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppStorage+Defaults.swift"; sourceTree = "<group>"; };
 		41B38ACE2A6949EC00EB5478 /* EditCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCommands.swift; sourceTree = "<group>"; };
 		41B38AD12A694C5600EB5478 /* DocumentWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentWindow.swift; sourceTree = "<group>"; };
 		41B38AD32A6964C700EB5478 /* WindowReflection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowReflection.swift; sourceTree = "<group>"; };
@@ -334,7 +332,6 @@
 			children = (
 				41B38ABB2A67FFEE00EB5478 /* Bundle Extensions */,
 				5BD168AF25E32C4100FE67DC /* Log.swift */,
-				41B38AC92A68A2F100EB5478 /* AppStorage+Defaults.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -475,7 +472,6 @@
 				5B26CA4F25E6FE1300344BAA /* KeyEventView.swift in Sources */,
 				5B4C364D25E2C3E400D0B86A /* TransitionCreation.swift in Sources */,
 				41B38AC12A67FFEE00EB5478 /* Bundle+Copyright.swift in Sources */,
-				41B38ACA2A68A2F100EB5478 /* AppStorage+Defaults.swift in Sources */,
 				41B38AB32A67FF1E00EB5478 /* AboutWindow.swift in Sources */,
 				41B38AC82A6807CC00EB5478 /* DebugCommands.swift in Sources */,
 				5B4C366B25E2D97300D0B86A /* CanvasBackground.swift in Sources */,
@@ -718,7 +714,7 @@
 			repositoryURL = "https://github.com/apparata/SwiftUIToolbox.git";
 			requirement = {
 				kind = exactVersion;
-				version = 1.1.0;
+				version = 1.2.1;
 			};
 		};
 		5B4C363E25E2C38D00D0B86A /* XCRemoteSwiftPackageReference "TextToolbox" */ = {

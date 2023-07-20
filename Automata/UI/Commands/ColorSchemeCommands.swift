@@ -3,6 +3,7 @@
 //
 
 import SwiftUI
+import SwiftUIToolbox
 
 enum ColorMode: String, CaseIterable {
     case system = "System"
@@ -10,7 +11,7 @@ enum ColorMode: String, CaseIterable {
     case dark = "Dark"
 }
 
-struct AppSettings: SettingsWithDefaults {
+struct AppSettings: AppStorageDefaults {
     var colorMode: ColorMode { .dark }
 }
 
