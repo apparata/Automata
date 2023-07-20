@@ -8,7 +8,7 @@ typealias StateNodeID = UUID
 
 class StateNode: Identifiable, ObservableObject, Codable {
 
-    var id: StateNodeID
+    private(set) var id: StateNodeID
     
     var name: String {
         willSet {
@@ -38,7 +38,13 @@ class StateNode: Identifiable, ObservableObject, Codable {
                   position: state.position,
                   size: state.size)
     }
-
+    
+    @discardableResult
+    func remapID() -> StateNodeID {
+        id = StateNodeID()
+        return id
+    }
+    
     func updateName(_ name: String) {
         objectWillChange.send()
         self.name = name

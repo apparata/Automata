@@ -571,6 +571,25 @@ class Automat: ObservableObject, Codable {
 
     func addPasteboardData(_ data: DataModel, at position: CGPoint) {
         let averagePosition = CGPoint.average(data.stateNodes.map(\.position))
+        
+        var nodeMap: [StateNodeID: StateNodeID] = [:]
+        
+        for node in data.stateNodes {
+            nodeMap[node.id] = node.remapID()
+        }
+        for transition in data.stateTransitions {
+            transition.remapID()
+            for event in transition.events {
+                event.remapID()
+            }
+            if let remappedNodeID = nodeMap[transition.fromNode] {
+                transition.remapFromNode(to: remappedNodeID)
+            }
+            if let remappedNodeID = nodeMap[transition.toNode] {
+                transition.remapToNode(to: remappedNodeID)
+            }
+        }
+        
         for state in data.stateNodes {
             let newPosition = state.position - averagePosition + position
             state.updatePosition(newPosition)

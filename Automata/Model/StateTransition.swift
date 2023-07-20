@@ -9,11 +9,11 @@ typealias TransitionEventID = UUID
 
 class StateTransition: Identifiable, ObservableObject, Codable {
 
-    let id: StateTransitionID
+    private(set) var id: StateTransitionID
         
     class Event: Identifiable, ObservableObject, Equatable, Codable {
         
-        let id: TransitionEventID
+        private(set) var id: TransitionEventID
         @Published var name: String
         @Published var outgoing: Bool
         
@@ -29,6 +29,12 @@ class StateTransition: Identifiable, ObservableObject, Codable {
         
         static func == (lhs: StateTransition.Event, rhs: StateTransition.Event) -> Bool {
             lhs.id == rhs.id && lhs.name == rhs.name && lhs.outgoing == rhs.outgoing
+        }
+        
+        @discardableResult
+        func remapID() -> TransitionEventID {
+            id = TransitionEventID()
+            return id
         }
         
         // MARK: - Codable
@@ -56,8 +62,8 @@ class StateTransition: Identifiable, ObservableObject, Codable {
     
     @Published var events: [Event]
     
-    let fromNode: StateNodeID
-    let toNode: StateNodeID
+    private(set) var fromNode: StateNodeID
+    private(set) var toNode: StateNodeID
     
     var isLoop: Bool {
         fromNode == toNode
@@ -75,6 +81,20 @@ class StateTransition: Identifiable, ObservableObject, Codable {
         self.events = events
         self.fromNode = fromNode
         self.toNode = toNode
+    }
+    
+    @discardableResult
+    func remapID() -> StateTransitionID {
+        id = StateTransitionID()
+        return id
+    }
+    
+    func remapFromNode(to nodeID: StateNodeID) {
+        fromNode = nodeID
+    }
+
+    func remapToNode(to nodeID: StateNodeID) {
+        toNode = nodeID
     }
     
     // MARK: - Codable
