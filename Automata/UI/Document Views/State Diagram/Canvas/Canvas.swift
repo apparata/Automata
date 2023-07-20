@@ -34,7 +34,7 @@ struct Canvas: View {
     
     @State private var dropState = DropState()
     
-    @StateObject private var editState = StateEditState()
+    @EnvironmentObject private var editState: StateEditState
     
     @EnvironmentObject private var automat: Automat
     
@@ -99,10 +99,14 @@ struct Canvas: View {
                     }
                 }
             }
+            
+            kludgeResumeListeningToKeyDown()
         }
         .onCutCommand { () -> [NSItemProvider] in
             logger.debug("Cut!")
-            return [NSItemProvider(object: automat.cutPasteboardData())]
+            let data = automat.cutPasteboardData()
+            automat.clearSelection()
+            return [NSItemProvider(object: data)]
         }
         .onCopyCommand { () -> [NSItemProvider] in
             logger.debug("Copy!")
@@ -127,6 +131,15 @@ struct Canvas: View {
                 }
             }
         }
+        .onDeleteCommand(perform: automat.selectedNodesByID.isEmpty ? nil : {
+            automat.removeSelectedStates()
+        })
+        .onCommand(#selector(NSWindow.selectAll(_:))) {
+            automat.selectAllStateNodes()
+        }
+        .onExitCommand {
+            automat.clearSelection()
+        }
     }
         
     private func transitionViews() -> some View {
@@ -138,9 +151,7 @@ struct Canvas: View {
         
     private func stateViews() -> some View {
         ForEach(automat.stateNodes) { node in
-            StateView(node: node,
-                      transitionCreation: transitionCreation,
-                      editState: editState)
+            StateView(node: node, transitionCreation: transitionCreation)
                 .gesture(transitionCreationGesture(createStateIfNeeded: true, node: node))
                 .gesture(transitionCreationGesture(createStateIfNeeded: false, node: node))
                 .gesture(moveGesture(for: node))
@@ -285,7 +296,7 @@ struct Canvas: View {
         withAnimation(Animation.stateTransitionFade) {
             automat.clearSelection()
         }
-        KeyEventView.resumeListeningToKeyDown()
+        kludgeResumeListeningToKeyDown()
     }
     
     private func selectOnlyThisNode(_ node: StateNode) {
@@ -295,7 +306,7 @@ struct Canvas: View {
         withAnimation(Animation.stateNodeFade) {
             automat.selectStateNodes(ids: [node.id])
         }
-        KeyEventView.resumeListeningToKeyDown()
+        kludgeResumeListeningToKeyDown()
     }
 
     private func addNodeToSelection(_ node: StateNode) {
@@ -305,7 +316,7 @@ struct Canvas: View {
         withAnimation(Animation.stateNodeFade) {
             automat.addStateNodesToSelection(ids: [node.id])
         }
-        KeyEventView.resumeListeningToKeyDown()
+        kludgeResumeListeningToKeyDown()
     }
 
     private func toggleNodeSelection(_ node: StateNode) {
@@ -318,6 +329,10 @@ struct Canvas: View {
                 automat.addStateNodesToSelection(ids: [node.id])
             }
         }
+        kludgeResumeListeningToKeyDown()
+    }
+    
+    private func kludgeResumeListeningToKeyDown() {
         KeyEventView.resumeListeningToKeyDown()
     }
     

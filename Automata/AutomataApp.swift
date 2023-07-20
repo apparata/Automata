@@ -6,30 +6,22 @@ import SwiftUI
 
 @main
 struct AutomataApp: App {
+            
+    @AppStorage(\AppSettings.colorMode) private var colorMode
     
-    @AppStorage("appTheme") var appTheme: String = "system"
-        
     var body: some Scene {
-        DocumentGroup(newDocument: { AutomatDocument() }) { file in
-            ContentView(url: file.fileURL)
-                .frame(minWidth: 800, minHeight: 400)
-                .environmentObject(file.document.automat)
-        }
-        .commands {
-            AppCommands(appTheme: $appTheme)
-        }
+        DocumentWindow()
+            // This has to be here to work, or menu won't trigger a change
+            .onChange(of: colorMode) { theme in
+                switch theme {
+                case .dark: NSApp.appearance = NSAppearance(named: .darkAqua)
+                case .light: NSApp.appearance = NSAppearance(named: .aqua)
+                case .system: NSApp.appearance = nil
+                }
+            }
         
-        Settings {
-            SettingsView()
-        }
-    }
-}
-
-struct MenuButtonStyling: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .foregroundColor(.primary)
-            .padding(.bottom, 2)
-            .padding(.top, 1)
+        SettingsWindow()
+        AboutWindow()
+        AttributionsWindow()
     }
 }

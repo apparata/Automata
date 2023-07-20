@@ -56,5 +56,24 @@ private class KeyNSEventView: NSView {
             window.makeFirstResponder(self)
         }
     }
+    
+    override func becomeFirstResponder() -> Bool {
+        return super.becomeFirstResponder()
+    }
 
+    override func resignFirstResponder() -> Bool {
+        DispatchQueue.main.async {
+            guard let window = self.window else {
+                return
+            }
+            guard let firstResponder = window.firstResponder else {
+                return
+            }
+            let type = "\(type(of: firstResponder))"
+            if type == "AppKitWindow" {
+                window.makeFirstResponder(self)
+            }
+        }
+        return super.resignFirstResponder()
+    }
 }

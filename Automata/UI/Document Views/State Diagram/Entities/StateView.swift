@@ -14,10 +14,6 @@ private struct StateViewSizeKey: PreferenceKey {
     }
 }
 
-class StateEditState: ObservableObject {
-    @Published var editingNodeWithID: StateNodeID?
-}
-
 struct StateView: View {
     
     fileprivate static let minWidth: CGFloat = 80
@@ -35,7 +31,7 @@ struct StateView: View {
 
     @State private var isHovering: Bool = false
     
-    @ObservedObject private var editState: StateEditState
+    @EnvironmentObject private var editState: StateEditState
     
     @FocusState private var isFocused: Bool
     
@@ -47,10 +43,9 @@ struct StateView: View {
         automat.isInitialStateNode(id: node.id)
     }
     
-    init(node: StateNode, transitionCreation: TransitionCreation, editState: StateEditState) {
+    init(node: StateNode, transitionCreation: TransitionCreation) {
         self.node = node
         self.transitionCreation = transitionCreation
-        self.editState = editState
         isSourceOfTransitionCreation = transitionCreation.fromNodeID == node.id
         isTargetOfTransitionCreation = transitionCreation.toNodeID == node.id
     }

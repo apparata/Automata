@@ -34,6 +34,10 @@ class Automat: ObservableObject, Codable {
         }
     }
     
+    var selectedNodesByID: Set<StateNodeID> {
+        data.selectedNodesByID
+    }
+    
     var onSelectionChange: ((_ selectedNodesByID: Set<StateNodeID>) -> Void)?
 
     private var undoManager: UndoManager?
@@ -160,6 +164,7 @@ class Automat: ObservableObject, Codable {
                 removeState(id: stateNode.id)
             }
         }
+        data.clearSelection()
     }
 
     // MARK: - Move States
@@ -417,7 +422,7 @@ class Automat: ObservableObject, Codable {
     // MARK: - Selection
     
     func forEachSelectedNode(_ action: (StateNode) -> Void) {
-        for selectedNodeID in data.selectedNodesByID {
+        for selectedNodeID in selectedNodesByID {
             if let node = state(by: selectedNodeID) {
                 action(node)
             }
@@ -451,7 +456,7 @@ class Automat: ObservableObject, Codable {
         
         objectWillChange.send()
 
-        let currentSelection = data.selectedNodesByID
+        let currentSelection = selectedNodesByID
 
         undoManager?.registerUndo(withTarget: self) { automat in
             logger.debug("↩️ Undo 👈 select state nodes \(idsString, privacy: .public)")
@@ -470,7 +475,7 @@ class Automat: ObservableObject, Codable {
         
         objectWillChange.send()
 
-        let currentSelection = data.selectedNodesByID
+        let currentSelection = selectedNodesByID
 
         undoManager?.registerUndo(withTarget: self) { automat in
             logger.debug("↩️ Undo 👈 add state nodes to selection \(idsString, privacy: .public)")
@@ -481,6 +486,10 @@ class Automat: ObservableObject, Codable {
         
         data.addStateNodesToSelection(ids: ids)
     }
+
+    func selectAllStateNodes() {
+        selectStateNodes(ids: Set(stateNodes.map(\.id)))
+    }
     
     func deselectStateNode(ids: Set<StateNodeID>) {
         
@@ -489,7 +498,7 @@ class Automat: ObservableObject, Codable {
         
         objectWillChange.send()
 
-        let currentSelection = data.selectedNodesByID
+        let currentSelection = selectedNodesByID
 
         undoManager?.registerUndo(withTarget: self) { automat in
             logger.debug("↩️ Undo ✋ remove state nodes from selection \(idsString, privacy: .public)")
@@ -507,7 +516,7 @@ class Automat: ObservableObject, Codable {
         
         objectWillChange.send()
 
-        let currentSelection = data.selectedNodesByID
+        let currentSelection = selectedNodesByID
 
         undoManager?.registerUndo(withTarget: self) { automat in
             logger.debug("↩️ Undo 👋 clear selection")
@@ -521,7 +530,7 @@ class Automat: ObservableObject, Codable {
     
     func cutPasteboardData() -> PasteboardData {
         let pasteData = copyPasteboardData()
-        for stateID in data.selectedNodesByID {
+        for stateID in selectedNodesByID {
             removeState(id: stateID)
         }
         return pasteData
@@ -531,7 +540,7 @@ class Automat: ObservableObject, Codable {
         let pasteData = DataModel()
         
         var idMap: [StateNodeID: StateNodeID] = [:]
-        for stateNodeID in data.selectedNodesByID {
+        for stateNodeID in selectedNodesByID {
             guard let stateNode = state(by: stateNodeID) else {
                 continue
             }

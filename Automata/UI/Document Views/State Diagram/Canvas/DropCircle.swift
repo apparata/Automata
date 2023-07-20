@@ -20,7 +20,7 @@ struct DropCircle: View {
             Circle()
                 .frame(width: CGFloat(dropProgress * 200),
                        height: CGFloat(dropProgress * 200))
-                .foregroundColor(.black)
+                .foregroundColor(.systemBlue)
                 .position(dropPoint)
                 .opacity(0.2 * (1 - dropProgress))
                 .allowsHitTesting(false)
