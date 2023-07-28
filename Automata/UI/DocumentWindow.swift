@@ -18,15 +18,6 @@ struct DocumentWindow: Scene {
                 .environmentObject(editState)
                 .focusedSceneObject(file.document.automat)
                 .focusedSceneObject(editState)
-                .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(10)) {
-                        switch colorMode {
-                        case .dark: NSApp.appearance = NSAppearance(named: .darkAqua)
-                        case .light: NSApp.appearance = NSAppearance(named: .aqua)
-                        case .system: NSApp.appearance = nil
-                        }
-                    }
-                }
         }
         .commands {
             AppCommands()
