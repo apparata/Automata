@@ -3,6 +3,7 @@
 //
 
 import SwiftUI
+import SwiftUIToolbox
 
 struct AppCommands: Commands {
             

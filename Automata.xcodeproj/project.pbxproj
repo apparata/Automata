@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,11 +11,7 @@
 		4131B8E92A649F5200375C8C /* DropCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8E82A649F5200375C8C /* DropCircle.swift */; };
 		4131B8EC2A64A13E00375C8C /* SelectionArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8EB2A64A13E00375C8C /* SelectionArea.swift */; };
 		4131B8F02A64B53300375C8C /* CanvasHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8EF2A64B53300375C8C /* CanvasHelp.swift */; };
-		41B38AB32A67FF1E00EB5478 /* AboutWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38AB02A67FF1D00EB5478 /* AboutWindow.swift */; };
-		41B38AB42A67FF1E00EB5478 /* AboutCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38AB12A67FF1D00EB5478 /* AboutCommand.swift */; };
-		41B38AB52A67FF1E00EB5478 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38AB22A67FF1E00EB5478 /* AboutView.swift */; };
-		41B38AB92A67FF9300EB5478 /* AttributionsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38AB72A67FF9300EB5478 /* AttributionsWindow.swift */; };
-		41B38ABA2A67FF9300EB5478 /* AttributionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38AB82A67FF9300EB5478 /* AttributionsView.swift */; };
+		414FA2692A7409EB002DF36C /* AttributionsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 414FA2682A7409EB002DF36C /* AttributionsUI */; };
 		41B38ABF2A67FFEE00EB5478 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38ABC2A67FFEE00EB5478 /* Bundle+Version.swift */; };
 		41B38AC02A67FFEE00EB5478 /* Bundle+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38ABD2A67FFEE00EB5478 /* Bundle+Name.swift */; };
 		41B38AC12A67FFEE00EB5478 /* Bundle+Copyright.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38ABE2A67FFEE00EB5478 /* Bundle+Copyright.swift */; };
@@ -64,11 +60,6 @@
 		4131B8E82A649F5200375C8C /* DropCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropCircle.swift; sourceTree = "<group>"; };
 		4131B8EB2A64A13E00375C8C /* SelectionArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionArea.swift; sourceTree = "<group>"; };
 		4131B8EF2A64B53300375C8C /* CanvasHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasHelp.swift; sourceTree = "<group>"; };
-		41B38AB02A67FF1D00EB5478 /* AboutWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutWindow.swift; sourceTree = "<group>"; };
-		41B38AB12A67FF1D00EB5478 /* AboutCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutCommand.swift; sourceTree = "<group>"; };
-		41B38AB22A67FF1E00EB5478 /* AboutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
-		41B38AB72A67FF9300EB5478 /* AttributionsWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributionsWindow.swift; sourceTree = "<group>"; };
-		41B38AB82A67FF9300EB5478 /* AttributionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributionsView.swift; sourceTree = "<group>"; };
 		41B38ABC2A67FFEE00EB5478 /* Bundle+Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
 		41B38ABD2A67FFEE00EB5478 /* Bundle+Name.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Name.swift"; sourceTree = "<group>"; };
 		41B38ABE2A67FFEE00EB5478 /* Bundle+Copyright.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Copyright.swift"; sourceTree = "<group>"; };
@@ -117,6 +108,7 @@
 				5B4C364025E2C38D00D0B86A /* TextToolbox in Frameworks */,
 				5B26CBD825E9ACE200344BAA /* Splash in Frameworks */,
 				5B4C365825E2C70300D0B86A /* CGMath in Frameworks */,
+				414FA2692A7409EB002DF36C /* AttributionsUI in Frameworks */,
 				5B4C364425E2C3A600D0B86A /* SystemKit in Frameworks */,
 				5B4C363825E2C33200D0B86A /* Constructs in Frameworks */,
 				5B4C363025E2C2EB00D0B86A /* CollectionKit in Frameworks */,
@@ -147,25 +139,6 @@
 				4131B8EF2A64B53300375C8C /* CanvasHelp.swift */,
 			);
 			path = Canvas;
-			sourceTree = "<group>";
-		};
-		41B38AAF2A67FEE300EB5478 /* About Window */ = {
-			isa = PBXGroup;
-			children = (
-				41B38AB12A67FF1D00EB5478 /* AboutCommand.swift */,
-				41B38AB22A67FF1E00EB5478 /* AboutView.swift */,
-				41B38AB02A67FF1D00EB5478 /* AboutWindow.swift */,
-			);
-			path = "About Window";
-			sourceTree = "<group>";
-		};
-		41B38AB62A67FF2200EB5478 /* Attributions Window */ = {
-			isa = PBXGroup;
-			children = (
-				41B38AB82A67FF9300EB5478 /* AttributionsView.swift */,
-				41B38AB72A67FF9300EB5478 /* AttributionsWindow.swift */,
-			);
-			path = "Attributions Window";
 			sourceTree = "<group>";
 		};
 		41B38ABB2A67FFEE00EB5478 /* Bundle Extensions */ = {
@@ -235,8 +208,6 @@
 		5B26CBE525E9AE3200344BAA /* App Views */ = {
 			isa = PBXGroup;
 			children = (
-				41B38AAF2A67FEE300EB5478 /* About Window */,
-				41B38AB62A67FF2200EB5478 /* Attributions Window */,
 				41B38AC22A6800C600EB5478 /* Settings Window */,
 			);
 			path = "App Views";
@@ -378,6 +349,7 @@
 				5B4C364325E2C3A600D0B86A /* SystemKit */,
 				5B4C365725E2C70300D0B86A /* CGMath */,
 				5B26CBD725E9ACE200344BAA /* Splash */,
+				414FA2682A7409EB002DF36C /* AttributionsUI */,
 			);
 			productName = Automata;
 			productReference = 5B4C361225E2BD2B00D0B86A /* Automata.app */;
@@ -416,6 +388,7 @@
 				5B4C364225E2C3A600D0B86A /* XCRemoteSwiftPackageReference "SystemKit" */,
 				5B4C365625E2C70300D0B86A /* XCRemoteSwiftPackageReference "CGMath" */,
 				5B26CBD625E9ACE200344BAA /* XCRemoteSwiftPackageReference "Splash" */,
+				414FA2672A7409EB002DF36C /* XCRemoteSwiftPackageReference "AttributionsUI" */,
 			);
 			productRefGroup = 5B4C361325E2BD2B00D0B86A /* Products */;
 			projectDirPath = "";
@@ -444,13 +417,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B4C366725E2D95600D0B86A /* Canvas.swift in Sources */,
-				41B38AB42A67FF1E00EB5478 /* AboutCommand.swift in Sources */,
 				41B38AD22A694C5600EB5478 /* DocumentWindow.swift in Sources */,
 				5BD1694F25E4294C00FE67DC /* TransitionCreationView.swift in Sources */,
 				41B38ACF2A6949EC00EB5478 /* EditCommands.swift in Sources */,
 				5B26CBEB25E9C73B00344BAA /* StateMachineGenerator.swift in Sources */,
 				41B38AC02A67FFEE00EB5478 /* Bundle+Name.swift in Sources */,
-				41B38AB52A67FF1E00EB5478 /* AboutView.swift in Sources */,
 				5B26CBE725E9AEC700344BAA /* SwiftCode.swift in Sources */,
 				5B26CBCA25E96F1900344BAA /* GeneralSettingsView.swift in Sources */,
 				4131B8E62A646AA000375C8C /* AppCommands.swift in Sources */,
@@ -463,16 +434,13 @@
 				5B4C364F25E2C3E400D0B86A /* StateNode.swift in Sources */,
 				4131B8E92A649F5200375C8C /* DropCircle.swift in Sources */,
 				5B26CBF425E9CF3200344BAA /* HSplitView.swift in Sources */,
-				41B38AB92A67FF9300EB5478 /* AttributionsWindow.swift in Sources */,
 				5B26CBF725E9DCF600344BAA /* AutomatTheme.swift in Sources */,
 				5BD1695D25E461F700FE67DC /* Animation+Custom.swift in Sources */,
 				5B4C361825E2BD2B00D0B86A /* AutomatDocument.swift in Sources */,
 				41B38AD42A6964C800EB5478 /* WindowReflection.swift in Sources */,
-				41B38ABA2A67FF9300EB5478 /* AttributionsView.swift in Sources */,
 				5B26CA4F25E6FE1300344BAA /* KeyEventView.swift in Sources */,
 				5B4C364D25E2C3E400D0B86A /* TransitionCreation.swift in Sources */,
 				41B38AC12A67FFEE00EB5478 /* Bundle+Copyright.swift in Sources */,
-				41B38AB32A67FF1E00EB5478 /* AboutWindow.swift in Sources */,
 				41B38AC82A6807CC00EB5478 /* DebugCommands.swift in Sources */,
 				5B4C366B25E2D97300D0B86A /* CanvasBackground.swift in Sources */,
 				41B38AC42A6800D600EB5478 /* SettingsWindow.swift in Sources */,
@@ -685,6 +653,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		414FA2672A7409EB002DF36C /* XCRemoteSwiftPackageReference "AttributionsUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apparata/AttributionsUI.git";
+			requirement = {
+				kind = exactVersion;
+				version = 0.9.5;
+			};
+		};
 		5B26CBD625E9ACE200344BAA /* XCRemoteSwiftPackageReference "Splash" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/JohnSundell/Splash.git";
@@ -714,7 +690,7 @@
 			repositoryURL = "https://github.com/apparata/SwiftUIToolbox.git";
 			requirement = {
 				kind = exactVersion;
-				version = 1.2.1;
+				version = 1.3.1;
 			};
 		};
 		5B4C363E25E2C38D00D0B86A /* XCRemoteSwiftPackageReference "TextToolbox" */ = {
@@ -744,6 +720,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		414FA2682A7409EB002DF36C /* AttributionsUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 414FA2672A7409EB002DF36C /* XCRemoteSwiftPackageReference "AttributionsUI" */;
+			productName = AttributionsUI;
+		};
 		5B26CBD725E9ACE200344BAA /* Splash */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5B26CBD625E9ACE200344BAA /* XCRemoteSwiftPackageReference "Splash" */;

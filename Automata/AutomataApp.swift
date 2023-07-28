@@ -3,6 +3,8 @@
 //
 
 import SwiftUI
+import SwiftUIToolbox
+import AttributionsUI
 
 @main
 struct AutomataApp: App {
@@ -21,7 +23,13 @@ struct AutomataApp: App {
             }
         
         SettingsWindow()
-        AboutWindow()
-        AttributionsWindow()
+        
+        AboutWindow(developedBy: "Apparata AB",
+                    attributionsWindowID: AttributionsWindow.windowID)
+        
+        AttributionsWindow([
+                ("Splash", .mit(year: "2018", holder: "John Sundell"))
+            ],
+            header: "The following software may be included in this product.")
     }
 }

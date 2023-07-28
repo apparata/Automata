@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "attributionsui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apparata/AttributionsUI.git",
+      "state" : {
+        "revision" : "4e3679fa20c9ed351332e28681091db9cb087f64",
+        "version" : "0.9.5"
+      }
+    },
+    {
       "identity" : "cgmath",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apparata/CGMath.git",
@@ -41,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apparata/SwiftUIToolbox.git",
       "state" : {
-        "revision" : "08862900742658a28468c59e9acef01abf9919f3",
-        "version" : "1.2.1"
+        "revision" : "e0c2636c3490f49b56091003b16e3444f49c698d",
+        "version" : "1.3.1"
       }
     },
     {
