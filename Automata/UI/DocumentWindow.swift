@@ -8,6 +8,8 @@ struct DocumentWindow: Scene {
     
     @StateObject var editState = StateEditState()
     
+    @AppStorage(\AppSettings.colorMode) private var colorMode
+    
     var body: some Scene {
         DocumentGroup(newDocument: { AutomatDocument() }) { file in
             ContentView(url: file.fileURL)
@@ -16,6 +18,15 @@ struct DocumentWindow: Scene {
                 .environmentObject(editState)
                 .focusedSceneObject(file.document.automat)
                 .focusedSceneObject(editState)
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(10)) {
+                        switch colorMode {
+                        case .dark: NSApp.appearance = NSAppearance(named: .darkAqua)
+                        case .light: NSApp.appearance = NSAppearance(named: .aqua)
+                        case .system: NSApp.appearance = nil
+                        }
+                    }
+                }
         }
         .commands {
             AppCommands()

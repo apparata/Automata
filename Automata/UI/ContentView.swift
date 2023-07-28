@@ -4,6 +4,7 @@
 
 import Cocoa
 import SwiftUI
+import Splash
 
 struct ContentView: View {
         
@@ -15,11 +16,17 @@ struct ContentView: View {
     
     @AppStorage("appTheme") var appTheme: String = "system"
     
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
+    
     @State private var isCodeVisible: Bool = false
     
     @State private var flashCopiedIndicator: Bool = false
     
     @State private var isLicenseExpanded: Bool = false
+    
+    private var codeTheme: Splash.Theme {
+        colorScheme == .light ? .automatLight : .automatDark
+    }
     
     var body: some View {
         HSplitView(visible: isCodeVisible ? .both : .primary) {
@@ -44,7 +51,9 @@ struct ContentView: View {
                                     .imageScale(.small)
                                     .fontWeight(.semibold)
                                     .rotationEffect(isLicenseExpanded ? Angle(degrees: 90) : Angle(degrees: 0))
+                                    .tint(.primary)
                                 Text("License for generated code")
+                                    .foregroundColor(.primary)
                             }
                             .foregroundStyle(.white)
                         }
@@ -52,21 +61,21 @@ struct ContentView: View {
                         .padding(.bottom, 8)
                         
                         if isLicenseExpanded {
-                            SwiftCode(licenseForGeneratedCode)
+                            SwiftCode(licenseForGeneratedCode, theme: codeTheme)
                         }
                         
-                        SwiftCode(generateStateMachine(url: url, automat: automat))
+                        SwiftCode(generateStateMachine(url: url, automat: automat), theme: codeTheme)
                         Spacer()
                     }
                     .padding()
                 }
             }
-            .background(Color(red: 0.098, green: 0.098, blue: 0.098))
+            .background(Color(codeTheme.backgroundColor))
             .overlay(alignment: .bottomTrailing) {
                 HStack(spacing: 8) {
                     if flashCopiedIndicator {
                         Text("Copied!")
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                     }
                     Button {
                         let code = licenseForGeneratedCode + "\n"
@@ -89,6 +98,7 @@ struct ContentView: View {
                 .padding()
             }
         }
+        .background(Color(codeTheme.backgroundColor))
         .onChange(of: undoManager, perform: automat.updateUndoManager)
         .toolbar {
             /*ToolbarItem(placement: ToolbarItemPlacement.navigation) {

@@ -10,7 +10,7 @@ import AttributionsUI
 struct AutomataApp: App {
             
     @AppStorage(\AppSettings.colorMode) private var colorMode
-    
+                
     var body: some Scene {
         DocumentWindow()
             // This has to be here to work, or menu won't trigger a change
@@ -21,7 +21,7 @@ struct AutomataApp: App {
                 case .system: NSApp.appearance = nil
                 }
             }
-        
+   
         SettingsWindow()
         
         AboutWindow(developedBy: "Apparata AB",
