@@ -167,9 +167,16 @@ class Automat: ObservableObject, Codable {
         data.clearSelection()
     }
 
+    // MARK: - Nudge Selected States
+    
+    func nudgeSelectedStates(direction: CGVector) {
+        let distance = direction.normalized * CGVector(both: 10)
+        moveStates(ids: Array(selectedNodesByID), distance: distance)
+    }
+    
     // MARK: - Move States
 
-    func moveStates(ids: [StateNodeID], distance: CGPoint) {
+    func moveStates(ids: [StateNodeID], distance: CGVector) {
         for id in ids {
             if let node = state(by: id) {
                 moveState(id: id, from: node.position, to: node.position + distance)

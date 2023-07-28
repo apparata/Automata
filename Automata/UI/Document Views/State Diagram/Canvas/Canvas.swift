@@ -137,6 +137,20 @@ struct Canvas: View {
         .onCommand(#selector(NSWindow.selectAll(_:))) {
             automat.selectAllStateNodes()
         }
+        .onMoveCommand { direction in
+            switch direction {
+            case .up:
+                automat.nudgeSelectedStates(direction: CGVector(dx: 0, dy: -1))
+            case .down:
+                automat.nudgeSelectedStates(direction: CGVector(dx: 0, dy: 1))
+            case .left:
+                automat.nudgeSelectedStates(direction: CGVector(dx: -1, dy: 0))
+            case .right:
+                automat.nudgeSelectedStates(direction: CGVector(dx: 1, dy: 0))
+            @unknown default:
+                break
+            }
+        }
         .onExitCommand {
             automat.clearSelection()
         }
