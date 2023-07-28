@@ -24,6 +24,8 @@ struct ContentView: View {
     
     @State private var isLicenseExpanded: Bool = false
     
+    @StateObject private var codeModel = SwiftCodeModel()
+    
     private var codeTheme: Splash.Theme {
         colorScheme == .light ? .automatLight : .automatDark
     }
@@ -64,7 +66,7 @@ struct ContentView: View {
                             SwiftCode(licenseForGeneratedCode, theme: codeTheme)
                         }
                         
-                        SwiftCode(generateStateMachine(url: url, automat: automat), theme: codeTheme)
+                        DebouncedSwiftCode(string: generateStateMachine(url: url, automat: automat), theme: codeTheme)
                         Spacer()
                     }
                     .padding()

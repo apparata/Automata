@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		410D8F3B2A746A7E000A7107 /* DebouncedSwiftCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410D8F3A2A746A7E000A7107 /* DebouncedSwiftCode.swift */; };
 		4131B8E62A646AA000375C8C /* AppCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8E52A646AA000375C8C /* AppCommands.swift */; };
 		4131B8E92A649F5200375C8C /* DropCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8E82A649F5200375C8C /* DropCircle.swift */; };
 		4131B8EC2A64A13E00375C8C /* SelectionArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8EB2A64A13E00375C8C /* SelectionArea.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		410D8F3A2A746A7E000A7107 /* DebouncedSwiftCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebouncedSwiftCode.swift; sourceTree = "<group>"; };
 		4131B8E52A646AA000375C8C /* AppCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommands.swift; sourceTree = "<group>"; };
 		4131B8E82A649F5200375C8C /* DropCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropCircle.swift; sourceTree = "<group>"; };
 		4131B8EB2A64A13E00375C8C /* SelectionArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionArea.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				5B26CBDD25E9ADD800344BAA /* SwiftCode.swift */,
+				410D8F3A2A746A7E000A7107 /* DebouncedSwiftCode.swift */,
 				5B26CBF625E9DCF600344BAA /* AutomatTheme.swift */,
 			);
 			path = "Code Viewer";
@@ -418,6 +421,7 @@
 			files = (
 				5B4C366725E2D95600D0B86A /* Canvas.swift in Sources */,
 				41B38AD22A694C5600EB5478 /* DocumentWindow.swift in Sources */,
+				410D8F3B2A746A7E000A7107 /* DebouncedSwiftCode.swift in Sources */,
 				5BD1694F25E4294C00FE67DC /* TransitionCreationView.swift in Sources */,
 				41B38ACF2A6949EC00EB5478 /* EditCommands.swift in Sources */,
 				5B26CBEB25E9C73B00344BAA /* StateMachineGenerator.swift in Sources */,
