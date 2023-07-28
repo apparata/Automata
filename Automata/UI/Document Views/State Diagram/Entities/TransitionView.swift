@@ -153,18 +153,29 @@ struct EditEventNameView: View {
     @ObservedObject var event: StateTransition.Event
     
     var transition: StateTransition
-        
+    
+    let isFirstEvent: Bool
+    
+    @FocusState private var isFocused: Bool
+            
     var body: some View {
         TextField("New Event", text: $event.name)
             .multilineTextAlignment(.center)
             .font(Font.system(size: 14, weight: .medium, design: .default))
             .textFieldStyle(PlainTextFieldStyle())
+            .focused($isFocused)
             .simultaneousGesture(TapGesture().onEnded { _ in
                 //
             })
             .onReceive(event.objectWillChange) { _ in
                 transition.objectWillChange.send()
                 automat.objectWillChange.send()
+            }
+            .onSubmit {
+                isFocused = false
+            }
+            .onAppear {
+                isFocused = isFirstEvent
             }
     }
 }
@@ -289,6 +300,9 @@ struct TransitionEventLabel: View {
                 .font(.title2)
                 .fontWeight(.semibold)
 
+            let firstEvent = transition.events.first { $0.name == "New Event"
+            } ?? (transition.events.filter { $0.outgoing } + transition.events.filter { !$0.outgoing }).first
+            
             if transition.events.filter({ $0.outgoing }).count > 0 {
                 HSeparator(color: .separator)
                 ForEach(transition.events.filter { $0.outgoing }) { event in
@@ -300,7 +314,7 @@ struct TransitionEventLabel: View {
                         .buttonStyle(PlainButtonStyle())
                         Spacer()
                         
-                        EditEventNameView(event: event, transition: transition)
+                        EditEventNameView(event: event, transition: transition, isFirstEvent: event == firstEvent)
 
                         Spacer()
                         if transition.isLoop {
@@ -329,7 +343,7 @@ struct TransitionEventLabel: View {
                         .buttonStyle(PlainButtonStyle())
                         Spacer()
                         
-                        EditEventNameView(event: event, transition: transition)
+                        EditEventNameView(event: event, transition: transition, isFirstEvent: event == firstEvent)
 
                         Spacer()
                         Button(action: { removeEvent(event) }) {
