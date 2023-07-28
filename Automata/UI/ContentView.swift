@@ -73,11 +73,11 @@ struct ContentView: View {
                             + generateStateMachine(url: url, automat: automat)
                         NSPasteboard.general.clearContents()
                         NSPasteboard.general.setString(code, forType: .string)
-                        withAnimation(.snappy) {
+                        withAnimation(.smoothSpring) {
                             flashCopiedIndicator = true
                         }
                         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                            withAnimation(.snappy) {
+                            withAnimation(.smoothSpring) {
                                 flashCopiedIndicator = false
                             }
                         }
@@ -100,7 +100,7 @@ struct ContentView: View {
             }*/
 
             ToolbarItem {
-                Toggle(isOn: $isCodeVisible.animation(.snappy)) {
+                Toggle(isOn: $isCodeVisible.animation(.smoothSpring)) {
                     Image(systemName: "uiwindow.split.2x1")
                 }
                 .toggleStyle(.button)

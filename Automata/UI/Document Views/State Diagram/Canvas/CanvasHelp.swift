@@ -30,65 +30,77 @@ struct CanvasHelp: View {
                                 .gridColumnAlignment(.leading)
 
                         }
-                        Divider()
-                        GridRow {
-                            HStack(spacing: 2) {
-                                Image(systemName: "command")
-                                    .imageScale(.medium)
-                                    .fontWeight(.semibold)
-                                Image(systemName: "cursorarrow.motionlines.click")
+                        Group {
+                            Divider()
+                            GridRow {
+                                HStack(spacing: 2) {
+                                    Image(systemName: "command")
+                                        .imageScale(.medium)
+                                        .fontWeight(.semibold)
+                                    Image(systemName: "cursorarrow.motionlines.click")
+                                        .imageScale(.large)
+                                        .fontWeight(.semibold)
+                                }
+                                Text("Cmd + drag from a state to create a transition.")
+                            }
+                        }
+                        Group {
+                            Divider()
+                            GridRow {
+                                HStack(spacing: 2) {
+                                    Image(systemName: "shift")
+                                        .imageScale(.medium)
+                                        .fontWeight(.semibold)
+                                    Image(systemName: "command")
+                                        .imageScale(.medium)
+                                        .fontWeight(.semibold)
+                                    Image(systemName: "cursorarrow.motionlines.click")
+                                        .imageScale(.large)
+                                        .fontWeight(.semibold)
+                                }
+                                Text("Shift + Cmd + drag from state to create transition and state.")
+                            }
+                        }
+                        Group {
+                            Divider()
+                            GridRow {
+                                Image(systemName: "contextualmenu.and.cursorarrow")
                                     .imageScale(.large)
                                     .fontWeight(.semibold)
+                                Text("States have a context menu with more options.")
+                                    .gridColumnAlignment(.leading)
+                                
                             }
-                            Text("Cmd + drag from a state to create a transition.")
                         }
-                        Divider()
-                        GridRow {
-                            HStack(spacing: 2) {
-                                Image(systemName: "shift")
-                                    .imageScale(.medium)
-                                    .fontWeight(.semibold)
-                                Image(systemName: "command")
-                                    .imageScale(.medium)
-                                    .fontWeight(.semibold)
-                                Image(systemName: "cursorarrow.motionlines.click")
+                        Group {
+                            Divider()
+                            GridRow {
+                                Image(systemName: "cursorarrow.click")
                                     .imageScale(.large)
                                     .fontWeight(.semibold)
+                                Text("Click an event label to add or edit events for a transition.")
+                                    .gridColumnAlignment(.leading)
+                                
                             }
-                            Text("Shift + Cmd + drag from state to create transition and state.")
                         }
-                        Divider()
-                        GridRow {
-                            Image(systemName: "contextualmenu.and.cursorarrow")
-                                .imageScale(.large)
-                                .fontWeight(.semibold)
-                            Text("States have a context menu with more options.")
-                                .gridColumnAlignment(.leading)
-
+                        Group {
+                            Divider()
+                            GridRow {
+                                Image(systemName: "delete.backward")
+                                    .imageScale(.large)
+                                    .fontWeight(.semibold)
+                                Text("Press delete to remove selected state(s).")
+                                    .gridColumnAlignment(.leading)
+                            }
                         }
-                        Divider()
-                        GridRow {
-                            Image(systemName: "cursorarrow.click")
-                                .imageScale(.large)
-                                .fontWeight(.semibold)
-                            Text("Click an event label to add or edit events for a transition.")
-                                .gridColumnAlignment(.leading)
-
-                        }
-                        Divider()
-                        GridRow {
-                            Image(systemName: "delete.backward")
-                                .imageScale(.large)
-                                .fontWeight(.semibold)
-                            Text("Press delete to remove selected state(s).")
-                                .gridColumnAlignment(.leading)
-                        }
-                        Divider()
-                        GridRow {
-                            Image(systemName: "rectangle.dashed")
-                                .imageScale(.large)
-                                .fontWeight(.semibold)
-                            Text("Drag to select multiple states in an area.")
+                        Group {
+                            Divider()
+                            GridRow {
+                                Image(systemName: "rectangle.dashed")
+                                    .imageScale(.large)
+                                    .fontWeight(.semibold)
+                                Text("Drag to select multiple states in an area.")
+                            }
                         }
                     }
                     Spacer()
@@ -105,7 +117,7 @@ struct CanvasHelp: View {
             .scaleEffect(isExpanded ? 1 : 0.01, anchor: .bottomLeading)
             .offset(isExpanded ? CGSize(width: -4, height: 4) :  CGSize(width: 5, height: -5))
             Button {
-                withAnimation(.snappy(duration: 0.2, extraBounce: 0)) {
+                withAnimation(.interpolatingSpring(stiffness: 170, damping: 23, initialVelocity: 5)) {
                     isExpanded.toggle()
                 }
             } label: {
@@ -116,9 +128,9 @@ struct CanvasHelp: View {
                         .fontWeight(.semibold)
                         .foregroundColor(.primary)
                         .padding(.bottom, 1)
-                        .frame(width: 21, height: 21)
+                        .frame(width: 22, height: 22)
                         .background(backgroundColor)
-                        .clipShape(.circle)
+                        .clipShape(Circle())
                     if isExpanded {
                         Image(systemName: "xmark")
                             .font(.system(size: 12))
@@ -127,7 +139,7 @@ struct CanvasHelp: View {
                             .padding(.bottom, 1)
                             .frame(width: 21, height: 21)
                             .background(backgroundColor)
-                            .clipShape(.circle)
+                            .clipShape(Circle())
                     }
                 }
                 .rotationEffect(isExpanded ? Angle(degrees: 180) : Angle(degrees: 0))
