@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		410D8F3B2A746A7E000A7107 /* DebouncedSwiftCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410D8F3A2A746A7E000A7107 /* DebouncedSwiftCode.swift */; };
+		410D8F3E2A750EF0000A7107 /* Color+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410D8F3D2A750EF0000A7107 /* Color+Theme.swift */; };
+		410D8F402A750F8A000A7107 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 410D8F3F2A750F8A000A7107 /* Colors.xcassets */; };
+		410D8F422A751488000A7107 /* HelpCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410D8F412A751488000A7107 /* HelpCommands.swift */; };
+		410D8F452A7515B6000A7107 /* HelpWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410D8F442A7515B6000A7107 /* HelpWindow.swift */; };
 		4131B8E62A646AA000375C8C /* AppCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8E52A646AA000375C8C /* AppCommands.swift */; };
 		4131B8E92A649F5200375C8C /* DropCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8E82A649F5200375C8C /* DropCircle.swift */; };
 		4131B8EC2A64A13E00375C8C /* SelectionArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8EB2A64A13E00375C8C /* SelectionArea.swift */; };
@@ -58,6 +62,10 @@
 
 /* Begin PBXFileReference section */
 		410D8F3A2A746A7E000A7107 /* DebouncedSwiftCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebouncedSwiftCode.swift; sourceTree = "<group>"; };
+		410D8F3D2A750EF0000A7107 /* Color+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Theme.swift"; sourceTree = "<group>"; };
+		410D8F3F2A750F8A000A7107 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		410D8F412A751488000A7107 /* HelpCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCommands.swift; sourceTree = "<group>"; };
+		410D8F442A7515B6000A7107 /* HelpWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpWindow.swift; sourceTree = "<group>"; };
 		4131B8E52A646AA000375C8C /* AppCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommands.swift; sourceTree = "<group>"; };
 		4131B8E82A649F5200375C8C /* DropCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropCircle.swift; sourceTree = "<group>"; };
 		4131B8EB2A64A13E00375C8C /* SelectionArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionArea.swift; sourceTree = "<group>"; };
@@ -120,12 +128,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		410D8F3C2A750EDA000A7107 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				410D8F3D2A750EF0000A7107 /* Color+Theme.swift */,
+				410D8F3F2A750F8A000A7107 /* Colors.xcassets */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		410D8F432A7515AB000A7107 /* Help Window */ = {
+			isa = PBXGroup;
+			children = (
+				410D8F442A7515B6000A7107 /* HelpWindow.swift */,
+			);
+			path = "Help Window";
+			sourceTree = "<group>";
+		};
 		4131B8E72A646AD800375C8C /* Commands */ = {
 			isa = PBXGroup;
 			children = (
 				4131B8E52A646AA000375C8C /* AppCommands.swift */,
 				41B38AC52A6806EB00EB5478 /* ColorSchemeCommands.swift */,
 				41B38ACE2A6949EC00EB5478 /* EditCommands.swift */,
+				410D8F412A751488000A7107 /* HelpCommands.swift */,
 				41B38AC72A6807CC00EB5478 /* DebugCommands.swift */,
 			);
 			path = Commands;
@@ -211,6 +237,7 @@
 		5B26CBE525E9AE3200344BAA /* App Views */ = {
 			isa = PBXGroup;
 			children = (
+				410D8F432A7515AB000A7107 /* Help Window */,
 				41B38AC22A6800C600EB5478 /* Settings Window */,
 			);
 			path = "App Views";
@@ -253,6 +280,7 @@
 		5B4C361425E2BD2B00D0B86A /* Automata */ = {
 			isa = PBXGroup;
 			children = (
+				410D8F3C2A750EDA000A7107 /* Theme */,
 				5BD168AE25E32C3800FE67DC /* Utilities */,
 				5B26CBE925E9C71700344BAA /* Code Generation */,
 				5B4C364625E2C3C000D0B86A /* Model */,
@@ -407,6 +435,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				410D8F402A750F8A000A7107 /* Colors.xcassets in Resources */,
 				5B4C361F25E2BD2E00D0B86A /* Preview Assets.xcassets in Resources */,
 				5B4C361C25E2BD2E00D0B86A /* Assets.xcassets in Resources */,
 			);
@@ -439,10 +468,12 @@
 				4131B8E92A649F5200375C8C /* DropCircle.swift in Sources */,
 				5B26CBF425E9CF3200344BAA /* HSplitView.swift in Sources */,
 				5B26CBF725E9DCF600344BAA /* AutomatTheme.swift in Sources */,
+				410D8F452A7515B6000A7107 /* HelpWindow.swift in Sources */,
 				5BD1695D25E461F700FE67DC /* Animation+Custom.swift in Sources */,
 				5B4C361825E2BD2B00D0B86A /* AutomatDocument.swift in Sources */,
 				41B38AD42A6964C800EB5478 /* WindowReflection.swift in Sources */,
 				5B26CA4F25E6FE1300344BAA /* KeyEventView.swift in Sources */,
+				410D8F422A751488000A7107 /* HelpCommands.swift in Sources */,
 				5B4C364D25E2C3E400D0B86A /* TransitionCreation.swift in Sources */,
 				41B38AC12A67FFEE00EB5478 /* Bundle+Copyright.swift in Sources */,
 				41B38AC82A6807CC00EB5478 /* DebugCommands.swift in Sources */,
@@ -454,6 +485,7 @@
 				5B4C361625E2BD2B00D0B86A /* AutomataApp.swift in Sources */,
 				5B4C361A25E2BD2B00D0B86A /* ContentView.swift in Sources */,
 				5B26CBDB25E9AD7D00344BAA /* SplashSwiftUIOutputFormat.swift in Sources */,
+				410D8F3E2A750EF0000A7107 /* Color+Theme.swift in Sources */,
 				5B26CBEF25E9CB1E00344BAA /* String+CamelCase.swift in Sources */,
 				41B38AC62A6806EB00EB5478 /* ColorSchemeCommands.swift in Sources */,
 			);
@@ -597,6 +629,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Automata/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Automata;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -626,6 +659,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Automata/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Automata;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

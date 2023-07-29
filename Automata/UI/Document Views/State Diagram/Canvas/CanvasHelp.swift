@@ -13,101 +13,7 @@ struct CanvasHelp: View {
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             VStack {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Quick Reference")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(.primary)
-                        .multilineTextAlignment(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.bottom, 20)
-                    Grid(horizontalSpacing: 12, verticalSpacing: 8) {
-                        GridRow {
-                            Image(systemName: "cursorarrow.click.2")
-                                .imageScale(.large)
-                                .fontWeight(.semibold)
-                                .gridColumnAlignment(.center)
-                            Text("Double-click to add a state.")
-                                .gridColumnAlignment(.leading)
-
-                        }
-                        Group {
-                            Divider()
-                            GridRow {
-                                HStack(spacing: 2) {
-                                    Image(systemName: "command")
-                                        .imageScale(.medium)
-                                        .fontWeight(.semibold)
-                                    Image(systemName: "cursorarrow.motionlines.click")
-                                        .imageScale(.large)
-                                        .fontWeight(.semibold)
-                                }
-                                Text("Cmd + drag from a state to create a transition.")
-                            }
-                        }
-                        Group {
-                            Divider()
-                            GridRow {
-                                HStack(spacing: 2) {
-                                    Image(systemName: "shift")
-                                        .imageScale(.medium)
-                                        .fontWeight(.semibold)
-                                    Image(systemName: "command")
-                                        .imageScale(.medium)
-                                        .fontWeight(.semibold)
-                                    Image(systemName: "cursorarrow.motionlines.click")
-                                        .imageScale(.large)
-                                        .fontWeight(.semibold)
-                                }
-                                Text("Shift + Cmd + drag from state to create transition and state.")
-                            }
-                        }
-                        Group {
-                            Divider()
-                            GridRow {
-                                Image(systemName: "contextualmenu.and.cursorarrow")
-                                    .imageScale(.large)
-                                    .fontWeight(.semibold)
-                                Text("States have a context menu with more options.")
-                                    .gridColumnAlignment(.leading)
-                                
-                            }
-                        }
-                        Group {
-                            Divider()
-                            GridRow {
-                                Image(systemName: "cursorarrow.click")
-                                    .imageScale(.large)
-                                    .fontWeight(.semibold)
-                                Text("Click an event label to add or edit events for a transition.")
-                                    .gridColumnAlignment(.leading)
-                                
-                            }
-                        }
-                        Group {
-                            Divider()
-                            GridRow {
-                                Image(systemName: "delete.backward")
-                                    .imageScale(.large)
-                                    .fontWeight(.semibold)
-                                Text("Press delete to remove selected state(s).")
-                                    .gridColumnAlignment(.leading)
-                            }
-                        }
-                        Group {
-                            Divider()
-                            GridRow {
-                                Image(systemName: "rectangle.dashed")
-                                    .imageScale(.large)
-                                    .fontWeight(.semibold)
-                                Text("Drag to select multiple states in an area.")
-                            }
-                        }
-                    }
-                    Spacer()
-                }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .padding()
+                QuickReference()
             }
             .frame(width: 500, height: 360)
             .background(.thinMaterial)
@@ -146,5 +52,106 @@ struct CanvasHelp: View {
             }
             .buttonStyle(.plain)
         }
+    }
+}
+
+struct QuickReference: View {
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Quick Reference")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(.primary)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom, 20)
+            Grid(horizontalSpacing: 12, verticalSpacing: 8) {
+                GridRow {
+                    Image(systemName: "cursorarrow.click.2")
+                        .imageScale(.large)
+                        .fontWeight(.semibold)
+                        .gridColumnAlignment(.center)
+                    Text("Double-click to add a state.")
+                        .gridColumnAlignment(.leading)
+
+                }
+                Group {
+                    Divider()
+                    GridRow {
+                        HStack(spacing: 2) {
+                            Image(systemName: "command")
+                                .imageScale(.medium)
+                                .fontWeight(.semibold)
+                            Image(systemName: "cursorarrow.motionlines.click")
+                                .imageScale(.large)
+                                .fontWeight(.semibold)
+                        }
+                        Text("Cmd + drag from a state to create a transition.")
+                    }
+                }
+                Group {
+                    Divider()
+                    GridRow {
+                        HStack(spacing: 2) {
+                            Image(systemName: "shift")
+                                .imageScale(.medium)
+                                .fontWeight(.semibold)
+                            Image(systemName: "command")
+                                .imageScale(.medium)
+                                .fontWeight(.semibold)
+                            Image(systemName: "cursorarrow.motionlines.click")
+                                .imageScale(.large)
+                                .fontWeight(.semibold)
+                        }
+                        Text("Shift + Cmd + drag from state to create transition and state.")
+                    }
+                }
+                Group {
+                    Divider()
+                    GridRow {
+                        Image(systemName: "contextualmenu.and.cursorarrow")
+                            .imageScale(.large)
+                            .fontWeight(.semibold)
+                        Text("States have a context menu with more options.")
+                            .gridColumnAlignment(.leading)
+                        
+                    }
+                }
+                Group {
+                    Divider()
+                    GridRow {
+                        Image(systemName: "cursorarrow.click")
+                            .imageScale(.large)
+                            .fontWeight(.semibold)
+                        Text("Click an event label to add or edit events for a transition.")
+                            .gridColumnAlignment(.leading)
+                        
+                    }
+                }
+                Group {
+                    Divider()
+                    GridRow {
+                        Image(systemName: "delete.backward")
+                            .imageScale(.large)
+                            .fontWeight(.semibold)
+                        Text("Press delete to remove selected state(s).")
+                            .gridColumnAlignment(.leading)
+                    }
+                }
+                Group {
+                    Divider()
+                    GridRow {
+                        Image(systemName: "rectangle.dashed")
+                            .imageScale(.large)
+                            .fontWeight(.semibold)
+                        Text("Drag to select multiple states in an area.")
+                    }
+                }
+            }
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
+        .padding()
+        .padding()
     }
 }

@@ -60,7 +60,7 @@ struct TransitionView: View {
                               control1: fromPosition + CGPoint(x: -90, y: -90),
                               control2: fromPosition + CGPoint(x: 90, y: -90))
             }
-            .stroke(Color.yellow, style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round))
+            .stroke(Color.transition, style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round))
             
             Path { path in
                 let fromPosition = position(of: transition.fromNode)
@@ -89,7 +89,7 @@ struct TransitionView: View {
                 path.move(to: position(of: transition.fromNode))
                 path.addLine(to: position(of: transition.toNode))
             }
-            .stroke(Color.yellow, style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round))
+            .stroke(Color.transition, style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round))
             
             switch direction {
             case .outgoing:

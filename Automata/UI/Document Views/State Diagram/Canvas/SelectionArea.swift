@@ -10,8 +10,8 @@ struct SelectionArea: View {
     
     var body: some View {
         Rectangle()
-            .strokeBorder(Color.yellow.opacity(0.4), lineWidth: 1)
-            .background(Color.yellow.opacity(0.1))
+            .strokeBorder(Color.areaSelection.opacity(0.4), lineWidth: 1)
+            .background(Color.areaSelection.opacity(0.1))
             .position(frame.center)
             .frame(width: frame.width, height: frame.height)
             .allowsHitTesting(false)

@@ -84,24 +84,24 @@ struct StateView: View {
     
     private func background() -> some View {
         RoundedRectangle(cornerRadius: 16, style: .continuous)
-            .strokeBorder(isSelected ? Color.yellow : Color.black.opacity(0.2), lineWidth: 3)
+            .strokeBorder(isSelected ? Color.selectedState : Color.black.opacity(0.2), lineWidth: 3)
             .background(RoundedRectangle(cornerRadius: 16, style: .continuous)
                             .foregroundColor(evaluateNodeColor()))
     }
     
     private func glowColor() -> Color {
-        (isSelected ? Color.yellow.opacity(0.3) : evaluateNodeColor().opacity(0.1))
+        (isSelected ? Color.selectedState.opacity(0.3) : evaluateNodeColor().opacity(0.1))
     }
     
     private func evaluateNodeColor() -> Color {
         if transitionCreation.isActive, isTargetOfTransitionCreation {
-            return .pink
+            return .transientState
         } else if transitionCreation.isActive, isSourceOfTransitionCreation {
-            return .pink
+            return .transientState
         } else if isInitialState {
-            return .systemGreen
+            return .initialState
         } else {
-            return .systemBlue
+            return .state
         }
     }
     

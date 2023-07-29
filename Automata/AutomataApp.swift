@@ -27,6 +27,8 @@ struct AutomataApp: App {
    
         SettingsWindow()
         
+        HelpWindow()
+        
         AboutWindow(developedBy: "Apparata AB",
                     attributionsWindowID: AttributionsWindow.windowID)
         

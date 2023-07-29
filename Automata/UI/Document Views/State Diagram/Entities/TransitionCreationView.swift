@@ -31,7 +31,7 @@ struct TransitionCreationView: View {
                               control1: fromPoint + CGPoint(x: -90, y: -90),
                               control2: fromPoint + CGPoint(x: 90, y: -90))
             }
-            .stroke(Color.pink, style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round))
+            .stroke(Color.transientTransition, style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round))
             
             Path { path in
                 path.move(to: fromPoint)
@@ -53,7 +53,7 @@ struct TransitionCreationView: View {
                 path.move(to: fromPoint)
                 path.addLine(to: toPoint)
             }
-            .stroke(Color.pink, style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round))
+            .stroke(Color.transientTransition, style: StrokeStyle(lineWidth: 3, lineCap: .butt, lineJoin: .round))
             
             Path { path in
                 path.move(to: fromPoint)

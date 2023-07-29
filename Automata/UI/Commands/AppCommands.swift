@@ -11,6 +11,7 @@ struct AppCommands: Commands {
         AboutCommand()
         ColorSchemeCommands()
         EditCommands()
+        HelpCommands()
         
         #if DEBUG
         DebugCommands()

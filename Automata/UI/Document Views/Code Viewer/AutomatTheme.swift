@@ -9,8 +9,8 @@ import Cocoa
 
 public extension Splash.Theme {
     
-    static var automatDark: Splash.Theme {
-        return Splash.Theme(
+    static var automatDark: Theme {
+        return Theme(
             font: Font(size: 13),
             plainTextColor: NSColor(
                 red: 0.66,
