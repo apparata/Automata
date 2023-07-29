@@ -9,6 +9,13 @@ extension Notification.Name {
     static let keyEventViewResumeListeningToKeyDown = Self("keyEventViewResumeListeningToKeyDown")
 }
 
+struct KeyModifierState {
+    let command: Bool
+    let control: Bool
+    let option: Bool
+    let shift: Bool
+}
+
 struct KeyEventView: NSViewRepresentable {
 
     enum Event {
@@ -20,10 +27,13 @@ struct KeyEventView: NSViewRepresentable {
     }
 
     let onKeyDown: (Event) -> Void
+    
+    let onFlagsChanged: (KeyModifierState) -> Void
 
     func makeNSView(context: Context) -> NSView {
         let view = KeyNSEventView()
         view.onEvent = onKeyDown
+        view.onFlagsChanged = onFlagsChanged
         NotificationCenter.default.addObserver(view, selector: #selector(KeyNSEventView.didReceiveNotification(_:)), name: .keyEventViewResumeListeningToKeyDown, object: nil)
         DispatchQueue.main.async {
             view.window?.makeFirstResponder(view)
@@ -37,6 +47,8 @@ struct KeyEventView: NSViewRepresentable {
 private class KeyNSEventView: NSView {
     
     var onEvent: (KeyEventView.Event) -> Void = { _ in }
+    
+    var onFlagsChanged: (KeyModifierState) -> Void = { _ in }
 
     override var acceptsFirstResponder: Bool { true }
         
@@ -46,6 +58,16 @@ private class KeyNSEventView: NSView {
         } else {
             super.keyDown(with: event)
         }
+    }
+    
+    override func flagsChanged(with event: NSEvent) {
+        let state = KeyModifierState(
+            command: event.modifierFlags.contains(.command),
+            control: event.modifierFlags.contains(.control),
+            option: event.modifierFlags.contains(.option),
+            shift: event.modifierFlags.contains(.shift))
+        onFlagsChanged(state)
+        super.flagsChanged(with: event)
     }
     
     @objc func didReceiveNotification(_ notification: Notification) {

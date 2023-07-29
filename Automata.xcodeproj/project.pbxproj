@@ -12,6 +12,7 @@
 		410D8F402A750F8A000A7107 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 410D8F3F2A750F8A000A7107 /* Colors.xcassets */; };
 		410D8F422A751488000A7107 /* HelpCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410D8F412A751488000A7107 /* HelpCommands.swift */; };
 		410D8F452A7515B6000A7107 /* HelpWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410D8F442A7515B6000A7107 /* HelpWindow.swift */; };
+		410D8F472A751DDA000A7107 /* TransitiveState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410D8F462A751DDA000A7107 /* TransitiveState.swift */; };
 		4131B8E62A646AA000375C8C /* AppCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8E52A646AA000375C8C /* AppCommands.swift */; };
 		4131B8E92A649F5200375C8C /* DropCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8E82A649F5200375C8C /* DropCircle.swift */; };
 		4131B8EC2A64A13E00375C8C /* SelectionArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8EB2A64A13E00375C8C /* SelectionArea.swift */; };
@@ -66,6 +67,7 @@
 		410D8F3F2A750F8A000A7107 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		410D8F412A751488000A7107 /* HelpCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCommands.swift; sourceTree = "<group>"; };
 		410D8F442A7515B6000A7107 /* HelpWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpWindow.swift; sourceTree = "<group>"; };
+		410D8F462A751DDA000A7107 /* TransitiveState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitiveState.swift; sourceTree = "<group>"; };
 		4131B8E52A646AA000375C8C /* AppCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommands.swift; sourceTree = "<group>"; };
 		4131B8E82A649F5200375C8C /* DropCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropCircle.swift; sourceTree = "<group>"; };
 		4131B8EB2A64A13E00375C8C /* SelectionArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionArea.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				4131B8E82A649F5200375C8C /* DropCircle.swift */,
 				4131B8EB2A64A13E00375C8C /* SelectionArea.swift */,
 				4131B8EF2A64B53300375C8C /* CanvasHelp.swift */,
+				410D8F462A751DDA000A7107 /* TransitiveState.swift */,
 			);
 			path = Canvas;
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 				41B38AC82A6807CC00EB5478 /* DebugCommands.swift in Sources */,
 				5B4C366B25E2D97300D0B86A /* CanvasBackground.swift in Sources */,
 				41B38AC42A6800D600EB5478 /* SettingsWindow.swift in Sources */,
+				410D8F472A751DDA000A7107 /* TransitiveState.swift in Sources */,
 				5B4C366F25E2D99D00D0B86A /* StateView.swift in Sources */,
 				4131B8F02A64B53300375C8C /* CanvasHelp.swift in Sources */,
 				5BD1688625E3014900FE67DC /* Automat.swift in Sources */,

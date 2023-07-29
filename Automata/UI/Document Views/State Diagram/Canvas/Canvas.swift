@@ -38,6 +38,8 @@ struct Canvas: View {
     
     @EnvironmentObject private var automat: Automat
     
+    @State private var shiftIsDown: Bool = false
+    
     var body: some View {
         
         ScrollView([.horizontal, .vertical], showsIndicators: true) {
@@ -65,6 +67,10 @@ struct Canvas: View {
                         if key == .delete {
                             automat.removeSelectedStates()
                         }
+                    } onFlagsChanged: { state in
+                        if state.shift != shiftIsDown {
+                            shiftIsDown = state.shift
+                        }
                     })
 
                 MouseTracker(onMove: mouseMoved) {
@@ -79,6 +85,11 @@ struct Canvas: View {
                     TransitionCreationView(fromPoint: transitionCreation.fromPoint,
                                            toPoint: transitionCreation.toPoint,
                                            isLoop: transitionCreation.isLoop && transitionCreation.isLoopAllowed)
+                    
+                    if shiftIsDown, transitionCreation.toNodeID == nil {
+                        TransitiveState()
+                            .position(transitionCreation.toPoint)
+                    }
                 }
 
                 stateViews()
@@ -166,8 +177,7 @@ struct Canvas: View {
     private func stateViews() -> some View {
         ForEach(automat.stateNodes) { node in
             StateView(node: node, transitionCreation: transitionCreation)
-                .gesture(transitionCreationGesture(createStateIfNeeded: true, node: node))
-                .gesture(transitionCreationGesture(createStateIfNeeded: false, node: node))
+                .gesture(transitionCreationGesture(node: node))
                 .gesture(moveGesture(for: node))
                 .gesture(TapGesture().modifiers(.command).onEnded { toggleNodeSelection(node) })
                 .gesture(TapGesture().modifiers(.shift).onEnded { addNodeToSelection(node) })
@@ -210,7 +220,7 @@ struct Canvas: View {
     
     // MARK: - Gesture Input
         
-    private func transitionCreationGesture(createStateIfNeeded: Bool, node: StateNode) -> some Gesture {
+    private func transitionCreationGesture(node: StateNode) -> some Gesture {
         DragGesture()
             .updating($transitionCreation, body: { (value, gestureState, transaction) in
                 let targetNode = automat.stateAtPoint(value.location)
@@ -220,7 +230,7 @@ struct Canvas: View {
                                                             fromNodeID: node.id,
                                                             toPoint: value.location,
                                                             toNodeID: targetNode?.id,
-                                                            createStateIfNeeded: createStateIfNeeded,
+                                                            createStateIfNeeded: shiftIsDown,
                                                             isLoopAllowed: isLoopAllowed,
                                                             isLoop: isLoop)
                 gestureState = transitionCreation
@@ -236,12 +246,12 @@ struct Canvas: View {
                                                             fromNodeID: node.id,
                                                             toPoint: value.location,
                                                             toNodeID: targetNode?.id,
-                                                            createStateIfNeeded: createStateIfNeeded,
+                                                            createStateIfNeeded: shiftIsDown,
                                                             isLoopAllowed: isLoopAllowed,
                                                             isLoop: isLoop)
                 automat.createTransition(using: transitionCreation)
             }
-            .modifiers(createStateIfNeeded ? [.command, .shift] : [.command])
+            .modifiers([.command])
     }
         
     private func moveGesture(for node: StateNode) -> some Gesture {
