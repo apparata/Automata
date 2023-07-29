@@ -54,7 +54,7 @@ struct ContentView: View {
                                     .fontWeight(.semibold)
                                     .rotationEffect(isLicenseExpanded ? Angle(degrees: 90) : Angle(degrees: 0))
                                     .tint(.primary)
-                                Text("License for generated code")
+                                Text("License for generated code (No attribution needed)")
                                     .foregroundColor(.primary)
                             }
                             .foregroundStyle(.white)
