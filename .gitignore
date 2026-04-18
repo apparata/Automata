@@ -5,6 +5,7 @@
 /Packages
 xcuserdata/
 /build
+/Sparkle-tools
 .swiftpm
 
 # Documentation build product

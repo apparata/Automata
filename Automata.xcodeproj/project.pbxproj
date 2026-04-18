@@ -17,6 +17,8 @@
 		4131B8E92A649F5200375C8C /* DropCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8E82A649F5200375C8C /* DropCircle.swift */; };
 		4131B8EC2A64A13E00375C8C /* SelectionArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8EB2A64A13E00375C8C /* SelectionArea.swift */; };
 		4131B8F02A64B53300375C8C /* CanvasHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4131B8EF2A64B53300375C8C /* CanvasHelp.swift */; };
+		41431C072F94373E0077C20F /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 41431C062F94373E0077C20F /* Sparkle */; };
+		41431C092F9437670077C20F /* CheckForUpdatesCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41431C082F9437670077C20F /* CheckForUpdatesCommand.swift */; };
 		414FA2692A7409EB002DF36C /* AttributionsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 414FA2682A7409EB002DF36C /* AttributionsUI */; };
 		41B38ABF2A67FFEE00EB5478 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38ABC2A67FFEE00EB5478 /* Bundle+Version.swift */; };
 		41B38AC02A67FFEE00EB5478 /* Bundle+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B38ABD2A67FFEE00EB5478 /* Bundle+Name.swift */; };
@@ -72,6 +74,7 @@
 		4131B8E82A649F5200375C8C /* DropCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropCircle.swift; sourceTree = "<group>"; };
 		4131B8EB2A64A13E00375C8C /* SelectionArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionArea.swift; sourceTree = "<group>"; };
 		4131B8EF2A64B53300375C8C /* CanvasHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasHelp.swift; sourceTree = "<group>"; };
+		41431C082F9437670077C20F /* CheckForUpdatesCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckForUpdatesCommand.swift; sourceTree = "<group>"; };
 		41B38ABC2A67FFEE00EB5478 /* Bundle+Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
 		41B38ABD2A67FFEE00EB5478 /* Bundle+Name.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Name.swift"; sourceTree = "<group>"; };
 		41B38ABE2A67FFEE00EB5478 /* Bundle+Copyright.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Copyright.swift"; sourceTree = "<group>"; };
@@ -116,6 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41431C072F94373E0077C20F /* Sparkle in Frameworks */,
 				5B4C363C25E2C36B00D0B86A /* SwiftUIToolbox in Frameworks */,
 				5B4C364025E2C38D00D0B86A /* TextToolbox in Frameworks */,
 				5B26CBD825E9ACE200344BAA /* Splash in Frameworks */,
@@ -288,6 +292,7 @@
 				5B26CBE925E9C71700344BAA /* Code Generation */,
 				5B4C364625E2C3C000D0B86A /* Model */,
 				5B4C365A25E2C8FA00D0B86A /* UI */,
+				41431C082F9437670077C20F /* CheckForUpdatesCommand.swift */,
 				5B4C361525E2BD2B00D0B86A /* AutomataApp.swift */,
 				5B4C361B25E2BD2E00D0B86A /* Assets.xcassets */,
 				5B4C362025E2BD2E00D0B86A /* Info.plist */,
@@ -384,6 +389,7 @@
 				5B4C365725E2C70300D0B86A /* CGMath */,
 				5B26CBD725E9ACE200344BAA /* Splash */,
 				414FA2682A7409EB002DF36C /* AttributionsUI */,
+				41431C062F94373E0077C20F /* Sparkle */,
 			);
 			productName = Automata;
 			productReference = 5B4C361225E2BD2B00D0B86A /* Automata.app */;
@@ -423,6 +429,7 @@
 				5B4C365625E2C70300D0B86A /* XCRemoteSwiftPackageReference "CGMath" */,
 				5B26CBD625E9ACE200344BAA /* XCRemoteSwiftPackageReference "Splash" */,
 				414FA2672A7409EB002DF36C /* XCRemoteSwiftPackageReference "AttributionsUI" */,
+				41431C052F94373E0077C20F /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			productRefGroup = 5B4C361325E2BD2B00D0B86A /* Products */;
 			projectDirPath = "";
@@ -472,6 +479,7 @@
 				5B26CBF425E9CF3200344BAA /* HSplitView.swift in Sources */,
 				5B26CBF725E9DCF600344BAA /* AutomatTheme.swift in Sources */,
 				410D8F452A7515B6000A7107 /* HelpWindow.swift in Sources */,
+				41431C092F9437670077C20F /* CheckForUpdatesCommand.swift in Sources */,
 				5BD1695D25E461F700FE67DC /* Animation+Custom.swift in Sources */,
 				5B4C361825E2BD2B00D0B86A /* AutomatDocument.swift in Sources */,
 				41B38AD42A6964C800EB5478 /* WindowReflection.swift in Sources */,
@@ -707,6 +715,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		41431C052F94373E0077C20F /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = exactVersion;
+				version = 2.9.1;
+			};
+		};
 		414FA2672A7409EB002DF36C /* XCRemoteSwiftPackageReference "AttributionsUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apparata/AttributionsUI.git";
@@ -774,6 +790,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		41431C062F94373E0077C20F /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 41431C052F94373E0077C20F /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
 		414FA2682A7409EB002DF36C /* AttributionsUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 414FA2672A7409EB002DF36C /* XCRemoteSwiftPackageReference "AttributionsUI" */;
