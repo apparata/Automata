@@ -1,0 +1,15 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Automata</title>
+        <item>
+            <title>1.0.0</title>
+            <pubDate>Sun, 19 Apr 2026 00:11:40 +0200</pubDate>
+            <sparkle:version>1</sparkle:version>
+            <sparkle:shortVersionString>1.0.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+            <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+            <enclosure url="https://github.com/Apparata/Automata/releases/download/1.0.0/Automata-1.0.0.dmg" length="2342311" type="application/octet-stream" sparkle:edSignature="ncQac0DFxqnIiwLXoQDrfmjwWj3ZZmMFFulIFe234gNYAMGhg5eyW1LtdZHgw+Xaq77mWdQcfJilV6oAD/JYBw=="/>
+        </item>
+    </channel>
+</rss>
